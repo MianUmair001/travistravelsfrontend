@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ handleToogle }) => {
   return (
     <>
       <div id="preloader">
@@ -26,9 +27,15 @@ const Header = () => {
               <div class="col-6">
                 <ul id="top_links">
                   <li>
-                    <a href="#sign-in-dialog" id="access_link">
+                    {/* <a
+                      href="#sign-in-dialog"
+                      style={{ cursor: "pointer" }}
+                      id="access_link"
+                      onClick={handleToogle}
+                    >
                       Sign in
-                    </a>
+                    </a> */}
+                    <Link to="/login">Sign In</Link>
                   </li>
                   <li>
                     <a href="wishlist.html" id="wishlist_link">
@@ -74,12 +81,12 @@ const Header = () => {
                     data-retina="true"
                   />
                 </div>
-                <a href="#" class="open_close" id="close_in">
+                <a href="" class="open_close" id="close_in">
                   <i class="icon_set_1_icon-77"></i>
                 </a>
                 <ul>
                   <li class="submenu">
-                    <a href="" class="show-submenu">
+                    <a href="#" class="show-submenu">
                       Home <i class="icon-down-open-mini"></i>
                     </a>
                     <ul>

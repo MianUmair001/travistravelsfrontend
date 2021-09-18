@@ -6071,12 +6071,12 @@ only screen and (min-device-pixel-ratio: 2) and (max-width: 991px) {
 	
 	.row-height {
 		height: auto;
-		min-height: ;
+		min-height: 0;
 	}
 	
 	.content-left {
 		height: auto;
-		min-height: ;
+		min-height: 0;
 		overflow-y: scroll;
 	}
 	
@@ -6132,12 +6132,12 @@ only screen and (min-device-pixel-ratio: 2) and (max-width: 991px) {
 	
 	.row-height {
 		height: auto;
-		min-height: ;
+		min-height: 0;
 	}
 	
 	.content-left {
 		height: auto;
-		min-height: ;
+		min-height: 0;
 		overflow-y: scroll;
 	}
 	

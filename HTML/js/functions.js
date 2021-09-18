@@ -239,7 +239,8 @@ $('.booking_time').timeDropper({
 });
 
 /* Modal Sign In */
-$('#access_link').magnificPopup({
+jQuery(document).ready(function ($) {
+	$('#access_link').magnificPopup({
 	type: 'inline',
 	fixedContentPos: false,
 	fixedBgPos: true,
@@ -249,7 +250,7 @@ $('#access_link').magnificPopup({
 	midClick: true,
 	removalDelay: 300,
 	mainClass: 'my-mfp-zoom-in'
-});
+})});
 
 /* Show Password */
 $('#password').hidePassword('focus', {
