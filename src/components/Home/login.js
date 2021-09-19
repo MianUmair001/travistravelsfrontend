@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 import { login } from "../../redux/actions/auth.action";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ history }) => {
   const [email, setEmail] = useState("babuibrar93@gmail.com");
   const [password, setPassword] = useState("IamUmair@005");
   const dispatch = useDispatch();
@@ -13,6 +14,12 @@ const Login = () => {
     console.log("Email is ", email, "Password is ", password);
     dispatch(login(email, password));
   };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault()
+
+    history.push('/register')
+  }
 
   return (
     <>
@@ -38,7 +45,9 @@ const Login = () => {
                       Login with Google
                     </a>
                     <div className="divider">
-                      <span>Or</span>
+                      <span>
+                        <b>Or</b>
+                      </span>
                     </div>
                     <div className="form-group">
                       <label>Username</label>
@@ -60,21 +69,31 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <p className="small">
-                      <a href="#">Forgot Password?</a>
-                    </p>
+                    <Link to="/forget_password" className="ForgetPassword">
+                      Forget Password?
+                    </Link>
                     <Button
                       type="submit"
-                      style={{ backgroundColor: "green", color: "white" }}
-                      className="btn btn_full btn-block py-2 mb-2"
+                      style={{ backgroundColor: "green", color: "white", textTransform: 'unset' }}
+                      className="btn btn_full btn-block py-2 mt-3 mb-2"
                       value="Log In"
                       onClick={handleSubmit}
                     >
                       Login
                     </Button>
-                    <a href="register.html " className="btn_full_outline">
+                    <Button
+                      type="submit"
+                      style={{ border: '1px solid green', color: "black", textTransform: 'unset'  }}
+                      className="btn btn_full_outline btn-block py-2 mb-4"
+                      value="Log In"
+                      onClick={handleRegisterSubmit}
+                    >
                       Register
-                    </a>
+                    </Button>
+
+                    <Link to="/" className="BackToHome">
+                      Back To Home
+                    </Link>
                   </form>
                 </div>
               </div>

@@ -6,11 +6,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 /* Home */
 import Footer from "./components/Home/footer";
 import Header from "./components/Home/header";
-import Home1 from "./components/Home//Home1";
-import Home2 from "./components/Home//Home2_with_only_tours";
+// import Home1 from "./components/Home//Home1";
+// import Home2 from "./components/Home//Home2_with_only_tours";
 import Home_SingleImage from "./components/Home//Home_SingleImage";
-import RevSlider from "./components/Home//RevSlider";
+// import RevSlider from "./components/Home//RevSlider";
 import Login from './components/Home/login'
+import Register from './components/Home/register';
+import Forget_password from './components/Home/forget_password';
 
 /* Tours */
 import All_tours_grid from './components/Tours/All Tours/all_tours_grid' 
@@ -28,6 +30,28 @@ import Cart_fixed_sidebar from './components/Tours/Single Tour/sidebar/cart_fixe
 import Payment_fixed_sidebar from './components/Tours/Single Tour/sidebar/payment_fixed_sidebar'
 import Confirmation_fixed_sidebar from './components/Tours/Single Tour/sidebar/confirmation_fixed_sidebar'
 
+/* Hotels */
+import All_hotels_grid from "./components/Hotel/All_Hotels/all_hotels_grid";
+import All_hotels_list from "./components/Hotel/All_Hotels/all_hotels_list";
+import All_hotels_map_listing from "./components/Hotel/All_Hotels/all_hotels_map_listing";
+import Cart_hotel from "./components/Hotel/Hotel_Booking/cart_hotel";
+import Confirmation_hotel from "./components/Hotel/Hotel_Booking/confirmation_hotel";
+import Payment_hotel from "./components/Hotel/Hotel_Booking/payment_hotel";
+import Single_hotel from "./components/Hotel/Single_Hotel/single_hotel";
+import Single_hotel_contact from "./components/Hotel/Single_Hotel/single_hotel_contact";
+import Single_hotel_datepicker_adv from "./components/Hotel/Single_Hotel/single_hotel_datepicker_adv";
+import Single_hotel_datepicker_v2 from "./components/Hotel/Single_Hotel/single_hotel_datepicker_v2";
+import Single_hotel_working_booking from "./components/Hotel/Single_Hotel/single_hotel_working_booking";
+
+/* Transfer */
+import All_transfer_grid from "./components/Transfer/All_Transfer/all_transfer_grid";
+import All_transfer_list from "./components/Transfer/All_Transfer/all_transfer_list";
+import Single_transfer from "./components/Transfer/Single_Transfer/single_transfer";
+import Single_transfer_datepicker_v2 from "./components/Transfer/Single_Transfer/single_transfer_datepicker_v2";
+import Cart_transfer from "./components/Transfer/Transfer_Booking/cart_transfer";
+import Confirmation_transfer from "./components/Transfer/Transfer_Booking/confirmation_transfer";
+import Payment_transfer from "./components/Transfer/Transfer_Booking/payment_transfer";
+
 /* Restaurants */
 import All_restaurants_grid from './components/Restaurants/All Restaurants/all_restaurants_grid'
 import All_restaurants_list from './components/Restaurants/All Restaurants/all_restaurants_list'
@@ -36,6 +60,7 @@ import Single_restaurant from './components/Restaurants/Single Restaurant/single
 import Single_restaurant_datepicker_v2 from './components/Restaurants/Single Restaurant/single_restaurant_datepicker_v2'
 import Booking_restaurant from './components/Restaurants/Booking/booking_restaurant'
 import Confirm_transfer from './components/Restaurants/Booking/confirm_transfer'
+
 
 /* 404 Page */
 import Page_404 from './components/Others/404';
@@ -53,6 +78,10 @@ function App() {
         { /* Home Routes */ }
         <Route exact path="/" component={Home_SingleImage} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/forget_password" component={Forget_password} />
+
+
 
         { /* Tours Routes */ }
         <Route exact path="/all_tours_grid" component={All_tours_grid} />
@@ -79,12 +108,34 @@ function App() {
         <Route exact path="/booking_restaurant" component={Booking_restaurant} />
         <Route exact path="/confirm_transfer" component={Confirm_transfer} />
 
+        { /* Hotel Routes */ }
+        <Route exact path="/all_hotels_grid" component={All_hotels_grid} />
+        <Route exact path="/all_hotels_list" component={All_hotels_list} />
+        <Route exact path="/all_hotels_map_listing" component={All_hotels_map_listing} />
+        <Route exact path="/cart_hotel" component={Cart_hotel} />
+        <Route exact path="/confirmation_hotel" component={Confirmation_hotel} />
+        <Route exact path="/payment_hotel" component={Payment_hotel} />
+        <Route exact path="/single_hotel" component={Single_hotel} />
+        <Route exact path="/single_hotel_contact" component={Single_hotel_contact} />
+        <Route exact path="/single_hotel_datepicker_adv" component={Single_hotel_datepicker_adv} />
+        <Route exact path="/single_hotel_working_booking" component={Single_hotel_working_booking} />
+        <Route exact path="/single_hotel_datepicker_v2" component={Single_hotel_datepicker_v2} />
+
+        { /* Transfer Routes */ }
+        <Route exact path="/all_transfer_grid" compnent={All_transfer_grid} />
+        <Route exact path="/all_transfer_list" component={All_transfer_list} />
+        <Route exact path="/single_transfer" component={Single_transfer} />
+        <Route exact path="/single_transfer_datepicker" component={Single_transfer_datepicker_v2} />
+        <Route exact path="/cart_transfer" component={Cart_transfer} />
+        <Route exact path="/confirmation_transfer" component={Confirmation_transfer} />
+        <Route exact path="/payment_transfer" component={Payment_transfer} />
+
         { /* 404 Page */ }
         <Route exact path='*' component={Page_404}/>
 
       </Switch>
+      <Footer />
     </BrowserRouter>
-    <Footer />
     </Provider>
     </div>
   );
