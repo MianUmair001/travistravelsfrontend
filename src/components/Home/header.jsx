@@ -1,7 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.user);
+  console.log("user Now", user);
+
   return (
     <>
       <div id="preloader">
@@ -31,16 +35,27 @@ const Header = () => {
                       Wishlist
                     </a>
                   </li>
-                  <li>
-                    <Link to="/login" id="access_link">
-                      Log in
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/register" id="access_link">
-                      Register
-                    </Link>
-                  </li>
+                  {user === null && (
+                    <li>
+                      <Link to="/login" id="access_link">
+                        Log in
+                      </Link>
+                    </li>
+                  )}
+                  {user === null && (
+                    <li>
+                      <Link to="/register" id="access_link">
+                        Register
+                      </Link>
+                    </li>
+                  )}
+                  {user !== null && (
+                    <li>
+                      <Link to="/" id="access_link">
+                        Logout
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -176,7 +191,9 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/single_tour_working_booking">Single tour fixed sidebar</Link>
+                        <Link to="/single_tour_working_booking">
+                          Single tour fixed sidebar
+                        </Link>
                         <ul>
                           <li>
                             <Link to="/single_tour_fixed_sidebar">
@@ -219,7 +236,9 @@ const Header = () => {
                         <Link to="/single_tour_cart">Single tour cart</Link>
                       </li>
                       <li>
-                        <Link to="/single_tour_booking">Single tour booking</Link>
+                        <Link to="/single_tour_booking">
+                          Single tour booking
+                        </Link>
                       </li>
                     </ul>
                   </li>

@@ -1,18 +1,36 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
-import { login } from "../../redux/actions/auth.action";
+import { login } from "../../../redux/actions/auth.action";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import store from '../../../redux/Store'
 
 const Login = ({ history }) => {
-  const [email, setEmail] = useState("babuibrar93@gmail.com");
+  const [email, setEmail] = useState("saabm6546@gmail.com");
   const [password, setPassword] = useState("IamUmair@005");
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  
+  const user = useSelector(state => state.auth)
+
+    store.subscribe(() => {
+      const userState = store.getState()
+      console.log(userState)
+    })
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     console.log("Email is ", email, "Password is ", password);
-    dispatch(login(email, password));
+    const data = await dispatch(login(email, password));
+    console.log('data',data)
+    console.log(user)
+    if(user.accessToken !== null) {
+      history.push('/')
+    } else {
+      toast.error('Wrong Email Or Password')
+    }
   };
 
   const handleRegisterSubmit = (e) => {
@@ -77,7 +95,7 @@ const Login = ({ history }) => {
                       style={{ backgroundColor: "green", color: "white", textTransform: 'unset' }}
                       className="btn btn_full btn-block py-2 mt-3 mb-2"
                       value="Log In"
-                      onClick={handleSubmit}
+                      onClick={handleLoginSubmit}
                     >
                       Login
                     </Button>
