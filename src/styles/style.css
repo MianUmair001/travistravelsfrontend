@@ -2402,6 +2402,33 @@ ul#contact-info {
 	background-size: cover;
 }
 
+.ForgetPassword {
+	color: black;
+	float: right;
+}
+
+.ForgetPassword:hover {
+	text-decoration: underline;
+}
+
+.BackToHome {
+	margin-left: 33%;
+	color: black;
+}
+
+.BackToHome:hover {
+	text-decoration: underline;
+}
+
+.account {
+	margin-left: 10%;
+	color: black;
+}
+
+.account:hover {
+	text-decoration: underline;
+}
+
 #login {
 	margin: 170px 0 60px;
 	color: #333;

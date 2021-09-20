@@ -37,9 +37,9 @@ const Header = () => {
                     </Link>
                   </li>
                   <li>
-                    <a href="#sign-in-dialog" id="access_link">
+                    <Link to="/register" id="access_link">
                       Register
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -229,47 +229,47 @@ const Header = () => {
                     </a>
                     <ul>
                       <li>
-                        <a href="all_hotels_list.html">All hotels list</a>
+                        <Link to="/all_hotels_list">All hotels list</Link>
                       </li>
                       <li>
-                        <a href="all_hotels_grid.html">All hotels grid</a>
+                        <Link to="/all_hotels_grid">All hotels grid</Link>
                       </li>
                       <li>
-                        <a href="all_hotels_map_listing.html">
+                        <Link to="/all_hotels_map_listing">
                           All hotels map listing
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="single_hotel.html">Single hotel page</a>
+                        <Link to="/single_hotel">Single hotel page</Link>
                       </li>
                       <li>
-                        <a href="single_hotel_datepicker_adv.html">
+                        <Link to="/single_hotel_datepicker_adv">
                           Single hotel datepicker adv
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="single_hotel_datepicker_v2.html">
+                        <Link to="/single_hotel_datepicker_v2">
                           Date and time picker V2
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="single_hotel_working_booking.php">
+                        <Link to="/single_hotel_working_booking">
                           Single hotel working booking
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="single_hotel_contact.php">
+                        <Link to="/single_hotel_contact">
                           Single hotel contact working
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="cart_hotel.html">Cart hotel</a>
+                        <Link to="/cart_hotel">Cart hotel</Link>
                       </li>
                       <li>
                         <a href="payment_hotel.html">Booking hotel</a>
                       </li>
                       <li>
-                        <a href="confirmation_hotel.html">Confirmation hotel</a>
+                        <Link to="/confirmation_hotel">Confirmation hotel</Link>
                       </li>
                     </ul>
                   </li>
@@ -279,29 +279,29 @@ const Header = () => {
                     </a>
                     <ul>
                       <li>
-                        <a href="all_transfer_list.html">All transfers list</a>
+                        <Link to="/all_transfer_list">All transfers list</Link>
                       </li>
                       <li>
-                        <a href="all_transfer_grid.html">All transfers grid</a>
+                        <Link to="/all_transfer_grid">All transfers grid</Link>
                       </li>
                       <li>
-                        <a href="single_transfer.html">Single transfer page</a>
+                        <Link to="/single_transfer">Single transfer page</Link>
                       </li>
                       <li>
-                        <a href="single_transfer_datepicker_v2.html">
+                        <Link to="/single_transfer_datepicker">
                           Date and time picker V2
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="cart_transfer.html">Cart transfers</a>
+                        <Link to="/cart_transfer">Cart transfers</Link>
                       </li>
                       <li>
-                        <a href="payment_transfer.html">Booking transfers</a>
+                        <Link to="/payment_transfer">Booking transfers</Link>
                       </li>
                       <li>
-                        <a href="confirmation_transfer.html">
+                        <Link to="/confirmation_transfer">
                           Confirmation transfers
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </li>
