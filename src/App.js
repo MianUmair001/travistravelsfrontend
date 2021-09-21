@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import store from './redux/Store'
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux"
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 /* Home */
 import Footer from "./components/Home/footer";
 import Header from "./components/Home/header";
-// import Home1 from "./components/Home//Home1";
-// import Home2 from "./components/Home//Home2_with_only_tours";
 import Home_SingleImage from "./components/Home//Home_SingleImage";
-// import RevSlider from "./components/Home//RevSlider";
-import Login from './components/Home/login'
-import Register from './components/Home/register';
-import Forget_password from './components/Home/forget_password';
+import Login from './components/Home/Auth/login'
+import Register from './components/Home/Auth/register';
+import Forget_password from './components/Home/Auth/forget_password';
+import VerifyEmail from './components/Home/Auth/verify_email';
 
 /* Tours */
 import All_tours_grid from './components/Tours/All Tours/all_tours_grid' 
@@ -61,18 +62,54 @@ import Single_restaurant_datepicker_v2 from './components/Restaurants/Single Res
 import Booking_restaurant from './components/Restaurants/Booking/booking_restaurant'
 import Confirm_transfer from './components/Restaurants/Booking/confirm_transfer'
 
+/* Admin */
+import Profile from './components/Admin/Profile/profile'
 
 /* 404 Page */
 import Page_404 from './components/Others/404';
+import Bookings from './components/Admin/Bookings/bookings';
 
 
 function App() {
+
+  // store.subscribe(
+  //   userState = store.getState(),
+  //   console.log('userState', userState)
+  //   )
+  // console.log('getState',store.getState())
+
+  // let dispatch = useDispatch()
+  // const user = useSelector(state => state.auth.user)
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged( async (user) => {
+  //     if(user) {
+  //       const tokenID = await user.getIdTokenResult()
+  //       console.log("user --> ",user)
+  //       console.log("token --> ",tokenID)
+
+  //       console.log('email',user.email, 'token', tokenID.token, 'name', user.displayName)
+  //       dispatch({
+  //         type: 'LOGIN_USER',
+  //         payload: {
+  //           email: user.email,
+  //           token: tokenID.token,
+  //           name: user.displayName
+  //         }
+  //       })
+  //     }
+  //   })
+
+  //   return () => unsubscribe() 
+
+  // }, [])
+
+
   return (
     <div className="App">
     <Provider store={store}>
 
       <BrowserRouter>
-      <Header style={{margingBottom: '30px'}}/>
+      <Header />
 
       <Switch>
         { /* Home Routes */ }
@@ -80,7 +117,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/forget_password" component={Forget_password} />
-
+        <Route exact path="/verifyEmail" component={VerifyEmail} />
 
 
         { /* Tours Routes */ }
@@ -130,6 +167,12 @@ function App() {
         <Route exact path="/confirmation_transfer" component={Confirmation_transfer} />
         <Route exact path="/payment_transfer" component={Payment_transfer} />
 
+        { /* Admin Routes */ }
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/bookings" component={Bookings} />
+
+
+
         { /* 404 Page */ }
         <Route exact path='*' component={Page_404}/>
 
@@ -137,6 +180,7 @@ function App() {
       <Footer />
     </BrowserRouter>
     </Provider>
+    <ToastContainer />
     </div>
   );
 }
