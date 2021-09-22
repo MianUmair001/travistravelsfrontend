@@ -9,10 +9,11 @@ export const endpoints = {
   SIGNUP: "/api/auth/signup/user",
   VERIFY_EMAIL: "/api/auth/verifyEmail",
   FORGOT_PASS: "/api/auth/forgotPass",
-  RESET_PASSWORD: "​/api/auth/resetPass",
+  RESET_PASSWORD: "/api/auth/resetPass",
   RESEND_CODE: "/api/auth/resendCode",
   CHANGE_PASS: "​/api/auth/changePass",
-  DEACTIVATE: "/api​/auth​/deactivate",
+  DEACTIVATE: "/api/auth/deactivate",
+  VALIDATE_CODE: "/api/auth/validateCode",
   /* UPLOAD */
   UPLOAD: "/api/upload",
   /* PROFILE */

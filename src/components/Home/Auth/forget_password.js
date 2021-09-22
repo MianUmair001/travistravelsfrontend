@@ -1,8 +1,25 @@
+import React, { useState } from "react";
 import { Button } from "@material-ui/core";
-import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Forget_password = () => {
+import { forgotPassword } from '../../../redux/actions/auth.action'
+
+const Forget_password = ({ history }) => {
+
+  const userEmail = localStorage.getItem('UserEmail')
+  const [email, setEmail] = useState(userEmail)
+  const dispatch = useDispatch()
+
+  const resetHandler = (e) => {
+    e.preventDefault()
+    console.log('Reset Handler')
+    dispatch(forgotPassword(email))
+    setEmail('')
+
+    history.push('/reset_password')
+  }
+
   return (
     <>
       <main>
@@ -26,6 +43,7 @@ const Forget_password = () => {
                         type="text"
                         className=" form-control "
                         placeholder="Email"
+                        value={email}
                       />
                     </div>
                     <div>
@@ -43,14 +61,15 @@ const Forget_password = () => {
                         color: "white",
                         textTransform: "unset",
                       }}
-                      className="btn btn_full btn-block py-2 mt-3 mb-2"
-                      value="Log In"
+                      className="btn btn_full btn-block py-2 mt-3 mb-3"
+                      value="Reset Password"
+                      onClick={resetHandler}
                     >
-                      Reset Password
+                      Get Code
                     </Button>
-
-                      <span>Don’t have an account?</span>
-                      <Link to="/register" className="bab" style={{ color: "black" }}>
+ 
+                      <span style={{marginLeft: '35px'}}>Don’t have an account?</span>
+                      <Link to="/register" style={{ color: "black" }}>
                         <b style={{marginLeft: '5px'}}>Sign up</b>
                       </Link>
                   </form>

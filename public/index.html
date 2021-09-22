@@ -164,6 +164,22 @@
       });
     </script>
 
+    <!-- Specific scripts -->
+    <script src="./js/tabs.js"></script>
+    <script>
+      $(document).ready(function () {
+        console.log("I am Tabs Element", document.getElementById("tabs"));
+        new CBPFWTabs(document.getElementById("tabs"));
+        $(".wishlist_close_admin").on("click", function (c) {
+          $(this)
+            .parent()
+            .parent()
+            .parent()
+            .fadeOut("slow", function (c) {});
+        });
+      });
+    </script>
+
     <!-- NOTIFY BUBBLES  -->
     <script src="./js/notify_func.js"></script>
   </body>

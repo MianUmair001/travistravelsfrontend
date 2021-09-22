@@ -5,39 +5,33 @@ import { login } from "../../../redux/actions/auth.action";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import store from '../../../redux/Store'
-
 const Login = ({ history }) => {
   const [email, setEmail] = useState("saabm6546@gmail.com");
-  const [password, setPassword] = useState("IamUmair@005");
+  const [password, setPassword] = useState("Babuibrar@007");
+  const [dataError, setDataError] = useState(false);
   const dispatch = useDispatch();
 
-  
-  const user = useSelector(state => state.auth)
-
-    store.subscribe(() => {
-      const userState = store.getState()
-      console.log(userState)
-    })
+  const user = useSelector((state) => state.auth);
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     console.log("Email is ", email, "Password is ", password);
     const data = await dispatch(login(email, password));
-    console.log('data',data)
-    console.log(user)
-    if(user.accessToken !== null) {
-      history.push('/')
+    console.log("data", data);
+    console.log(user);
+    if (data === undefined) {
+      // toast.error('Wrong Email Or Password')
+      setDataError(true);
     } else {
-      toast.error('Wrong Email Or Password')
+      history.push("/");
     }
   };
 
   const handleRegisterSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    history.push('/register')
-  }
+    history.push("/register");
+  };
 
   return (
     <>
@@ -67,6 +61,18 @@ const Login = ({ history }) => {
                         <b>Or</b>
                       </span>
                     </div>
+                    {dataError ? (
+                      <div
+                        style={{
+                          color: "red",
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBottom: '5px'
+                        }}
+                      >
+                        Wrong Email or Password
+                      </div>
+                    ) : null}
                     <div className="form-group">
                       <label>Username</label>
                       <input
@@ -92,16 +98,25 @@ const Login = ({ history }) => {
                     </Link>
                     <Button
                       type="submit"
-                      style={{ backgroundColor: "green", color: "white", textTransform: 'unset' }}
+                      style={{
+                        backgroundColor: "green",
+                        color: "white",
+                        textTransform: "unset",
+                      }}
                       className="btn btn_full btn-block py-2 mt-3 mb-2"
                       value="Log In"
                       onClick={handleLoginSubmit}
+                      disabled={ !email || !password }
                     >
                       Login
                     </Button>
                     <Button
                       type="submit"
-                      style={{ border: '1px solid green', color: "black", textTransform: 'unset'  }}
+                      style={{
+                        border: "1px solid green",
+                        color: "black",
+                        textTransform: "unset",
+                      }}
                       className="btn btn_full_outline btn-block py-2 mb-4"
                       value="Log In"
                       onClick={handleRegisterSubmit}
@@ -109,7 +124,7 @@ const Login = ({ history }) => {
                       Register
                     </Button>
 
-                    <Link to="/" className="BackToHome">
+                    <Link to="/" className="centerText">
                       Back To Home
                     </Link>
                   </form>

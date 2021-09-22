@@ -38,7 +38,8 @@ export const authReducer = (prevState = initialState, action) => {
       };
     case LOG_OUT:
       return {
-        ...prevState,
+        loading: false,
+        error: false,
         accessToken: null,
         user: null,
       };

@@ -2411,8 +2411,9 @@ ul#contact-info {
 	text-decoration: underline;
 }
 
-.BackToHome {
-	margin-left: 33%;
+.centerText {
+	display: flex;
+	justify-content: center;
 	color: black;
 }
 

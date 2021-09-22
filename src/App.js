@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
-import store from './redux/Store'
-import { Provider, useDispatch } from "react-redux"
+import React from 'react'
 import { ToastContainer } from 'react-toastify';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 
 import 'react-toastify/dist/ReactToastify.css';
+
 
 /* Home */
 import Footer from "./components/Home/footer";
@@ -14,6 +13,7 @@ import Login from './components/Home/Auth/login'
 import Register from './components/Home/Auth/register';
 import Forget_password from './components/Home/Auth/forget_password';
 import VerifyEmail from './components/Home/Auth/verify_email';
+import Reset_password from './components/Home/Auth/reset_password';
 
 /* Tours */
 import All_tours_grid from './components/Tours/All Tours/all_tours_grid' 
@@ -72,44 +72,13 @@ import Bookings from './components/Admin/Bookings/bookings';
 
 function App() {
 
-  // store.subscribe(
-  //   userState = store.getState(),
-  //   console.log('userState', userState)
-  //   )
-  // console.log('getState',store.getState())
-
-  // let dispatch = useDispatch()
-  // const user = useSelector(state => state.auth.user)
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged( async (user) => {
-  //     if(user) {
-  //       const tokenID = await user.getIdTokenResult()
-  //       console.log("user --> ",user)
-  //       console.log("token --> ",tokenID)
-
-  //       console.log('email',user.email, 'token', tokenID.token, 'name', user.displayName)
-  //       dispatch({
-  //         type: 'LOGIN_USER',
-  //         payload: {
-  //           email: user.email,
-  //           token: tokenID.token,
-  //           name: user.displayName
-  //         }
-  //       })
-  //     }
-  //   })
-
-  //   return () => unsubscribe() 
-
-  // }, [])
-
+  const history = useHistory()
 
   return (
     <div className="App">
-    <Provider store={store}>
 
       <BrowserRouter>
-      <Header />
+      <Header history={history}/>
 
       <Switch>
         { /* Home Routes */ }
@@ -118,6 +87,8 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/forget_password" component={Forget_password} />
         <Route exact path="/verifyEmail" component={VerifyEmail} />
+        <Route exact path="/reset_password" component={Reset_password} />
+
 
 
         { /* Tours Routes */ }
@@ -179,7 +150,6 @@ function App() {
       </Switch>
       <Footer />
     </BrowserRouter>
-    </Provider>
     <ToastContainer />
     </div>
   );
