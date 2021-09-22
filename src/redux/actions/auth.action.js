@@ -14,22 +14,20 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({
       type: LOGIN_REQUEST,
     });
-    const {
-      data: { data: data },
-    } = await axios.post(URL + endpoints.LOGIN, {
+    const response = await axios.post(URL + endpoints.LOGIN, {
       email: email,
       password: password,
     });
     const {
       access_token,
       user: { _id: user },
-    } = data;
-    
-    console.log(access_token);
+    } = response.data.data;
+    console.log("I m in login response", response.data.data.user);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: { accessToken: access_token, user },
     });
+    return response.data.data.user;
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
@@ -88,15 +86,16 @@ export const forgotPassword = (email) => async (dispatch) => {
   }
 };
 
-export const resetPassword = (email, code, password) => async (dispatch) => {
+export const resetPassword = (email, password) => async (dispatch) => {
+  console.log(email, password);
   try {
     const {
       data: { data: data },
-    } = await axios.post("http://localhost:3000/api/auth/resetPass", {
+    } = await axios.post(URL + endpoints.RESET_PASSWORD, {
       email,
-      code: Number(code),
       password,
     });
+    console.log("I m response", data);
     const {
       access_token,
       user: { _id: user },
@@ -109,10 +108,9 @@ export const resetPassword = (email, code, password) => async (dispatch) => {
     toast.success(
       "Password has been successfully updated Login with new Password"
     );
-    window.location.href = "http://localhost:3001/login";
   } catch (error) {
     console.log({ error });
-    toast.error(error.response.data.message);
+    toast.error(error);
     // console.log(error.response.data.message);
     dispatch({
       type: LOGIN_FAIL,
@@ -159,12 +157,26 @@ export const changePassword =
   };
 
 export const deactivateAccount = (id) => async (dispatch) => {
+  console.log("user id", id);
   try {
-    const response = await axios.post(URL + endpoints.DEACTIVATE);
-    // console.log(response.data.);
+    const response = await axios.delete(URL + endpoints.DEACTIVATE);
+    console.log(response.data);
     if (response.data.success) {
       toast.success("Account has been successfully deleted");
     }
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+};
+
+export const validateCode = (code, email) => async (dispatch) => {
+  try {
+    const response = await axios.post(URL + endpoints.VALIDATE_CODE, {
+      email,
+      code,
+    });
+    console.log("I am in validation code", response.data.statusCode);
+    return response.data.statusCode;
   } catch (error) {
     toast.error(error.response.data.message);
   }

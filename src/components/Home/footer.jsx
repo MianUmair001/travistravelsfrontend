@@ -56,8 +56,8 @@ const Footer = () => {
             <div class="col-md-2">
               <h3>Settings</h3>
               <div class="styled-select">
-                <select name="lang" id="lang">
-                  <option value="English" selected>
+                <select name="lang" defaultValue="English" id="lang">
+                  <option value="English">
                     English
                   </option>
                   <option value="French">French</option>
@@ -66,8 +66,8 @@ const Footer = () => {
                 </select>
               </div>
               <div class="styled-select">
-                <select name="currency" id="currency">
-                  <option value="USD" selected>
+                <select name="currency" defaultValue="USD" id="currency">
+                  <option value="USD" >
                     USD
                   </option>
                   <option value="EUR">EUR</option>

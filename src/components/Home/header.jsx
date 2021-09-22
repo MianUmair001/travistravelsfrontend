@@ -1,10 +1,26 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { LOG_OUT } from "../../redux/actionTypes";
+import { useHistory } from 'react-router-dom'
 
 const Header = () => {
-  const user = useSelector((state) => state.auth.user);
-  console.log("user Now", user);
+
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const userId = useSelector((state) => state.auth.user);
+  console.log("user Now", userId);
+
+  const logoutHandler = (e) => {
+    console.log('logoutHandler')
+    e.preventDefault()
+    dispatch({
+      type: LOG_OUT
+    })
+
+    history.push('/')
+
+  }
 
   return (
     <>
@@ -35,23 +51,23 @@ const Header = () => {
                       Wishlist
                     </a>
                   </li>
-                  {user === null && (
+                  {userId === null && (
                     <li>
                       <Link to="/login" id="access_link">
                         Log in
                       </Link>
                     </li>
                   )}
-                  {user === null && (
+                  {userId === null && (
                     <li>
                       <Link to="/register" id="access_link">
                         Register
                       </Link>
                     </li>
                   )}
-                  {user !== null && (
+                  {userId !== null && (
                     <li>
-                      <Link to="/" id="access_link">
+                      <Link to="/" id="access_link"  onClick={logoutHandler}>
                         Logout
                       </Link>
                     </li>
