@@ -2,25 +2,37 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LOG_OUT } from "../../redux/actionTypes";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 const Header = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const history = useHistory()
-  const dispatch = useDispatch()
   const userId = useSelector((state) => state.auth.user);
-  console.log("user Now", userId);
+  // console.log("user Now", userId);
+  const profileState = useSelector((state) => state.profile);
+  // console.log("user profileState", profileState);
 
   const logoutHandler = (e) => {
-    console.log('logoutHandler')
-    e.preventDefault()
+    console.log("logoutHandler");
+    e.preventDefault();
     dispatch({
-      type: LOG_OUT
-    })
+      type: LOG_OUT,
+    });
 
-    history.push('/')
+    localStorage.clear();
+    history.push("/");
+  };
 
-  }
+  const profileHandler = (e) => {
+    e.preventDefault();
+
+    if (profileState.auth === null) {
+      history.push("/create_profile");
+    } else {
+      history.push("/profile");
+    }
+  };
 
   return (
     <>
@@ -67,7 +79,14 @@ const Header = () => {
                   )}
                   {userId !== null && (
                     <li>
-                      <Link to="/" id="access_link"  onClick={logoutHandler}>
+                      <Link to="" id="access_link" onClick={profileHandler}>
+                        Profile
+                      </Link>
+                    </li>
+                  )}
+                  {userId !== null && (
+                    <li>
+                      <Link to="/" id="access_link" onClick={logoutHandler}>
                         Logout
                       </Link>
                     </li>

@@ -19,6 +19,7 @@ const Login = ({ history }) => {
     const data = await dispatch(login(email, password));
     console.log("data", data);
     console.log(user);
+    localStorage.setItem("UserEmail", email);
     if (data === undefined) {
       // toast.error('Wrong Email Or Password')
       setDataError(true);

@@ -68,6 +68,7 @@ import Profile from './components/Admin/Profile/profile'
 /* 404 Page */
 import Page_404 from './components/Others/404';
 import Bookings from './components/Admin/Bookings/bookings';
+import CreateProfile from './components/Admin/Profile/create_profile';
 
 
 function App() {
@@ -140,6 +141,7 @@ function App() {
 
         { /* Admin Routes */ }
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/create_profile" component={CreateProfile} />
         <Route exact path="/bookings" component={Bookings} />
 
 

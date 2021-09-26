@@ -5,10 +5,9 @@ import {
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAIL,
 } from "../actionTypes";
+
+
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -43,8 +42,13 @@ export const signUp = (email, password) => async (dispatch) => {
       password: password,
     });
     toast.success(response.data.message);
+    const success = response.data.message
+    return success
   } catch (error) {
     toast.error(error.response.data.message);
+    console.log('Signup error response',error.response.data)
+    const failed = error.response.data
+    return failed
   }
 };
 

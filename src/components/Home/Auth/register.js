@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { signUp } from "../../../redux/actions/auth.action";
 import { useHistory } from "react-router-dom";
+import Modal from "react-modal";
 
 const Register = () => {
   const [email, setEmail] = useState("amianumair@gmail.com");
@@ -12,17 +13,27 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("IamUmair@005");
   const [name, setName] = useState("MuhammadUmair");
   const [afterSubmit, setAfterSubmit] = useState(true);
+  const [modelIsOpen, setModelIsOpen] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
-  
+
+  const modelHandler = () => {
+    setModelIsOpen(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      dispatch(signUp(email, password));
+      const success = await dispatch(signUp(email, password));
+      console.log("succuss, failed", success.success);
+      const result = success.success;
       setAfterSubmit(false);
-      localStorage.setItem("UserEmail", email);
-      if (afterSubmit) {
+      if (result === false) {
+        setShowError(true);
+      } else {
+        
         history.push("/verifyEmail");
       }
     } else {
@@ -46,6 +57,18 @@ const Register = () => {
                   </div>
                   <hr />
                   <form>
+                    {showError ? (
+                      <div
+                        style={{
+                          color: "red",
+                          display: "flex",
+                          justifyContent: "center",
+                          marginBottom: "5px",
+                        }}
+                      >
+                        Email already exists
+                      </div>
+                    ) : null}
                     <div className="form-group">
                       <label>Username</label>
                       <input
@@ -105,6 +128,20 @@ const Register = () => {
                     <Link to="/login" className="account">
                       Already Have An Account? Login Here!
                     </Link>
+
+                    <Modal
+                      isOpen={modelIsOpen}
+                      contentLabel="Code Sent"
+                      onRequestClose={() => setModelIsOpen(false)}
+                      shouldCloseOnOverlayClick={true}
+                    >
+                      <h3>
+                        Verification code has been sent to your email - {email}
+                      </h3>
+
+                      <hr />
+                      <h3 onClick={modelHandler}>OK</h3>
+                    </Modal>
                   </form>
                 </div>
               </div>

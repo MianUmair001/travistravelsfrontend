@@ -19,8 +19,8 @@ export const endpoints = {
   /* PROFILE */
   CREATE_PROFILE: "/api/profile",
   GET_PROFILE: "/api/profile",
-  UPDATE_PROFILE: "/api​/profile/update",
-  DELETE_PROFILE: "/api​/profile/deactivateProfile",
+  UPDATE_PROFILE: "/api/profile/update",
+  DELETE_PROFILE: "/api/profile/deactivateProfile",
   /* HOTELS */
   CREATE_HOTEL: "/api/hotel",
   GET_HOTEL: "/api/hotel",

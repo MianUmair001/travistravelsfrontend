@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import Modal from 'react-modal'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 import { forgotPassword } from '../../../redux/actions/auth.action'
 
+Modal.setAppElement('#root')
 const Forget_password = ({ history }) => {
 
   const userEmail = localStorage.getItem('UserEmail')
+
   const [email, setEmail] = useState(userEmail)
+  const [modelIsOpen, setModelIsOpen] = useState(false)
+
   const dispatch = useDispatch()
 
   const resetHandler = (e) => {
@@ -17,7 +24,13 @@ const Forget_password = ({ history }) => {
     dispatch(forgotPassword(email))
     setEmail('')
 
+    setModelIsOpen(true)
+  }
+
+  const modelHandler = () => {
+    setModelIsOpen(false)
     history.push('/reset_password')
+
   }
 
   return (
@@ -49,8 +62,8 @@ const Forget_password = ({ history }) => {
                     <div>
                       <label>
                         <small>
-                          You will receive an email containing a link allowing
-                          you to reset your password to a new preferred on
+                          You will receive an email containing a code allowing
+                          you to reset your password to a new preferred one. Thank You!
                         </small>
                       </label>
                     </div>
@@ -67,12 +80,36 @@ const Forget_password = ({ history }) => {
                     >
                       Get Code
                     </Button>
- 
-                      <span style={{marginLeft: '35px'}}>Don’t have an account?</span>
-                      <Link to="/register" style={{ color: "black" }}>
-                        <b style={{marginLeft: '5px'}}>Sign up</b>
+                      <div className='centerText'>
+                      <span>Don’t have an account?</span>
+                      <Link to="/register" style={{marginLeft: '3px', color: 'black'}}>
+                        <b>Register</b>
                       </Link>
+                      </div>
+
+                      {/*<Popup trigger={<button> Trigger</button>} position="right center">
+                      <div>Popup content here !!.Popup content here !!</div>
+                    </Popup> */}
+
+                    
+
                   </form>
+
+                  {/* <Modal
+                      isOpen={modelIsOpen}
+                      contentLabel='Code Sent'
+                      onRequestClose={() => setModelIsOpen(false)}
+                      shouldCloseOnOverlayClick={true}
+                      
+                  >
+                      <h3>Verification code has been sent to your email - {email}</h3>
+                      
+                      <hr />
+                      <h3 onClick={modelHandler}>OK</h3>
+
+
+                  </Modal> */}
+
                 </div>
               </div>
             </div>
