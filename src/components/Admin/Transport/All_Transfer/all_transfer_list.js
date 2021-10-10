@@ -1,7 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
 
-const All_transfer_grid = () => {
+import {
+  deleteTransportByID,
+  getALlTransport,
+  getTransportByid,
+  updateTransport,
+} from "../../../../redux/actions/transport.action";
+
+const All_transfer_list = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const [transportsListShow, setTransportListShow] = useState([]);
+
+  useEffect(async () => {
+    const transportListArray = await dispatch(getALlTransport());
+    setTransportListShow(transportListArray);
+    return transportListArray;
+  }, [transportsListShow]);
+
+  const handleDeleteTransport = async (e, props) => {
+    e.preventDefault();
+
+    await dispatch(deleteTransportByID(props._id));
+  };
+
+  const handleDetailTransport = async (e, props) => {
+    e.preventDefault();
+
+    await dispatch(getTransportByid(props._id));
+    history.push(`/single_transfer/${props._id}`);
+  };
+
+  const handleUpdateTransport = async (e, props) => {
+    e.preventDefault();
+
+    await dispatch(
+      updateTransport(
+        props._id,
+        props.name,
+        props.modelName,
+        props.description,
+        props.transportType,
+        props.numberOfSeats,
+        props.pricePerKillomter,
+        props.AC,
+        props.Availability,
+        props.images
+      )
+    );
+    history.push(`/update_transport/${props._id}`);
+  };
+
+  const handleAddTransport = (e) => {
+    e.preventDefault();
+
+    history.push("/create_transport");
+  };
+
   return (
     <>
       <div>
@@ -14,7 +73,7 @@ const All_transfer_grid = () => {
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1>Paris Transfer</h1>
+              <h1>Paris transfer</h1>
               <p>
                 Ridiculus sociosqu cursus neque cursus curae ante scelerisque
                 vehicula.
@@ -38,13 +97,23 @@ const All_transfer_grid = () => {
             </div>
           </div>
           {/* Position */}
-          <div className="collapse" id="collapseMap">
-            <div id="map" className="map" />
-          </div>
-          {/* End Map */}
           <div className="container margin_60">
             <div className="row">
               <aside className="col-lg-3">
+                <p>
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="View on map"
+                    onClick={handleAddTransport}
+                  >
+                    Add More Transport
+                  </Button>
+                </p>
                 <div id="filters_col">
                   <a
                     data-toggle="collapse"
@@ -56,7 +125,7 @@ const All_transfer_grid = () => {
                     <i className="icon_set_1_icon-65" />
                     Filters
                   </a>
-                  <div className="collapse show" id="collapseFilters">
+                  <div className="collapse shwo" id="collapseFilters">
                     <div className="filter_type">
                       <h6>Price</h6>
                       <input type="text" id="range" name="range" defaultValue />
@@ -206,45 +275,20 @@ const All_transfer_grid = () => {
                     </div>
                   </div>
                 </div>
-                {/*End tools */}
-                <div className="row">
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.1s">
-                    <div className="transfer_container">
-                      <div className="ribbon_3 popular">
-                        <span>Popular</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_transfer.html">
-                          <img
-                            src="img/transfer_2.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="short_info">
-                            From/Per person
-                            <span className="price">
-                              <sup>$</sup>29
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="transfer_title">
-                        <h3>
-                          <strong>Orly Airport</strong> shared
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile" />
-                          <small>(75)</small>
+                {/*/tools */}
+                {transportsListShow?.map((transportList) => (
+                  <div
+                    className="strip_all_tour_list wow fadeIn"
+                    data-wow-delay="0.1s"
+                    key={transportList._id}
+                  >
+                    <div className="row">
+                      <div className="col-lg-4 col-md-4">
+                        <div className="ribbon_3 popular">
+                          <span>Popular</span>
                         </div>
-                        {/* end rating */}
                         <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
+                          <a className="tooltip_flip tooltip-effect-1">
                             +
                             <span className="tooltip-content-flip">
                               <span className="tooltip-back">
@@ -253,173 +297,146 @@ const All_transfer_grid = () => {
                             </span>
                           </a>
                         </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box tour */}
-                  </div>
-                  {/* End col-md-6 */}
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.2s">
-                    <div className="transfer_container">
-                      <div className="ribbon_3 popular">
-                        <span>Popular</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_transfer.html">
-                          <img
-                            src="img/transfer_1.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="short_info">
-                            From/Per person
-                            <span className="price">
-                              <sup>$</sup>45
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="transfer_title">
-                        <h3>
-                          <strong>Orly Airport</strong> private
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile" />
-                          <small>(75)</small>
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
+                        <div className="img_list">
+                          <a href="single_transfer.html">
+                            <img src="img/transfer_2.jpg" alt="Image" />
+                            <div className="short_info" />
                           </a>
                         </div>
-                        {/* End wish list*/}
                       </div>
-                    </div>
-                    {/* End box tour */}
-                  </div>
-                  {/* End col-md-6 */}
-                </div>
-                {/* End row */}
-                <div className="row">
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.2s">
-                    <div className="transfer_container">
-                      <div className="ribbon_3 popular">
-                        <span>Popular</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_transfer.html">
-                          <img
-                            src="img/transfer_3.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="short_info">
-                            From/Per person
-                            <span className="price">
-                              <sup>$</sup>39
-                            </span>
+                      <div className="col-lg-6 col-md-6">
+                        <div className="tour_list_desc">
+                          <div className="rating">
+                            <i className="icon-smile voted" />
+                            <i className="icon-smile  voted" />
+                            <i className="icon-smile  voted" />
+                            <i className="icon-smile  voted" />
+                            <i className="icon-smile" />
+                            <small>(75)</small>
                           </div>
-                        </a>
-                      </div>
-                      <div className="transfer_title">
-                        <h3>
-                          <strong>Orly Airport</strong> group
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile" />
-                          <small>(75)</small>
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box tour */}
-                  </div>
-                  {/* End col-md-6 */}
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.4s">
-                    <div className="transfer_container">
-                      <div className="ribbon_3">
-                        <span>Top rated</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_transfer.html">
-                          <img
-                            src="img/transfer_4.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="short_info">
-                            From/Per person
-                            <span className="price">
-                              <sup>$</sup>45
-                            </span>
+                          <h3>
+                            <strong>{transportList.name}</strong> shared
+                          </h3>
+                          <p>{transportList.description}</p>
+                          <ul className="add_info">
+                            <li>
+                              <div className="tooltip_styled tooltip-effect-4">
+                                <span className="tooltip-item">
+                                  <i className="icon_set_1_icon-70" />
+                                </span>
+                                <div className="tooltip-content">
+                                  <h4>Passengers</h4> Up to 6 passengers.
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="tooltip_styled tooltip-effect-4">
+                                <span className="tooltip-item">
+                                  <i className="icon_set_1_icon-6" />
+                                </span>
+                                <div className="tooltip-content">
+                                  <h4>Pick up</h4> Hotel pick up or different
+                                  place with an extra cost.
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="tooltip_styled tooltip-effect-4">
+                                <span className="tooltip-item">
+                                  <i className="icon_set_1_icon-13" />
+                                </span>
+                                <div className="tooltip-content">
+                                  <h4>Accessibility</h4> On request
+                                  accessibility available.
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="tooltip_styled tooltip-effect-4">
+                                <span className="tooltip-item">
+                                  <i className="icon_set_1_icon-22" />
+                                </span>
+                                <div className="tooltip-content">
+                                  <h4>Pet allowed</h4> On request pet allowed.
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="tooltip_styled tooltip-effect-4">
+                                <span className="tooltip-item">
+                                  <i className="icon_set_1_icon-33" />
+                                </span>
+                                <div className="tooltip-content">
+                                  <h4>Baggage</h4> Large baggage drop available.
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                          <div className="row">
+                            <div class="col-sm-6">
+                              <Button
+                                variant="contained"
+                                size="small"
+                                className="btn mt-4"
+                                startIcon={<Edit />}
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                                onClick={(e) =>
+                                  handleUpdateTransport(e, transportList)
+                                }
+                              >
+                                Update
+                              </Button>
+                            </div>
+                            <div class="col-sm-6">
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className="btn mt-4"
+                                startIcon={<DeleteOutlined />}
+                                style={{ color: "red" }}
+                                onClick={(e) =>
+                                  handleDeleteTransport(e, transportList)
+                                }
+                              >
+                                Delete
+                              </Button>
+                            </div>
                           </div>
-                        </a>
+                        </div>
                       </div>
-                      <div className="transfer_title">
-                        <h3>
-                          <strong>Disneyland</strong> transfer
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile" />
-                          <small>(75)</small>
+                      <div className="col-lg-2 col-md-2">
+                        <div className="price_list">
+                          <div>
+                            <sup>$</sup>
+                            {transportList.pricePerKillomter}
+                            <span className="normal_price_list">$79</span>
+                            <small>Price per killometer</small>
+                            <p>
+                              <Button
+                                type="submit"
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                                startIcon={<Info />}
+                                className="btn_1"
+                                onClick={(e) =>
+                                  handleDetailTransport(e, transportList)
+                                }
+                              >
+                                Details
+                              </Button>
+                            </p>
+                          </div>
                         </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a
-                            className="tooltip_flip tooltip-effect-1"
-                            href="javascript:void(0);"
-                          >
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
                       </div>
                     </div>
-                    {/* End box tour */}
                   </div>
-                  {/* End col-md-6 */}
-                </div>
-                {/* End row */}
+                ))}
+
                 <hr />
                 <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center">
@@ -454,7 +471,7 @@ const All_transfer_grid = () => {
                 </nav>
                 {/* end pagination*/}
               </div>
-              {/* End col lg 9 */}
+              {/* End col lg-9 */}
             </div>
             {/* End row */}
           </div>
@@ -465,4 +482,4 @@ const All_transfer_grid = () => {
     </>
   );
 };
-export default All_transfer_grid;
+export default All_transfer_list;

@@ -12,7 +12,7 @@ import {
 const Profile = ({ history }) => {
   const dispatch = useDispatch();
 
-  const email = localStorage.getItem("UserEmail");
+  const email = useSelector(state => state.auth.userEmail);
 
   const { address, firstName, lastName, DateOfBirth, phone, username, auth } =
     useSelector((state) => state.profile);

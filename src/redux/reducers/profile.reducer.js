@@ -12,6 +12,8 @@ import {
 
 const initialState = {
   auth: null,
+  profileID: null,
+  userEmail: null,
   firstName: null,
   lastName: null,
   username: null,
@@ -50,13 +52,17 @@ export const profileReducer = (prevState = initialState, action) => {
         DateOfBirth: payload.DateOfBirth,
         phone: payload.phone,
         username: payload.username,
+        profileID: payload.profileID,
         auth: payload.auth,
         error: false,
+        userEmail: payload.userEmail,
       };
 
     case CREATE_PROFILE_FAIL:
       return {
         auth: null,
+        userEmail: null,
+        profileID: null,
         firstName: null,
         lastName: null,
         username: null,

@@ -1,9 +1,8 @@
 import React from 'react'
 import { ToastContainer } from 'react-toastify';
-import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useHistory, HashRouter } from "react-router-dom";
 
 import 'react-toastify/dist/ReactToastify.css';
-
 
 /* Home */
 import Footer from "./components/Home/footer";
@@ -32,6 +31,8 @@ import Payment_fixed_sidebar from './components/Tours/Single Tour/sidebar/paymen
 import Confirmation_fixed_sidebar from './components/Tours/Single Tour/sidebar/confirmation_fixed_sidebar'
 
 /* Hotels */
+import CreateHotel from "./components/Hotel/Form/create_hotel"
+import UpdateHotel from "./components/Hotel/Form/update_hotel"
 import All_hotels_grid from "./components/Hotel/All_Hotels/all_hotels_grid";
 import All_hotels_list from "./components/Hotel/All_Hotels/all_hotels_list";
 import All_hotels_map_listing from "./components/Hotel/All_Hotels/all_hotels_map_listing";
@@ -45,13 +46,15 @@ import Single_hotel_datepicker_v2 from "./components/Hotel/Single_Hotel/single_h
 import Single_hotel_working_booking from "./components/Hotel/Single_Hotel/single_hotel_working_booking";
 
 /* Transfer */
-import All_transfer_grid from "./components/Transfer/All_Transfer/all_transfer_grid";
-import All_transfer_list from "./components/Transfer/All_Transfer/all_transfer_list";
-import Single_transfer from "./components/Transfer/Single_Transfer/single_transfer";
-import Single_transfer_datepicker_v2 from "./components/Transfer/Single_Transfer/single_transfer_datepicker_v2";
-import Cart_transfer from "./components/Transfer/Transfer_Booking/cart_transfer";
-import Confirmation_transfer from "./components/Transfer/Transfer_Booking/confirmation_transfer";
-import Payment_transfer from "./components/Transfer/Transfer_Booking/payment_transfer";
+import CreateTransport from './components/Admin/Transport/Foam/create_transport';
+import UpdateTransport from './components/Admin/Transport/Foam/update_transport';
+import All_transfer_grid from "./components/Admin/Transport/All_Transfer/all_transfer_grid";
+import All_transfer_list from "./components/Admin/Transport/All_Transfer/all_transfer_list";
+import Single_transfer from "./components/Admin/Transport/Single_Transfer/single_transfer";
+import Single_transfer_datepicker_v2 from "./components/Admin/Transport/Single_Transfer/single_transfer_datepicker_v2";
+import Cart_transfer from "./components/Admin/Transport/Transfer_Booking/cart_transfer";
+import Confirmation_transfer from "./components/Admin/Transport/Transfer_Booking/confirmation_transfer";
+import Payment_transfer from "./components/Admin/Transport/Transfer_Booking/payment_transfer";
 
 /* Restaurants */
 import All_restaurants_grid from './components/Restaurants/All Restaurants/all_restaurants_grid'
@@ -64,11 +67,11 @@ import Confirm_transfer from './components/Restaurants/Booking/confirm_transfer'
 
 /* Admin */
 import Profile from './components/Admin/Profile/profile'
+import CreateProfile from './components/Admin/Profile/create_profile';
 
+import Bookings from './components/Admin/Bookings/bookings';
 /* 404 Page */
 import Page_404 from './components/Others/404';
-import Bookings from './components/Admin/Bookings/bookings';
-import CreateProfile from './components/Admin/Profile/create_profile';
 
 
 function App() {
@@ -78,7 +81,7 @@ function App() {
   return (
     <div className="App">
 
-      <BrowserRouter>
+      <HashRouter>
       <Header history={history}/>
 
       <Switch>
@@ -89,8 +92,6 @@ function App() {
         <Route exact path="/forget_password" component={Forget_password} />
         <Route exact path="/verifyEmail" component={VerifyEmail} />
         <Route exact path="/reset_password" component={Reset_password} />
-
-
 
         { /* Tours Routes */ }
         <Route exact path="/all_tours_grid" component={All_tours_grid} />
@@ -124,16 +125,18 @@ function App() {
         <Route exact path="/cart_hotel" component={Cart_hotel} />
         <Route exact path="/confirmation_hotel" component={Confirmation_hotel} />
         <Route exact path="/payment_hotel" component={Payment_hotel} />
-        <Route exact path="/single_hotel" component={Single_hotel} />
+        <Route exact path="/single_hotel/:id" component={Single_hotel} />
         <Route exact path="/single_hotel_contact" component={Single_hotel_contact} />
         <Route exact path="/single_hotel_datepicker_adv" component={Single_hotel_datepicker_adv} />
         <Route exact path="/single_hotel_working_booking" component={Single_hotel_working_booking} />
         <Route exact path="/single_hotel_datepicker_v2" component={Single_hotel_datepicker_v2} />
 
         { /* Transfer Routes */ }
-        <Route exact path="/all_transfer_grid" compnent={All_transfer_grid} />
+        <Route exact path="/create_transport" component={CreateTransport} />
+        <Route exact path="/update_transport/:id" component={UpdateTransport} />
+        <Route exact path="/all_transfer_grid" component={All_transfer_grid} />
         <Route exact path="/all_transfer_list" component={All_transfer_list} />
-        <Route exact path="/single_transfer" component={Single_transfer} />
+        <Route exact path="/single_transfer/:id" component={Single_transfer} />
         <Route exact path="/single_transfer_datepicker" component={Single_transfer_datepicker_v2} />
         <Route exact path="/cart_transfer" component={Cart_transfer} />
         <Route exact path="/confirmation_transfer" component={Confirmation_transfer} />
@@ -144,6 +147,10 @@ function App() {
         <Route exact path="/create_profile" component={CreateProfile} />
         <Route exact path="/bookings" component={Bookings} />
 
+        { /* Hotel Routes */ }
+        <Route exact path='/create_hotel' component={CreateHotel} />
+        <Route exact path='/update_hotel/:id' component={UpdateHotel} />
+
 
 
         { /* 404 Page */ }
@@ -151,7 +158,7 @@ function App() {
 
       </Switch>
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
     <ToastContainer />
     </div>
   );

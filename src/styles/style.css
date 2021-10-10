@@ -1575,10 +1575,10 @@ ul#cat_nav i {
 .price_list {
 	display: table;
 	height: 220px;
-	font-size: 38px;
+	font-size: 25px;
 	color: #e74c3c;
 	width: 100%;
-	margin-left: -15px;
+	margin-left: -18px;
 }
 
 .price_list small {

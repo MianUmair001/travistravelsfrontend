@@ -1,6 +1,35 @@
 import React from "react";
+import { Button } from "@material-ui/core";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteHotel, getHotelByID, updateHotel } from "../../../redux/actions/hotels.action";
+import { Link } from 'react-router-dom'
 
-const Single_hotel = () => {
+const Single_hotel = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const { hotelID, hotelName, price, description, images } = useSelector(
+    (state) => state.hotel
+  );
+  // console.log("Hotel Current State", hotelName, description, hotelID, images);
+  const id = hotelID
+  const name = hotelName
+
+  dispatch(getHotelByID(hotelID))  
+  
+  const handleUpdateHotelPush = (e) => {
+    e.preventDefault();
+
+    dispatch(updateHotel(id, name, price, description, images))
+    history.push(`/update_hotel/${id}`);
+  };
+
+
+  const handleDeleteHotel = (e) => {
+    e.preventDefault();
+
+    dispatch(deleteHotel(hotelID));
+    history.push("/create_hotel");
+  };
   return (
     <>
       <div>
@@ -22,14 +51,14 @@ const Single_hotel = () => {
                     <i className="icon-star voted" />
                     <i className=" icon-star-empty" />
                   </span>
-                  <h1>Mariott Hotel</h1>
+                  <h1>{hotelName}</h1>
                   <span>Champ de Mars, 5 Avenue Anatole, 75007 Paris.</span>
                 </div>
                 <div className="col-md-4">
                   <div id="price_single_main" className="hotel">
                     from/per night{" "}
                     <span>
-                      <sup>$</sup>95
+                      <sup>$</sup>{price}
                     </span>
                   </div>
                 </div>
@@ -43,12 +72,12 @@ const Single_hotel = () => {
             <div className="container">
               <ul>
                 <li>
-                  <a href="#">Home</a>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <a href="#">Category</a>
+                  <Link to="/all_hotels_list">All Hotels</Link>
                 </li>
-                <li>Page active</li>
+                <li>Hotel</li>
               </ul>
             </div>
           </div>
@@ -93,7 +122,7 @@ const Single_hotel = () => {
                   </ul>
                 </div>
                 <p className="d-none d-md-block d-block d-lg-none">
-                  <a
+                  <Button
                     className="btn_map"
                     data-toggle="collapse"
                     href="#collapseMap"
@@ -103,8 +132,39 @@ const Single_hotel = () => {
                     data-text-original="View on map"
                   >
                     View on map
-                  </a>
+                  </Button>
                 </p>
+
+                <p className="d-none d-md-block d-block d-lg-none">
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="View on map"
+                    onClick={handleUpdateHotelPush}
+                  >
+                    Update Hotel
+                  </Button>
+                </p>
+
+                <p className="d-none d-md-block d-block d-lg-none">
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="View on map"
+                    onClick={handleDeleteHotel}
+                  >
+                    Delete Hotel
+                  </Button>
+                </p>
+
                 {/* Map button for tablets/mobiles */}
                 <div id="Img_carousel" className="slider-pro">
                   <div className="sp-slides">
@@ -392,13 +452,7 @@ const Single_hotel = () => {
                     <h3>Description</h3>
                   </div>
                   <div className="col-lg-9">
-                    <p>
-                      Lorem ipsum dolor sit amet, at omnes deseruisse pri. Quo
-                      aeterno legimus insolens ad. Sit cu detraxit constituam,
-                      an mel iudico constituto efficiendi. Eu ponderum mediocrem
-                      has, vitae adolescens in pro. Mea liber ridens inermis ei,
-                      mei legendos vulputate an, labitur tibique te qui.
-                    </p>
+                    <p>{description}</p>
                     <h4>Hotel facilities</h4>
                     <p>
                       Lorem ipsum dolor sit amet, at omnes deseruisse pri. Quo
@@ -690,7 +744,34 @@ const Single_hotel = () => {
               {/*End  single_tour_desc*/}
               <aside className="col-lg-4">
                 <p className="d-none d-xl-block d-lg-block d-xl-none">
-                  <a
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="Update Hotel"
+                  >
+                    View on map
+                  </Button>
+                </p>
+                <p className="d-none d-xl-block d-lg-block d-xl-none">
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="Update Hotel"
+                    onClick={handleUpdateHotelPush}
+                  >
+                    Update Hotel
+                  </Button>
+                </p>
+                <p className="d-none d-xl-block d-lg-block d-xl-none">
+                  <Button
                     className="btn_map"
                     data-toggle="collapse"
                     href="#collapseMap"
@@ -698,9 +779,10 @@ const Single_hotel = () => {
                     aria-controls="collapseMap"
                     data-text-swap="Hide map"
                     data-text-original="View on map"
+                    onClick={handleDeleteHotel}
                   >
-                    View on map
-                  </a>
+                    Delete Hotel
+                  </Button>
                 </p>
                 <div className="box_style_1 expose">
                   <h3 className="inner">Check Availability</h3>

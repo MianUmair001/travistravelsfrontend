@@ -5,55 +5,60 @@ import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import {
-  deleteHotel,
-  getAllHotels,
-  getHotelByID,
-  updateHotel,
-} from "../../../redux/actions/hotels.action";
+  deleteTransportByID,
+  getALlTransport,
+  getTransportByid,
+  updateTransport,
+} from "../../../../redux/actions/transport.action";
 
-const All_hotels_grid = ({ history }) => {
+const All_transfer_grid = ({ history }) => {
   const dispatch = useDispatch();
 
-  const [hotelsListShow, setHotelsListShow] = useState([]);
-  const AllHotels = hotelsListShow[0];
+  const [transportsListShow, setTransportsListShow] = useState([]);
 
   useEffect(async () => {
-    const hotelListArray = await dispatch(getAllHotels());
-    setHotelsListShow(hotelListArray);
-    return hotelListArray;
-  }, [AllHotels]);
+    const transportListArray = await dispatch(getALlTransport());
+    setTransportsListShow(transportListArray);
+    return transportListArray;
+  }, [transportsListShow]);
 
-  const handleDeleteHotel = async (e, props) => {
+  const handleDeleteTransport = async (e, props) => {
     e.preventDefault();
-    let id = props;
 
-    dispatch(deleteHotel(id));
+    await dispatch(deleteTransportByID(props._id));
   };
 
-  const handleUpdateHotel = async (e, props) => {
+  const handleDetailTransport = async (e, props) => {
     e.preventDefault();
 
-    let id = props._id;
-    let name = props.name;
-    let description = props.description;
-    let images = props.images;
-
-    await dispatch(updateHotel(id, name, description, images));
-    history.push(`/update_hotel/${props._id}`);
+    await dispatch(getTransportByid(props._id));
+    history.push(`/single_transfer/${props._id}`);
   };
 
-  const handleDetailHotel = async (e, props) => {
+  const handleUpdateTransport = async (e, props) => {
     e.preventDefault();
-    let id = props;
 
-    await dispatch(getHotelByID(id));
-    history.push(`/single_hotel/${props}`);
+    await dispatch(
+      updateTransport(
+        props._id,
+        props.name,
+        props.modelName,
+        props.description,
+        props.transportType,
+        props.numberOfSeats,
+        props.pricePerKillomter,
+        props.AC,
+        props.Availability,
+        props.images
+      )
+    );
+    history.push(`/update_transport/${props._id}`);
   };
 
-  const handleAddHotel = (e) => {
+  const handleAddTransport = (e) => {
     e.preventDefault();
 
-    history.push("/create_hotel");
+    history.push("/create_transport");
   };
 
   return (
@@ -108,22 +113,9 @@ const All_hotels_grid = ({ history }) => {
                     aria-controls="collapseMap"
                     data-text-swap="Hide map"
                     data-text-original="View on map"
+                    onClick={handleAddTransport}
                   >
-                    View on map
-                  </Button>
-                </p>
-                <p>
-                  <Button
-                    className="btn_map"
-                    data-toggle="collapse"
-                    href="#collapseMap"
-                    aria-expanded="false"
-                    aria-controls="collapseMap"
-                    data-text-swap="Hide map"
-                    data-text-original="View on map"
-                    onClick={handleAddHotel}
-                  >
-                    Add More Hotel
+                    Add More Transport
                   </Button>
                 </p>
                 <div id="filters_col">
@@ -365,28 +357,28 @@ const All_hotels_grid = ({ history }) => {
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-4 d-none d-sm-block text-right">
-                      <Link to="/all_hotels_grid" className="bt_filters">
+                      <Link to="/All_transfer_grid" className="bt_filters">
                         <i className="icon-th" />
                       </Link>{" "}
-                      <Link to="/all_hotels_list" className="bt_filters">
+                      <Link to="/All_transfer_list" className="bt_filters">
                         <i className=" icon-list" />
                       </Link>
                     </div>
                   </div>
                 </div>
                 {/*End tools */}
-                {AllHotels?.length === 0 ? (
+                {transportsListShow?.length === 0 ? (
                   <h3 style={{ display: "flex", justifyContent: "center" }}>
                     No Hotels To Show
                   </h3>
                 ) : (
                   <div>
                     <div className="row">
-                      {AllHotels?.map((grid) => (
+                      {transportsListShow?.map((transportGrid) => (
                         <div
                           className="col-md-6 wow zoomIn"
                           data-wow-delay="0.1s"
-                          key={grid._id}
+                          key={transportGrid._id}
                         >
                           <div className="hotel_container">
                             <div className="ribbon_3 popular">
@@ -405,16 +397,17 @@ const All_hotels_grid = ({ history }) => {
                                   <span>7.5</span>Good
                                 </div>
                                 <div className="short_info hotel">
-                                  From/Per night
+                                  price Per killometer
                                   <span className="price">
-                                    <sup>$</sup>{grid.price}
+                                    <sup>$</sup>
+                                    {transportGrid.pricePerKillomter}
                                   </span>
                                 </div>
                               </a>
                             </div>
                             <div className="hotel_title">
                               <h3>
-                                <strong>{grid.name}</strong> Hotel
+                                <strong>{transportGrid.name}</strong>
                               </h3>
                               <div className="rating">
                                 <i className="icon-star voted" />
@@ -455,7 +448,9 @@ const All_hotels_grid = ({ history }) => {
                                   backgroundColor: "green",
                                   color: "white",
                                 }}
-                                onClick={(e) => handleUpdateHotel(e, grid)}
+                                onClick={(e) =>
+                                  handleUpdateTransport(e, transportGrid)
+                                }
                               >
                                 Update
                               </Button>
@@ -466,7 +461,9 @@ const All_hotels_grid = ({ history }) => {
                                 style={{
                                   color: "red",
                                 }}
-                                onClick={(e) => handleDeleteHotel(e, grid._id)}
+                                onClick={(e) =>
+                                  handleDeleteTransport(e, transportGrid)
+                                }
                               >
                                 Delete
                               </Button>
@@ -478,7 +475,9 @@ const All_hotels_grid = ({ history }) => {
                                   backgroundColor: "green",
                                   color: "white",
                                 }}
-                                onClick={(e) => handleDetailHotel(e, grid._id)}
+                                onClick={(e) =>
+                                  handleDetailTransport(e, transportGrid)
+                                }
                               >
                                 Details
                               </Button>
@@ -536,4 +535,4 @@ const All_hotels_grid = ({ history }) => {
   );
 };
 
-export default All_hotels_grid;
+export default All_transfer_grid;

@@ -53,6 +53,7 @@ export const createProfile =
         }
       );
       console.log("I am In create Profile", data);
+      // const userEmail = useSelector(state => state.auth.userEmail)
       dispatch({
         type: CREATE_PROFILE_SUCCESS,
         payload: {
@@ -62,6 +63,7 @@ export const createProfile =
             streetAddress: streetAddress,
             coordinates: coordinates,
           },
+          profileID:  data._id,
           firstName: firstName,
           lastName: lastName,
           DateOfBirth: DateOfBirth,
@@ -82,6 +84,7 @@ export const createProfile =
             streetAddress: null,
             coordinates: null,
           },
+          profileID:  null,
           firstName: null,
           lastName: null,
           DateOfBirth: null,

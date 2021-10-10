@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LOG_OUT } from "../../redux/actionTypes";
 import { useHistory } from "react-router-dom";
+import { getAllHotels } from "../../redux/actions/hotels.action";
+
+export const HotelListContext = React.createContext();
 
 const Header = () => {
   const history = useHistory();
@@ -14,7 +17,6 @@ const Header = () => {
   // console.log("user profileState", profileState);
 
   const logoutHandler = (e) => {
-    console.log("logoutHandler");
     e.preventDefault();
     dispatch({
       type: LOG_OUT,
@@ -33,6 +35,15 @@ const Header = () => {
       history.push("/profile");
     }
   };
+
+  // const hanldeAllHotelList = async (e) => {
+  //   e.preventDefault();
+
+  //   const allHotelsList = await dispatch(getAllHotels());
+
+  //   history.push("/all_hotels_list");
+  //   // return allHotelsList;
+  // };
 
   return (
     <>
@@ -283,7 +294,9 @@ const Header = () => {
                     </a>
                     <ul>
                       <li>
-                        <Link to="/all_hotels_list">All hotels list</Link>
+                        <Link to="/all_hotels_list">
+                          All hotels list
+                        </Link>
                       </li>
                       <li>
                         <Link to="/all_hotels_grid">All hotels grid</Link>

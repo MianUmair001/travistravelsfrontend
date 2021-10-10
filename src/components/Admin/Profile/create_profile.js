@@ -52,7 +52,6 @@ const CreateProfile = ({ history }) => {
     } else {
       history.push("/profile");
     }
-    setShowCreateProfile(false);
   };
 
   const handleCreateProfile = (e) => {
