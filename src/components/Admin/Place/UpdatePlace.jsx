@@ -1,48 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getPlans } from "../../../redux/actions/plan.action";
-import { createRoom } from "../../../redux/actions/rooms.action";
-import { useParams } from "react-router";
+import "../Styles/admin.css";
+import {
+  createPlaces,
+  getPlaceById,
+  getPlaces,
+  updatePlaces,
+} from "../../../redux/actions/places.action";
 import { uploadImage } from "../../../redux/actions/upload.action";
+import { CssBaseline, Grid } from "@material-ui/core";
+import List from "./List/List";
+import Map from "./Map/Map";
+import { getPlacesData, getWeatherData } from "../api";
 
-const CreateRooms = () => {
-  const data = useParams();
+const UpdatePlace = () => {
   const dispatch = useDispatch();
-  const [noOfBeds, setNoOfBeds] = useState("2");
-  const [noOfBathroom, setNoOfBathroom] = useState("2");
-  const [planName, setPlanName] = useState("Basic");
-  const [hotel, setHotel] = useState("");
-  const [plans, setPlans] = useState([]);
-  const [type, setType] = useState("615c177e01eafd67e4a3580a");
-  const [images, setImages] = useState([]);
+  const [name, setName] = useState("Naran Kaghan");
+  const [description, setDescription] = useState("A Beautiful Place to Visit");
+  const [images, setImages] = useState();
+
   useEffect(async () => {
-    const { data } = await dispatch(getPlans());
-    console.log("I am plans", data);
-    setPlans(data);
-    const option = document.getElementsByName(data[0].name);
-    option[0].value = `${data[0]._id},${data[0].name}`;
-    option[0].innerHTML = `${data[0].name}`;
+    const { name, description, images } = await dispatch(
+      getPlaceById("615327dabb131e276cdbb207")
+    );
+    console.log(name, description, images);
+    setName(name);
+    setDescription(description);
+    setImages(images);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(type, noOfBathroom, noOfBeds);
-
-    dispatch(
-      createRoom(
-        images,
-        noOfBathroom,
-        noOfBeds,
-        type,
-        planName,
-        "615bfba401eafd67e4a35808"
-      )
-    );
-  };
-  const handlePlanClick = (e, data) => {
-    e.preventDefault();
-    setType(data.split(",")[0]);
-    setPlanName(data.split(",")[1]);
+    console.log(name, description, images);
+    const id = "615327dabb131e276cdbb207";
+    console.log(typeof id);
+    dispatch(updatePlaces(id, name, description, [images]));
   };
 
   return (
@@ -88,63 +80,37 @@ const CreateRooms = () => {
                 <div className="divider" />
                 <div className="row">
                   <div className="col-md-12">
-                    <h4>Create Room</h4>
+                    <h4>Update Place</h4>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>No Of Beds</label>
+                      <label>Place Name</label>
                       <input
                         className="form-control"
-                        name="first_name"
-                        id="first_name"
+                        name="place_name"
+                        id="place_name"
                         type="text"
-                        value={noOfBeds}
-                        onChange={(e) => setNoOfBeds(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>No Of Bathrooms</label>
+                      <label>Place Description</label>
                       <input
                         className="form-control"
-                        name="description"
-                        id="description"
+                        name="placedescription"
+                        id="placedescription"
                         type="text"
-                        value={noOfBathroom}
-                        onChange={(e) => setNoOfBathroom(e.target.value)}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                       />
                     </div>
                   </div>
-
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Plan Name</label>
-                      <select
-                        id="planName"
-                        className="form-control"
-                        name="planName"
-                        defaultValue="Basic"
-                        onChange={(e) => {
-                          handlePlanClick(e, e.target.value);
-                        }}
-                      >
-                        {plans.map((plan) => (
-                          <option
-                            value={[plan._id, plan.name]}
-                            name={plan.name}
-                            key={plan._id}
-                          >
-                            {plan.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Upload Images</label>
+                      <label>Images</label>
                       <input
                         type="file"
                         className="form-control-file"
@@ -157,7 +123,7 @@ const CreateRooms = () => {
                           const { data } = await dispatch(
                             uploadImage(formData)
                           );
-                          setImages(data);
+                          setImages("I am Images Data", data);
                         }}
                       />
                     </div>
@@ -170,7 +136,7 @@ const CreateRooms = () => {
                   className="btn_1 green"
                   onClick={handleSubmit}
                 >
-                  Create Room
+                  Update Place
                 </button>
               </section>
               {/* End section 4 */}
@@ -186,4 +152,4 @@ const CreateRooms = () => {
   );
 };
 
-export default CreateRooms;
+export default UpdatePlace;

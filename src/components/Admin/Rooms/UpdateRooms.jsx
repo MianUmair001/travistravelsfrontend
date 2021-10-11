@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import "../../Styles/admin.css";
 import { getPlans } from "../../../redux/actions/plan.action";
 import {
   createRoom,

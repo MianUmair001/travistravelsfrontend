@@ -15,6 +15,8 @@ import VerifyEmail from './components/Home/Auth/verify_email';
 import Reset_password from './components/Home/Auth/reset_password';
 
 /* Tours */
+import CreateTour from "./components/Admin/Tours/CreateTour";
+import UpdateTour from "./components/Admin/Tours/UpdateTour";
 import All_tours_grid from './components/Tours/All Tours/all_tours_grid' 
 import All_tours_list from './components/Tours/All Tours/all_tours_list' 
 import All_tours_map_listing from './components/Tours/All Tours/all_tours_map_listing'
@@ -57,6 +59,8 @@ import Confirmation_transfer from "./components/Admin/Transport/Transfer_Booking
 import Payment_transfer from "./components/Admin/Transport/Transfer_Booking/payment_transfer";
 
 /* Restaurants */
+import CreateRestaurant from "./components/Admin/Restaurant/CreateRestaurant";
+import UpdateRestaurant from "./components/Admin/Restaurant/UpdateRestaurant";
 import All_restaurants_grid from './components/Restaurants/All Restaurants/all_restaurants_grid'
 import All_restaurants_list from './components/Restaurants/All Restaurants/all_restaurants_list'
 import All_restaurants_map_listing from './components/Restaurants/All Restaurants/all_restaurants_map_listing'
@@ -65,9 +69,30 @@ import Single_restaurant_datepicker_v2 from './components/Restaurants/Single Res
 import Booking_restaurant from './components/Restaurants/Booking/booking_restaurant'
 import Confirm_transfer from './components/Restaurants/Booking/confirm_transfer'
 
+/* Plan */
+import CreatePlan from "./components/Plan/form/CreatePlan";
+import GetPlans from "./components/Plan/All_Plans/get_all_plan";
+import Single_plan from "./components/Plan/single_plan.js/single_plan";
+import Get_plan_by_name from "./components/Plan/single_plan.js/single_plan_by_name";
+import All_plans_grid from "./components/Plan/All_Plans/all_plans_grid";
+import UpdatePlan from "./components/Plan/form/UpdatePlan";
+
 /* Admin */
 import Profile from './components/Admin/Profile/profile'
 import CreateProfile from './components/Admin/Profile/create_profile';
+
+/* Place */
+import CreatePlace from "./components/Admin/Place/CreatePlace";
+import UpdatePlace from "./components/Admin/Place/UpdatePlace";
+
+/* Rooms */
+import CreateRooms from "./components/Admin/Rooms/CreateRooms";
+import UpdateRooms from "./components/Admin/Rooms/UpdateRooms";
+
+/* Dishes */
+import CreateDishes from "./components/Admin/Dishes/CreateDishes";
+import UpdateDishes from "./components/Admin/Dishes/UpdateDishes";
+
 
 import Bookings from './components/Admin/Bookings/bookings';
 /* 404 Page */
@@ -94,6 +119,8 @@ function App() {
         <Route exact path="/reset_password" component={Reset_password} />
 
         { /* Tours Routes */ }
+        <Route exact path="/create_tour" component={CreateTour} />
+        <Route exact path="/update_tour/:id" component={UpdateTour} history={history} />
         <Route exact path="/all_tours_grid" component={All_tours_grid} />
         <Route exact path="/all_tours_list" component={All_tours_list} />
         <Route exact path="/all_tours_map_listing" component={All_tours_map_listing} />
@@ -110,6 +137,8 @@ function App() {
         <Route exact path="/confirmation_fixed_sidebar" component={Confirmation_fixed_sidebar} />
 
         { /* Restaurants Routes */ }
+        <Route exact path="/create_restaurant" component={CreateRestaurant} />
+        <Route exact path="/update_restaurant" component={UpdateRestaurant} />
         <Route exact path="/all_restaurants_grid" component={All_restaurants_grid} />
         <Route exact path="/all_restaurants_list" component={All_restaurants_list} />
         <Route exact path="/all_restaurants_map_listing" component={All_restaurants_map_listing} />
@@ -142,6 +171,14 @@ function App() {
         <Route exact path="/confirmation_transfer" component={Confirmation_transfer} />
         <Route exact path="/payment_transfer" component={Payment_transfer} />
 
+        {/* Plan Routes */}
+        <Route exact path="/create_plan" component={CreatePlan} />
+        <Route exact path="/get_all_plans" component={GetPlans} />
+        <Route exact path="/single_plan" component={Single_plan} />
+        <Route exact path="/get_plan_by_name" component={Get_plan_by_name} />
+        <Route exact path="/all_plans_grid" component={All_plans_grid} />
+        <Route exact path="/update_plan/:id" component={UpdatePlan} />
+
         { /* Admin Routes */ }
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/create_profile" component={CreateProfile} />
@@ -151,7 +188,17 @@ function App() {
         <Route exact path='/create_hotel' component={CreateHotel} />
         <Route exact path='/update_hotel/:id' component={UpdateHotel} />
 
+        { /* Place Routes */ }
+        <Route exact path="/create_place" component={CreatePlace} />
+        <Route exact path="/update_place" component={UpdatePlace} />
 
+        { /* Rooms Routes */ }
+        <Route exact path="/create_room" component={CreateRooms} />
+        <Route exact path="/update_room" component={UpdateRooms} />
+
+        { /* Dishes Routes */ }
+        <Route exact path="/create_dishes" component={CreateDishes} />
+        <Route exact path="/update_dishes" component={UpdateDishes} />
 
         { /* 404 Page */ }
         <Route exact path='*' component={Page_404}/>

@@ -6,11 +6,12 @@ import { authReducer } from "../auth.reducer";
 import { profileReducer } from "../profile.reducer";
 import { hotelReducer } from '../hotel.reducer'
 import { transportReducer } from '../transport.reducer'
+import { plan_reducer } from '../plan.reducer'
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['auth', 'profile', 'hotel', 'transport']
+    whitelist: ['auth', 'profile', 'hotel', 'transport', 'plan']
   }
    
   const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const persistConfig = {
     profile: profileReducer,
     hotel: hotelReducer,
     transport: transportReducer,
+    plan: plan_reducer,
   });
   
   export default persistReducer(persistConfig, rootReducer)
