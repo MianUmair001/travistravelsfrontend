@@ -19,8 +19,8 @@ export const endpoints = {
   /* PROFILE */
   CREATE_PROFILE: "/api/profile",
   GET_PROFILE: "/api/profile",
-  UPDATE_PROFILE: "/api​/profile/update",
-  DELETE_PROFILE: "/api​/profile/deactivateProfile",
+  UPDATE_PROFILE: "/api/profile/update",
+  DELETE_PROFILE: "/api/profile/deactivateProfile",
   /* HOTELS */
   CREATE_HOTEL: "/api/hotel",
   GET_HOTEL: "/api/hotel",
@@ -88,4 +88,11 @@ export const endpoints = {
   CREATE_LIKE_DISLIKE: "/api/likedislike",
   UPDATE_LIKEDISLIKE_BY_ID: " /api/likedislike/{id}",
   DELETE_LIKE_DISLIKE: "/api/likedislike/{id}",
+  /* TRANSPORT */
+  CREATE_TRANSPORT: "/api/transport/createTransport",
+  UPDATE_TRANSPORT_BY_ID: "/api/transport/",
+  GET_ALL_TRANSPORT: "/api/transport/findAll",
+  GET_TRANSPORT_BY_ID: "/api/transport/",
+  GET_TRANSPORT_BY_NAME: "/api/transport/name",
+  DELETE_TRANSPORT: "/api/transport/delete/",
 };

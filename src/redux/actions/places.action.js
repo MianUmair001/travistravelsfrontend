@@ -83,3 +83,15 @@ export const deletePlaces = () => async (dispatch) => {
     console.log({ error });
   }
 };
+
+export const getPlaceById = (id) => async (dispatch) => {
+  try {
+    const {
+      data: { data },
+    } = await axios.get(URL + endpoints.GET_PLACE_BY_ID + id);
+    console.log("I am in the getPlacesByid action", data);
+    return data;
+  } catch (error) {
+    console.log({ error });
+  }
+};

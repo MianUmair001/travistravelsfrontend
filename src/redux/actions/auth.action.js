@@ -1,14 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { endpoints, URL } from "../../endpoints";
-import {
-  LOGIN_FAIL,
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_FAIL,
-} from "../actionTypes";
+import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS } from "../actionTypes";
+
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -22,10 +16,14 @@ export const login = (email, password) => async (dispatch) => {
       access_token,
       user: { _id: user },
     } = response.data.data;
-    console.log("I m in login response", response.data.data.user);
+    console.log("I m in login response", response.data.data.user.email);
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: { accessToken: access_token, user },
+      payload: {
+        userEmail: response.data.data.user.email,
+        accessToken: access_token,
+        user,
+      },
     });
     return response.data.data.user;
   } catch (error) {
@@ -43,8 +41,13 @@ export const signUp = (email, password) => async (dispatch) => {
       password: password,
     });
     toast.success(response.data.message);
+    const success = response.data.message;
+    return success;
   } catch (error) {
     toast.error(error.response.data.message);
+    console.log("Signup error response", error.response.data);
+    const failed = error.response.data;
+    return failed;
   }
 };
 

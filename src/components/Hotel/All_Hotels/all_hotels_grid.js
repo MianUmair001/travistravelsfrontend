@@ -1,6 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Button } from "@material-ui/core";
+import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
-const All_hotels_grid = () => {
+import {
+  deleteHotel,
+  getAllHotels,
+  getHotelByID,
+  updateHotel,
+} from "../../../redux/actions/hotels.action";
+
+const All_hotels_grid = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const [hotelsListShow, setHotelsListShow] = useState([]);
+  const AllHotels = hotelsListShow[0];
+
+  useEffect(async () => {
+    const hotelListArray = await dispatch(getAllHotels());
+    setHotelsListShow(hotelListArray);
+    return hotelListArray;
+  }, [AllHotels]);
+
+  const handleDeleteHotel = async (e, props) => {
+    e.preventDefault();
+    let id = props;
+
+    dispatch(deleteHotel(id));
+  };
+
+  const handleUpdateHotel = async (e, props) => {
+    e.preventDefault();
+
+    let id = props._id;
+    let name = props.name;
+    let description = props.description;
+    let images = props.images;
+
+    await dispatch(updateHotel(id, name, description, images));
+    history.push(`/update_hotel/${props._id}`);
+  };
+
+  const handleDetailHotel = async (e, props) => {
+    e.preventDefault();
+    let id = props;
+
+    await dispatch(getHotelByID(id));
+    history.push(`/single_hotel/${props}`);
+  };
+
+  const handleAddHotel = (e) => {
+    e.preventDefault();
+
+    history.push("/create_hotel");
+  };
+
   return (
     <>
       <div>
@@ -45,7 +100,7 @@ const All_hotels_grid = () => {
             <div className="row">
               <aside className="col-lg-3">
                 <p>
-                  <a
+                  <Button
                     className="btn_map"
                     data-toggle="collapse"
                     href="#collapseMap"
@@ -55,7 +110,21 @@ const All_hotels_grid = () => {
                     data-text-original="View on map"
                   >
                     View on map
-                  </a>
+                  </Button>
+                </p>
+                <p>
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="View on map"
+                    onClick={handleAddHotel}
+                  >
+                    Add More Hotel
+                  </Button>
                 </p>
                 <div id="filters_col">
                   <a
@@ -71,7 +140,7 @@ const All_hotels_grid = () => {
                   <div className="collapse show" id="collapseFilters">
                     <div className="filter_type">
                       <h6>Price</h6>
-                      <input type="text" id="range" name="range" defaultValue />
+                      <input type="text" id="range" name="range" />
                     </div>
                     <div className="filter_type">
                       <h6>Star Category</h6>
@@ -296,349 +365,131 @@ const All_hotels_grid = () => {
                       </div>
                     </div>
                     <div className="col-md-6 col-sm-4 d-none d-sm-block text-right">
-                      <a href="#" className="bt_filters">
+                      <Link to="/all_hotels_grid" className="bt_filters">
                         <i className="icon-th" />
-                      </a>{" "}
-                      <a href="all_hotels_list.html" className="bt_filters">
+                      </Link>{" "}
+                      <Link to="/all_hotels_list" className="bt_filters">
                         <i className=" icon-list" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
                 {/*End tools */}
-                <div className="row">
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.1s">
-                    <div className="hotel_container">
-                      <div className="ribbon_3 popular">
-                        <span>Popular</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_hotel.html">
-                          <img
-                            src="img/hotel_1.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="score">
-                            <span>7.5</span>Good
+                {AllHotels?.length === 0 ? (
+                  <h3 style={{ display: "flex", justifyContent: "center" }}>
+                    No Hotels To Show
+                  </h3>
+                ) : (
+                  <div>
+                    <div className="row">
+                      {AllHotels?.map((grid) => (
+                        <div
+                          className="col-md-6 wow zoomIn"
+                          data-wow-delay="0.1s"
+                          key={grid._id}
+                        >
+                          <div className="hotel_container">
+                            <div className="ribbon_3 popular">
+                              <span>Popular</span>
+                            </div>
+                            <div className="img_container">
+                              <a href="single_hotel.html">
+                                <img
+                                  src="img/hotel_1.jpg"
+                                  width={800}
+                                  height={533}
+                                  className="img-fluid"
+                                  alt="Image"
+                                />
+                                <div className="score">
+                                  <span>7.5</span>Good
+                                </div>
+                                <div className="short_info hotel">
+                                  From/Per night
+                                  <span className="price">
+                                    <sup>$</sup>{grid.price}
+                                  </span>
+                                </div>
+                              </a>
+                            </div>
+                            <div className="hotel_title">
+                              <h3>
+                                <strong>{grid.name}</strong> Hotel
+                              </h3>
+                              <div className="rating">
+                                <i className="icon-star voted" />
+                                <i className="icon-star voted" />
+                                <i className="icon-star voted" />
+                                <i className="icon-star voted" />
+                                <i className="icon-star-empty" />
+                              </div>
+                              {/* end rating */}
+                              <div className="wishlist">
+                                <a
+                                  className="tooltip_flip tooltip-effect-1"
+                                  href="#"
+                                >
+                                  +
+                                  <span className="tooltip-content-flip">
+                                    <span className="tooltip-back">
+                                      Add to wishlist
+                                    </span>
+                                  </span>
+                                </a>
+                              </div>
+
+                              {/* End wish list*/}
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                              className="btn"
+                            >
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<Edit />}
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                                onClick={(e) => handleUpdateHotel(e, grid)}
+                              >
+                                Update
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<DeleteOutlined />}
+                                style={{
+                                  color: "red",
+                                }}
+                                onClick={(e) => handleDeleteHotel(e, grid._id)}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Info />}
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                                onClick={(e) => handleDetailHotel(e, grid._id)}
+                              >
+                                Details
+                              </Button>
+                            </div>
                           </div>
-                          <div className="short_info hotel">
-                            From/Per night
-                            <span className="price">
-                              <sup>$</sup>59
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="hotel_title">
-                        <h3>
-                          <strong>Park Hyatt</strong> Hotel
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star-empty" />
+                          {/* End box tour */}
                         </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
+                      ))}
                     </div>
-                    {/* End box tour */}
                   </div>
-                  {/* End col-md-6 */}
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.2s">
-                    <div className="hotel_container">
-                      <div className="ribbon_3 popular">
-                        <span>Popular</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_hotel.html">
-                          <img
-                            src="img/hotel_2.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="score">
-                            <span>9.0</span>Superb
-                          </div>
-                          <div className="short_info hotel">
-                            From/Per night
-                            <span className="price">
-                              <sup>$</sup>45
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="hotel_title">
-                        <h3>
-                          <strong>Mariott</strong> Hotel
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star-empty" />
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box */}
-                  </div>
-                  {/* End col-md-6 */}
-                </div>
-                {/* End row */}
-                <div className="row">
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.2s">
-                    <div className="hotel_container">
-                      <div className="ribbon_3">
-                        <span>Top rated</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_hotel.html">
-                          <img
-                            src="img/hotel_3.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="score">
-                            <span>9.5</span>Superb
-                          </div>
-                          <div className="short_info hotel">
-                            From/Per night
-                            <span className="price">
-                              <sup>$</sup>39
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="hotel_title">
-                        <h3>
-                          <strong>Lumiere</strong> Hotel
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star-empty" />
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box */}
-                  </div>
-                  {/* End col-md-6 */}
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.4s">
-                    <div className="hotel_container">
-                      <div className="ribbon_3">
-                        <span>Top rated</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_hotel.html">
-                          <img
-                            src="img/hotel_4.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="score">
-                            <span>7.5</span>Good
-                          </div>
-                          <div className="short_info hotel">
-                            From/Per night
-                            <span className="price">
-                              <sup>$</sup>45
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="hotel_title">
-                        <h3>
-                          <strong>Concorde</strong> Hotel
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star-empty" />
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a
-                            className="tooltip_flip tooltip-effect-1"
-                            href="javascript:void(0);"
-                          >
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box */}
-                  </div>
-                  {/* End col-md-6 */}
-                </div>
-                {/* End row */}
-                <div className="row">
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.2s">
-                    <div className="hotel_container">
-                      <div className="ribbon_3">
-                        <span>Top rated</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_hotel.html">
-                          <img
-                            src="img/hotel_5.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="score">
-                            <span>8.0</span>Good
-                          </div>
-                          <div className="short_info hotel">
-                            From/Per night
-                            <span className="price">
-                              <sup>$</sup>39
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="hotel_title">
-                        <h3>
-                          <strong>Louvre</strong> Hotel
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star-empty" />
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box */}
-                  </div>
-                  {/* End col-md-6 */}
-                  <div className="col-md-6 wow zoomIn" data-wow-delay="0.4s">
-                    <div className="hotel_container">
-                      <div className="ribbon_3">
-                        <span>Top rated</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_hotel.html">
-                          <img
-                            src="img/hotel_6.jpg"
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                          <div className="score">
-                            <span>8.5</span>Superb
-                          </div>
-                          <div className="short_info hotel">
-                            From/Per night
-                            <span className="price">
-                              <sup>$</sup>45
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="hotel_title">
-                        <h3>
-                          <strong>Concorde</strong> Hotel
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star voted" />
-                          <i className="icon-star-empty" />
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a
-                            className="tooltip_flip tooltip-effect-1"
-                            href="javascript:void(0);"
-                          >
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                      </div>
-                    </div>
-                    {/* End box */}
-                  </div>
-                  {/* End col-md-6 */}
-                </div>
-                {/* End row */}
+                )}
                 <hr />
                 <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center">

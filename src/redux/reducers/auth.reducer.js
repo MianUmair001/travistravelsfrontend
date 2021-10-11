@@ -1,5 +1,4 @@
 import {
-  LOAD_PROFILE,
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -7,6 +6,7 @@ import {
 } from "../actionTypes";
 
 const initialState = {
+  userEmail: null,
   user: null,
   accessToken: null,
   loading: false,
@@ -24,6 +24,7 @@ export const authReducer = (prevState = initialState, action) => {
     case LOGIN_SUCCESS: {
       return {
         error: false,
+        userEmail: payload.userEmail,
         user: payload.user,
         accessToken: payload.accessToken,
         loading: false,
@@ -32,6 +33,7 @@ export const authReducer = (prevState = initialState, action) => {
     case LOGIN_FAIL:
       return {
         accessToken: null,
+        userEmail: null,
         user: null,
         loading: false,
         error: true,
@@ -40,6 +42,7 @@ export const authReducer = (prevState = initialState, action) => {
       return {
         loading: false,
         error: false,
+        userEmail: null,
         accessToken: null,
         user: null,
       };

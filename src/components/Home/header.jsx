@@ -1,26 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LOG_OUT } from "../../redux/actionTypes";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import { getAllHotels } from "../../redux/actions/hotels.action";
+
+export const HotelListContext = React.createContext();
 
 const Header = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const history = useHistory()
-  const dispatch = useDispatch()
   const userId = useSelector((state) => state.auth.user);
-  console.log("user Now", userId);
+  // console.log("user Now", userId);
+  const profileState = useSelector((state) => state.profile);
+  // console.log("user profileState", profileState);
 
   const logoutHandler = (e) => {
-    console.log('logoutHandler')
-    e.preventDefault()
+    e.preventDefault();
     dispatch({
-      type: LOG_OUT
-    })
+      type: LOG_OUT,
+    });
 
-    history.push('/')
+    localStorage.clear();
+    history.push("/");
+  };
 
-  }
+  const profileHandler = (e) => {
+    e.preventDefault();
+
+    if (profileState.auth === null) {
+      history.push("/create_profile");
+    } else {
+      history.push("/profile");
+    }
+  };
+
+  // const hanldeAllHotelList = async (e) => {
+  //   e.preventDefault();
+
+  //   const allHotelsList = await dispatch(getAllHotels());
+
+  //   history.push("/all_hotels_list");
+  //   // return allHotelsList;
+  // };
 
   return (
     <>
@@ -67,7 +90,14 @@ const Header = () => {
                   )}
                   {userId !== null && (
                     <li>
-                      <Link to="/" id="access_link"  onClick={logoutHandler}>
+                      <Link to="" id="access_link" onClick={profileHandler}>
+                        Profile
+                      </Link>
+                    </li>
+                  )}
+                  {userId !== null && (
+                    <li>
+                      <Link to="/" id="access_link" onClick={logoutHandler}>
                         Logout
                       </Link>
                     </li>
@@ -264,7 +294,9 @@ const Header = () => {
                     </a>
                     <ul>
                       <li>
-                        <Link to="/all_hotels_list">All hotels list</Link>
+                        <Link to="/all_hotels_list">
+                          All hotels list
+                        </Link>
                       </li>
                       <li>
                         <Link to="/all_hotels_grid">All hotels grid</Link>
