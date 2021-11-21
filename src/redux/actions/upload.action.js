@@ -1,6 +1,9 @@
 import axios from "axios";
 import { endpoints, URL } from "../../endpoints";
 
+const fs = require("fs");
+const Path = require("path");
+
 export const uploadImage = (formData) => async (dispatch) => {
   try {
     var formvalues = formData.values();
@@ -16,5 +19,17 @@ export const uploadImage = (formData) => async (dispatch) => {
     return data;
   } catch (error) {
     console.log(error.response.data);
+  }
+};
+
+export const getImage = (fileName, folderName) => async (dispatch) => {
+  try {
+    console.log(
+      `${URL}/api/upload/file/${folderName}/fileName/${fileName}`,
+      "I am Link from the action"
+    );
+    return `${URL}/api/upload/file/${folderName}/fileName/${fileName}`;
+  } catch (error) {
+    console.log(error);
   }
 };

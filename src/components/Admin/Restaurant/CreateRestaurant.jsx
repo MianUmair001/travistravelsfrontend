@@ -3,7 +3,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { useDispatch } from "react-redux";
 import { getAllDishes } from "../../../redux/actions/dishes.action";
 import { createRestaurant } from "../../../redux/actions/restaurant.action";
-import { uploadImage } from "../../../redux/actions/upload.action";
+import { getImage, uploadImage } from "../../../redux/actions/upload.action";
 import "../Styles/admin.css";
 
 const CreateRestaurant = () => {
@@ -31,7 +31,7 @@ const CreateRestaurant = () => {
   const [dateOfDay, setDateOfDay] = useState("7/10/2021");
   const [coordinates, setCoordinates] = useState("31.473186, 74.2650702");
   const [schedule, setSchedule] = useState([]);
-
+  const [imagedata, setImagedata] = useState("");
   const optionsData = [];
 
   const setScheduleArray = (e) => {
@@ -54,6 +54,8 @@ const CreateRestaurant = () => {
   };
 
   useEffect(async () => {
+    const imageData = await dispatch(getImage());
+    setImagedata(imageData);
     const data = await dispatch(getAllDishes());
     setDishes(data);
     console.log("Data comming back from getAllDishes", data);
@@ -129,6 +131,7 @@ const CreateRestaurant = () => {
           </div>
         </div>
         {/* End Position */}
+       
         <div className="margin_60 container">
           <div>
             <div className="content1">

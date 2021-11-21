@@ -36,9 +36,11 @@ export const updatePlan =
 
 export const getPlans = () => async (dispatch) => {
   try {
-    const { data } = await axios.get(URL + endpoints.GET_PLAN);
+    const {
+      data: { data },
+    } = await axios.get(URL + endpoints.GET_PLAN);
     console.log(data);
-    return data.data;
+    return data;
   } catch (error) {
     console.error({ error });
   }

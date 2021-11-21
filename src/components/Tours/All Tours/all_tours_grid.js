@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../../styles/style.css";
 import { Link } from "react-router-dom";
 import { Edit, Delete, Info } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import {
   deleteTour,
@@ -15,11 +15,19 @@ const All_tours_grid = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
+  console.log(tours);
+  const statetours = useSelector((state) => state.tours);
+  console.log(statetours.tours, "ia ma");
   useEffect(async () => {
-    const { data } = await dispatch(getTours());
-    console.log(data);
-    setTours(data);
-  }, [tours]);
+    if (statetours.tours.length === 0) {
+      const { data } = await dispatch(getTours());
+      console.log(data);
+      setTours(data);
+      console.log("I am in store value check if");
+    } else {
+      setTours(statetours.tours);
+    }
+  }, [statetours.tours, tours]);
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
     history.push(`/single_tour/${id}`);
@@ -27,10 +35,12 @@ const All_tours_grid = () => {
   const handleDeleteTour = async (e, id) => {
     e.preventDefault();
     await dispatch(deleteTour(id));
+    await dispatch(getTours());
   };
   const handleUpdateTour = async (e, id) => {
     e.preventDefault();
     history.push(`/update_tour/${id}`);
+    await dispatch(getTours());
   };
   return (
     <>

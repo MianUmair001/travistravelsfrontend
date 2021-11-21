@@ -1,6 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { endpoints, URL } from "../../endpoints";
+import {
+  CREATE_TOUR_FAIL,
+  CREATE_TOUR_REQUEST,
+  CREATE_TOUR_SUCCESS,
+} from "../actionTypes";
 
 export const createTour =
   (
@@ -18,6 +23,7 @@ export const createTour =
   ) =>
   async (dispatch) => {
     try {
+      dispatch({ type: CREATE_TOUR_REQUEST });
       const response = await axios.post(URL + endpoints.CREATE_TOUR, {
         name,
         description,
@@ -32,10 +38,15 @@ export const createTour =
         images,
       });
       if (response.data.statusCode === 201) {
+        dispatch({ type: CREATE_TOUR_SUCCESS, payload: response.data });
         toast.success("Tour has been successfully created");
       }
     } catch (error) {
       toast.error(error.response.data.message);
+      dispatch({
+        type: CREATE_TOUR_FAIL,
+        payload: error.response.data.message,
+      });
     }
   };
 
@@ -66,7 +77,11 @@ export const getTourByName = (name) => async (dispatch) => {
 export const getTours = () => async (dispatch) => {
   try {
     const { data } = await axios.get(URL + endpoints.GET_TOUR);
-    console.log("I am in Get Tours");
+    dispatch({
+      type: "GET_ALL_TOURS_SUCCESS",
+      payload: data,
+    });
+    console.log("I am in Get Tours", data);
     return data;
   } catch (error) {
     toast.error(error.response.data.message);
@@ -102,7 +117,7 @@ export const updateTour =
         endDate,
         status,
       });
-      toast.success("Tour has been Created");
+      toast.success("Tour has been Updated");
     } catch (error) {
       toast.error(error.response.data.message);
       console.log({ error });

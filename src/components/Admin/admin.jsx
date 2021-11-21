@@ -217,9 +217,7 @@ const AdminDashBoard = () => {
                     <div className="col-lg-2 col-md-3 col-6">
                       <div className="styled-select-filters">
                         <select name="sort_type" id="sort_type">
-                          <option value selected>
-                            Sort by type
-                          </option>
+                          <option value>Sort by type</option>
                           <option value="tours">Tours</option>
                           <option value="hotels">Hotels</option>
                           <option value="transfers">Transfers</option>
@@ -229,7 +227,7 @@ const AdminDashBoard = () => {
                     <div className="col-lg-2 col-md-3 col-6">
                       <div className="styled-select-filters">
                         <select name="sort_date" id="sort_date">
-                          <option value selected>
+                          <option value >
                             Sort by date
                           </option>
                           <option value="oldest">Oldest</option>

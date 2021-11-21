@@ -103,6 +103,9 @@ import Bookings from "./components/Admin/Bookings/bookings";
 /* 404 Page */
 import Page_404 from "./components/Others/404";
 import AdminDashBoard from "./components/Admin/admin";
+import StripeContainer from "./components/Payment/StripeContainer";
+import CreateBooking from "./components/Admin/Bookings/CreateBooking";
+import Checkout from "./components/Payment/Checkout";
 
 function App() {
   const history = useHistory();
@@ -303,6 +306,8 @@ function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_profile" component={CreateProfile} />
           <Route exact path="/bookings" component={Bookings} />
+          <Route exact path="/create_bookings" component={CreateBooking} />
+
           <Route exact path="/admin_dashboard" component={AdminDashBoard} />
 
           {/* Hotel Routes */}
@@ -320,6 +325,7 @@ function App() {
           {/* Dishes Routes */}
           <Route exact path="/create_dishes" component={CreateDishes} />
           <Route exact path="/update_dishes" component={UpdateDishes} />
+          <Route exact path="/payment" component={Checkout} />
 
           {/* 404 Page */}
           <Route exact path="*" component={Page_404} />

@@ -14,7 +14,7 @@ const All_plans_grid = ({ history }) => {
   const [allPlans, setAllPlans] = useState([]);
 
   useEffect(async () => {
-    const { data } = await dispatch(getPlans());
+    const data  = await dispatch(getPlans());
     console.log("grid ka response", data);
     setAllPlans(data);
     return data;

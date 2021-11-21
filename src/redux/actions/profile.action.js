@@ -11,21 +11,24 @@ import {
 } from "../actionTypes";
 
 export const createProfile =
-  ({
-    address: { addressName, country, streetAddress, coordinates },
-    firstName,
-    lastName,
-    DateOfBirth,
-    phone,
-    username,
-    auth,
-  }) =>
+  (
+    {
+      address: { addressName, country, streetAddress, coordinates },
+      firstName,
+      lastName,
+      DateOfBirth,
+      phone,
+      username,
+      auth,
+    },
+    token
+  ) =>
   async (dispatch) => {
     try {
       dispatch({
         type: CREATE_PROFILE_REQUEST,
       });
-
+      console.log("I am Auth in CreateProfile", auth, token);
       const {
         data: { data: data },
       } = await axios.post(
@@ -47,8 +50,7 @@ export const createProfile =
         {
           headers: {
             contentType: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTI2NTUyMWI3YWVkNTQzYTRlNDJhMDkiLCJlbWFpbCI6ImFtaWFudW1haXJAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2Mjk5NzA0NDksImV4cCI6MTYzNTE1NDQ0OX0.Aiz5VeiJVgkVFv8r4pikbNyaAUUN0i2A-1aYQePvwTw",
+            Authorization: "Bearer " + token,
           },
         }
       );
@@ -63,7 +65,7 @@ export const createProfile =
             streetAddress: streetAddress,
             coordinates: coordinates,
           },
-          profileID:  data._id,
+          profileID: data._id,
           firstName: firstName,
           lastName: lastName,
           DateOfBirth: DateOfBirth,
@@ -84,7 +86,7 @@ export const createProfile =
             streetAddress: null,
             coordinates: null,
           },
-          profileID:  null,
+          profileID: null,
           firstName: null,
           lastName: null,
           DateOfBirth: null,
@@ -181,42 +183,39 @@ export const updateprofile =
     }
   };
 
-  export const deleteProfile = (id) => async (dispatch) => {
-    console.log('id', id)
+export const deleteProfile = (id) => async (dispatch) => {
+  console.log("id", id);
+  dispatch({
+    type: DELETE_PROFILE_REQUEST,
+  });
+  try {
+    const response = await axios.delete(URL + endpoints.DELETE_PROFILE, {
+      headers: {
+        contentType: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTI2NTUyMWI3YWVkNTQzYTRlNDJhMDkiLCJlbWFpbCI6ImFtaWFudW1haXJAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2Mjk5NzA0NDksImV4cCI6MTYzNTE1NDQ0OX0.Aiz5VeiJVgkVFv8r4pikbNyaAUUN0i2A-1aYQePvwTw",
+      },
+    });
+
+    console.log(response.data.data);
     dispatch({
-      type: DELETE_PROFILE_REQUEST,
-    })
-    try {
-      const response = await axios.delete( URL + endpoints.DELETE_PROFILE,
-        {
-          headers: {
-            contentType: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTI2NTUyMWI3YWVkNTQzYTRlNDJhMDkiLCJlbWFpbCI6ImFtaWFudW1haXJAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2Mjk5NzA0NDksImV4cCI6MTYzNTE1NDQ0OX0.Aiz5VeiJVgkVFv8r4pikbNyaAUUN0i2A-1aYQePvwTw",
-          },
-        }
-      )
-  
-            
-      console.log(response.data.data)
-      dispatch({
-        type: DELETE_PROFILE_SUCCESS,
-        payload: {
-          address: {
-            addressName: null,
-            country: null,
-            streetAddress: null,
-            coordinates: null,
-          },
-          firstName: null,
-          lastName: null,
-          DateOfBirth: null,
-          phone: null,
-          username: null,
-          auth: null,
+      type: DELETE_PROFILE_SUCCESS,
+      payload: {
+        address: {
+          addressName: null,
+          country: null,
+          streetAddress: null,
+          coordinates: null,
         },
-      });
-    } catch (error) {
-      console.log(error)
-    }
+        firstName: null,
+        lastName: null,
+        DateOfBirth: null,
+        phone: null,
+        username: null,
+        auth: null,
+      },
+    });
+  } catch (error) {
+    console.log(error);
   }
+};

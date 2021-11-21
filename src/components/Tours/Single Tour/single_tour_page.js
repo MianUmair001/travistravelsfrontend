@@ -7,6 +7,7 @@ import {
   getTour,
   updateTour,
 } from "../../../redux/actions/tour.action";
+import { getImage } from "../../../redux/actions/upload.action";
 
 const Single_tour = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,11 +18,19 @@ const Single_tour = ({ history }) => {
   const [time, setTime] = useState("");
   const [adultsQuantity, setAdultsQuantity] = useState();
   const [childrenQuantity, setChildrenQuantity] = useState();
+  const [url, setUrl] = useState("");
   console.log("I am Use params", tourId.id);
   useEffect(async () => {
     const { data } = await dispatch(getTour(tourId.id));
     console.log("I am the Data from getTour", data);
     setTour(data);
+    if (data.images.length != 0) {
+      const link = await dispatch(
+        getImage(data?.images[0].name, data?.images[0].folderName)
+      );
+      console.log(link);
+      setUrl(link);
+    }
   }, []);
 
   const handleUpdateClick = (e) => {
@@ -37,12 +46,14 @@ const Single_tour = ({ history }) => {
 
   return (
     <>
+      {console.log(url, "I am URL")}
       <section
         className="parallax-window"
         data-parallax="scroll"
-        data-image-src="img/single_tour_bg_1.jpg"
+        data-image-src={url}
         data-natural-width={1400}
         data-natural-height={470}
+        style={{ backgroundImage: `url(${url})` }}
       >
         <div className="parallax-content-2">
           <div className="container">

@@ -48,26 +48,26 @@ const Header = () => {
   return (
     <>
       <div id="preloader">
-        <div class="sk-spinner sk-spinner-wave">
-          <div class="sk-rect1"></div>
-          <div class="sk-rect2"></div>
-          <div class="sk-rect3"></div>
-          <div class="sk-rect4"></div>
-          <div class="sk-rect5"></div>
+        <div className="sk-spinner sk-spinner-wave">
+          <div className="sk-rect1"></div>
+          <div className="sk-rect2"></div>
+          <div className="sk-rect3"></div>
+          <div className="sk-rect4"></div>
+          <div className="sk-rect5"></div>
         </div>
       </div>
 
-      <div class="layer"></div>
+      <div className="layer"></div>
 
       <header>
         <div id="top_line">
-          <div class="container">
-            <div class="row">
-              <div class="col-6">
-                <i class="icon-phone"></i>
+          <div className="container">
+            <div className="row">
+              <div className="col-6">
+                <i className="icon-phone"></i>
                 <strong>+923444850952</strong>
               </div>
-              <div class="col-6">
+              <div className="col-6">
                 <ul id="top_links">
                   <li>
                     <a href="wishlist.html" id="wishlist_link">
@@ -108,9 +108,9 @@ const Header = () => {
           </div>
         </div>
 
-        <div class="container">
-          <div class="row">
-            <div class="col-3">
+        <div className="container">
+          <div className="row">
+            <div className="col-3">
               <div id="logo_home" style={{ fontFamily: "Lobster" }}>
                 <h3 style={{ marginTop: "-4px", color: "black " }}>
                   <img
@@ -125,14 +125,14 @@ const Header = () => {
                 </h3>
               </div>
             </div>
-            <nav class="col-9">
+            <nav className="col-9">
               <a
-                class="cmn-toggle-switch cmn-toggle-switch__htx open_close"
+                className="cmn-toggle-switch cmn-toggle-switch__htx open_close"
                 href=""
               >
                 <span>Menu mobile</span>
               </a>
-              <div class="main-menu">
+              <div className="main-menu">
                 <div id="header_menu">
                   <img
                     src="img/logo.png"
@@ -142,13 +142,13 @@ const Header = () => {
                     data-retina="true"
                   />
                 </div>
-                <a href="#" class="open_close" id="close_in">
-                  <i class="icon_set_1_icon-77"></i>
+                <a href="#" className="open_close" id="close_in">
+                  <i className="icon_set_1_icon-77"></i>
                 </a>
                 <ul>
-                  <li class="submenu">
-                    <Link to="/" class="show-submenu">
-                      Home <i class="icon-down-open-mini"></i>
+                  <li className="submenu">
+                    <Link to="/" className="show-submenu">
+                      Home <i className="icon-down-open-mini"></i>
                     </Link>
                     <ul>
                       <li>
@@ -218,9 +218,9 @@ const Header = () => {
                       </li>
                     </ul>
                   </li>
-                  <li class="submenu">
-                    <a href="" class="show-submenu">
-                      Tours <i class="icon-down-open-mini"></i>
+                  <li className="submenu">
+                    <a href="" className="show-submenu">
+                      Tours <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -294,9 +294,9 @@ const Header = () => {
                       </li>
                     </ul>
                   </li>
-                  <li class="submenu">
-                    <a href="" class="show-submenu">
-                      Hotels <i class="icon-down-open-mini"></i>
+                  <li className="submenu">
+                    <a href="" className="show-submenu">
+                      Hotels <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -344,9 +344,9 @@ const Header = () => {
                       </li>
                     </ul>
                   </li>
-                  <li class="submenu">
-                    <a href="" class="show-submenu">
-                      Transfers <i class="icon-down-open-mini"></i>
+                  <li className="submenu">
+                    <a href="" className="show-submenu">
+                      Transfers <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -376,9 +376,9 @@ const Header = () => {
                       </li>
                     </ul>
                   </li>
-                  <li class="submenu">
-                    <a href="" class="show-submenu">
-                      Restaurants <i class="icon-down-open-mini"></i>
+                  <li className="submenu">
+                    <a href="" className="show-submenu">
+                      Restaurants <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -416,13 +416,13 @@ const Header = () => {
                       </li>
                     </ul>
                   </li>
-                  <li class="megamenu submenu">
-                    <a href="" class="show-submenu-mega">
-                      Bonus<i class="icon-down-open-mini"></i>
+                  <li className="megamenu submenu">
+                    <a href="" className="show-submenu-mega">
+                      Bonus<i className="icon-down-open-mini"></i>
                     </a>
-                    <div class="menu-wrapper">
-                      <div class="row">
-                        <div class="col-lg-4">
+                    <div className="menu-wrapper">
+                      <div className="row">
+                        <div className="col-lg-4">
                           <h3>Header styles</h3>
                           <ul>
                             <li>
@@ -454,7 +454,7 @@ const Header = () => {
                             </li>
                           </ul>
                         </div>
-                        <div class="col-lg-4">
+                        <div className="col-lg-4">
                           <h3>Footer styles</h3>
                           <ul>
                             <li>
@@ -480,7 +480,7 @@ const Header = () => {
                             </li>
                           </ul>
                         </div>
-                        <div class="col-lg-4">
+                        <div className="col-lg-4">
                           <h3>Shop section</h3>
                           <ul>
                             <li>
@@ -500,13 +500,13 @@ const Header = () => {
                       </div>
                     </div>
                   </li>
-                  <li class="megamenu submenu">
-                    <a href="" class="show-submenu-mega">
-                      Pages<i class="icon-down-open-mini"></i>
+                  <li className="megamenu submenu">
+                    <a href="" className="show-submenu-mega">
+                      Pages<i className="icon-down-open-mini"></i>
                     </a>
-                    <div class="menu-wrapper">
-                      <div class="row">
-                        <div class="col-lg-4">
+                    <div className="menu-wrapper">
+                      <div className="row">
+                        <div className="col-lg-4">
                           <h3>Pages</h3>
                           <ul>
                             <li>
@@ -550,7 +550,7 @@ const Header = () => {
                             </li>
                           </ul>
                         </div>
-                        <div class="col-lg-4">
+                        <div className="col-lg-4">
                           <h3>Pages</h3>
                           <ul>
                             <li>
@@ -589,55 +589,55 @@ const Header = () => {
                             </li>
                             <li>
                               <a href="page_with_map.html">
-                                <i class="icon-map"></i> Full screen map
+                                <i className="icon-map"></i> Full screen map
                               </a>
                             </li>
                           </ul>
                         </div>
-                        <div class="col-lg-4">
+                        <div className="col-lg-4">
                           <h3>Elements</h3>
                           <ul>
                             <li>
                               <a href="footer_2.html">
-                                <i class="icon-columns"></i> Footer with working
+                                <i className="icon-columns"></i> Footer with working
                                 newsletter
                               </a>
                             </li>
                             <li>
                               <a href="footer_5.html">
-                                <i class="icon-columns"></i> Footer with Twitter
+                                <i className="icon-columns"></i> Footer with Twitter
                                 feed
                               </a>
                             </li>
                             <li>
                               <a href="icon_pack_1.html">
-                                <i class="icon-inbox-alt"></i> Icon pack 1
+                                <i className="icon-inbox-alt"></i> Icon pack 1
                                 (1900)
                               </a>
                             </li>
                             <li>
                               <a href="icon_pack_2.html">
-                                <i class="icon-inbox-alt"></i> Icon pack 2 (100)
+                                <i className="icon-inbox-alt"></i> Icon pack 2 (100)
                               </a>
                             </li>
                             <li>
                               <a href="icon_pack_3.html">
-                                <i class="icon-inbox-alt"></i> Icon pack 3 (30)
+                                <i className="icon-inbox-alt"></i> Icon pack 3 (30)
                               </a>
                             </li>
                             <li>
                               <a href="icon_pack_4.html">
-                                <i class="icon-inbox-alt"></i> Icon pack 4 (200)
+                                <i className="icon-inbox-alt"></i> Icon pack 4 (200)
                               </a>
                             </li>
                             <li>
                               <a href="icon_pack_5.html">
-                                <i class="icon-inbox-alt"></i> Icon pack 5 (360)
+                                <i className="icon-inbox-alt"></i> Icon pack 5 (360)
                               </a>
                             </li>
                             <li>
                               <a href="shortcodes.html">
-                                <i class="icon-tools"></i> Shortcodes
+                                <i className="icon-tools"></i> Shortcodes
                               </a>
                             </li>
                             <li>
@@ -645,18 +645,18 @@ const Header = () => {
                                 href="newsletter_template/newsletter.html"
                                 target="blank"
                               >
-                                <i class=" icon-mail"></i> Responsive email
+                                <i className=" icon-mail"></i> Responsive email
                                 template
                               </a>
                             </li>
                             <li>
                               <a href="admin.html">
-                                <i class="icon-cog-1"></i> Admin area
+                                <i className="icon-cog-1"></i> Admin area
                               </a>
                             </li>
                             <li>
                               <a href="general_page.html">
-                                <i class="icon-light-up"></i> Weather Forecast
+                                <i className="icon-light-up"></i> Weather Forecast
                               </a>
                             </li>
                           </ul>
@@ -668,58 +668,58 @@ const Header = () => {
               </div>
               <ul id="top_tools">
                 <li>
-                  <a href="" class="search-overlay-menu-btn">
-                    <i class="icon_search"></i>
+                  <a href="" className="search-overlay-menu-btn">
+                    <i className="icon_search"></i>
                   </a>
                 </li>
                 <li>
-                  <div class="dropdown dropdown-cart">
-                    <a href="#" data-toggle="dropdown" class="cart_bt">
-                      <i class="icon_bag_alt"></i>
+                  <div className="dropdown dropdown-cart">
+                    <a href="#" data-toggle="dropdown" className="cart_bt">
+                      <i className="icon_bag_alt"></i>
                       <strong>3</strong>
                     </a>
-                    <ul class="dropdown-menu" id="cart_items">
+                    <ul className="dropdown-menu" id="cart_items">
                       <li>
-                        <div class="image">
+                        <div className="image">
                           <img src="img/thumb_cart_1.jpg" alt="image" />
                         </div>
                         <strong>
                           <a href="#">Louvre museum</a>1x $36.00{" "}
                         </strong>
-                        <a href="#" class="action">
-                          <i class="icon-trash"></i>
+                        <a href="#" className="action">
+                          <i className="icon-trash"></i>
                         </a>
                       </li>
                       <li>
-                        <div class="image">
+                        <div className="image">
                           <img src="img/thumb_cart_2.jpg" alt="image" />
                         </div>
                         <strong>
                           <a href="#">Versailles tour</a>2x $36.00{" "}
                         </strong>
-                        <a href="#" class="action">
-                          <i class="icon-trash"></i>
+                        <a href="#" className="action">
+                          <i className="icon-trash"></i>
                         </a>
                       </li>
                       <li>
-                        <div class="image">
+                        <div className="image">
                           <img src="img/thumb_cart_3.jpg" alt="image" />
                         </div>
                         <strong>
                           <a href="#">Versailles tour</a>1x $36.00{" "}
                         </strong>
-                        <a href="#" class="action">
-                          <i class="icon-trash"></i>
+                        <a href="#" className="action">
+                          <i className="icon-trash"></i>
                         </a>
                       </li>
                       <li>
                         <div>
                           Total: <span>$120.00</span>
                         </div>
-                        <a href="cart.html" class="button_drop">
+                        <a href="cart.html" className="button_drop">
                           Go to cart
                         </a>
-                        <a href="payment.html" class="button_drop outline">
+                        <a href="payment.html" className="button_drop outline">
                           Check out
                         </a>
                       </li>

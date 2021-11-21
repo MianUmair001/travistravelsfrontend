@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "../Styles/admin.css";
-import { createTour } from "../../../redux/actions/tour.action";
+import { createTour, getTours } from "../../../redux/actions/tour.action";
 import { getPlaces } from "../../../redux/actions/places.action";
 import { MultiSelect } from "react-multi-select-component";
 import { uploadImage } from "../../../redux/actions/upload.action";
@@ -50,7 +50,7 @@ const CreateTour = () => {
     e.preventDefault();
     const places = selectedOptions;
     console.log("I amImages Data before Dispatch", images);
-    dispatch(
+    await dispatch(
       createTour(
         name,
         description,
@@ -65,6 +65,7 @@ const CreateTour = () => {
         images
       )
     );
+    await dispatch(getTours());
   };
 
   return (
@@ -120,6 +121,7 @@ const CreateTour = () => {
                         name="first_name"
                         id="first_name"
                         type="text"
+                        required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                       />

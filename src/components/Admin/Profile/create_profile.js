@@ -27,24 +27,29 @@ const CreateProfile = ({ history }) => {
   const auth = useSelector((state) => state.auth.user);
   // console.log("Create Profile UserId", auth);
 
+  const token = useSelector((state) => state.auth.accessToken);
+
   const createProfileHandler = async (e) => {
     e.preventDefault();
 
     const data = await dispatch(
-      createProfile({
-        address: {
-          addressName,
-          country,
-          streetAddress,
-          coordinates,
+      createProfile(
+        {
+          address: {
+            addressName,
+            country,
+            streetAddress,
+            coordinates,
+          },
+          firstName,
+          lastName,
+          DateOfBirth,
+          phone,
+          username,
+          auth,
         },
-        firstName,
-        lastName,
-        DateOfBirth,
-        phone,
-        username,
-        auth,
-      })
+        token
+      )
     );
     // console.log("data", data);
     if (data === undefined) {
