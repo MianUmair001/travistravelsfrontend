@@ -21,7 +21,6 @@ const UpdateHotel = ({ history }) => {
 
   const updateHotelHandler = async (e) => {
     e.preventDefault();
-
     dispatch(updateHotel(hotelID, hotelName_, hotelPrice_, description_, images_));
     history.push(`/single_hotel/${hotelID}`);
   };

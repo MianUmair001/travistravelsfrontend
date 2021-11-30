@@ -16,10 +16,10 @@ const Single_tour = ({ history }) => {
   const [tour, setTour] = useState({});
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [adultsQuantity, setAdultsQuantity] = useState();
-  const [childrenQuantity, setChildrenQuantity] = useState();
-  const [url, setUrl] = useState("");
+  const [adultsQuantity, setAdultsQuantity] = useState(0);
   console.log("I am Use params", tourId.id);
+  const [childrenQuantity, setChildrenQuantity] = useState(0);
+  const [url, setUrl] = useState("");
   useEffect(async () => {
     const { data } = await dispatch(getTour(tourId.id));
     console.log("I am the Data from getTour", data);
@@ -36,6 +36,24 @@ const Single_tour = ({ history }) => {
   const handleUpdateClick = (e) => {
     e.preventDefault();
     history.push(`/update_tour/${tourId.id}`);
+  };
+
+  const handleBookClick = (e, tour) => {
+    e.preventDefault();
+    history.push({
+      pathname: `/create_bookings/${tourId.id}`,
+      state: {
+        adultsQuantity,
+        childrenQuantity,
+        date,
+        time,
+        price: (Number(adultsQuantity) + Number(childrenQuantity)) * tour.price,
+        serviceName: tour.name,
+        serviceId: tour.id,
+        bookedServiceType:"Tour",
+        bookedServiceId: tour._id,
+      },
+    });
   };
 
   const handleDeleteClick = async (e) => {
@@ -507,7 +525,7 @@ const Single_tour = ({ history }) => {
                       <label>Adults</label>
                       <div className="numbers-row">
                         <input
-                          type="text"
+                          type="number"
                           id="adults"
                           className="qty2 form-control"
                           name="quantity"
@@ -522,12 +540,12 @@ const Single_tour = ({ history }) => {
                       <label>Children</label>
                       <div className="numbers-row">
                         <input
-                          type="text"
+                          type="number"
                           id="children"
                           className="qty2 form-control"
                           name="quantity"
                           value={childrenQuantity}
-                          onChange={(e) => setChildrenQuantity(e.target.values)}
+                          onChange={(e) => setChildrenQuantity(e.target.value)}
                         />
                       </div>
                     </div>
@@ -538,23 +556,33 @@ const Single_tour = ({ history }) => {
                   <tbody>
                     <tr>
                       <td>Adults</td>
-                      <td className="text-right">2</td>
+                      <td className="text-right">{adultsQuantity}</td>
                     </tr>
                     <tr>
                       <td>Children</td>
-                      <td className="text-right">0</td>
+                      <td className="text-right">{childrenQuantity}</td>
                     </tr>
                     <tr>
                       <td>Total amount</td>
-                      <td className="text-right">3x $52</td>
+                      <td className="text-right">
+                        {Number(adultsQuantity) + Number(childrenQuantity)}x $
+                        {tour.price}
+                      </td>
                     </tr>
                     <tr className="total">
                       <td>Total cost</td>
-                      <td className="text-right">$154</td>
+                      <td className="text-right">
+                        ${" "}
+                        {(Number(adultsQuantity) + Number(childrenQuantity)) *
+                          tour.price}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <a className="btn_full" href="cart.html">
+                <a
+                  className="btn_full"
+                  onClick={(e) => handleBookClick(e, tour)}
+                >
                   Book now
                 </a>
                 <a className="btn_full_outline" href="#">

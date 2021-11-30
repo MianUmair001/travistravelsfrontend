@@ -8,6 +8,7 @@ import { hotelReducer } from "../hotel.reducer";
 import { transportReducer } from "../transport.reducer";
 import { plan_reducer } from "../plan.reducer";
 import { tourReducer, toursReducer } from "../tour.reducer";
+import { restaurantReducer, restaurantsReducer } from "../restaurant.reducer";
 
 const persistConfig = {
   key: "root",
@@ -23,6 +24,8 @@ const rootReducer = combineReducers({
   plan: plan_reducer,
   tours: toursReducer,
   tour: tourReducer,
+  restaurant: restaurantReducer,
+  restaurants: restaurantsReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

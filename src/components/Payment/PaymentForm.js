@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
-import "./Styles/styles.css";
 const CARD_OPTIONS = {
   iconStyle: "solid",
   style: {

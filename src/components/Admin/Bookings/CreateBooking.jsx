@@ -3,6 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import CheckoutForm from "./CheckoutForm";
 
 const CreateBooking = () => {
@@ -10,9 +11,23 @@ const CreateBooking = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
   const profile = useSelector((state) => state.profile);
-  const UserEmail = useSelector((state) => state.auth.userEmail);
+  const userEmail = useSelector((state) => state.auth.userEmail);
+  const user = useSelector((state) => state.auth.user);
+  const [adultsQuantity, setAdultsQuantity] = useState(0);
+  const [childrenQuantity, setChildrenQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [date, setDate] = useState(0);
+  const [time, setTime] = useState(0);
+  const [serviceName, setServiceName] = useState("");
+  const [bookedServiceType, setBookedServiceType] = useState("")
+  const [bookedServiceId, setBookedServiceId] = useState("")
+  const location = useLocation();
+
+  const params = location.state;
+  console.log("I am Params", params);
+
+  console.log(location);
 
   // setUser(profile.auth);
   const stripePromise = loadStripe(
@@ -21,9 +36,16 @@ const CreateBooking = () => {
   useEffect(() => {
     setFirstName(profile.firstName);
     setLastName(profile.lastName);
-    setEmail(UserEmail);
+    setEmail(userEmail);
     setPhone(profile.phone);
-    setAddress(profile.address);
+    setAdultsQuantity(params.adultsQuantity);
+    setChildrenQuantity(params.childrenQuantity);
+    setPrice(params.price);
+    setDate(params.date);
+    setTime(params.time);
+    setServiceName(params.serviceName);
+    setBookedServiceId(params.bookedServiceId);
+    setBookedServiceType(params.bookedServiceType);
   }, []);
 
   return (
@@ -149,9 +171,24 @@ const CreateBooking = () => {
                 </div>
               </div>
               {/*End step */}
-
+              <div className="form_title">
+                <h3>
+                  <strong>2</strong>Payment Info
+                </h3>
+              </div>
               <Elements stripe={stripePromise}>
-                <CheckoutForm />
+                <CheckoutForm
+                  serviceName={serviceName}
+                  firstName={firstName}
+                  lastName={lastName}
+                  email={email}
+                  phone={phone}
+                  price={price}
+                  adultsQuantity={adultsQuantity}
+                  childrenQuantity={childrenQuantity}
+                  bookedServiceType={bookedServiceType}
+                  bookedServiceId={bookedServiceId}
+                />
               </Elements>
               {/*End step */}
             </div>
@@ -163,23 +200,23 @@ const CreateBooking = () => {
                     <tbody>
                       <tr>
                         <td>Adults</td>
-                        <td className="text-right">2</td>
+                        <td className="text-right">{adultsQuantity}</td>
                       </tr>
                       <tr>
                         <td>Children</td>
-                        <td className="text-right">0</td>
+                        <td className="text-right">{childrenQuantity}</td>
                       </tr>
                       <tr>
-                        <td>Dedicated tour guide</td>
-                        <td className="text-right">$34</td>
+                        <td>Date</td>
+                        <td className="text-right">{date}</td>
                       </tr>
                       <tr>
-                        <td>Insurance</td>
-                        <td className="text-right">$34</td>
+                        <td>Time</td>
+                        <td className="text-right">{time}</td>
                       </tr>
                       <tr className="total">
                         <td>Total cost</td>
-                        <td className="text-right">$154</td>
+                        <td className="text-right">${price}</td>
                       </tr>
                     </tbody>
                   </table>

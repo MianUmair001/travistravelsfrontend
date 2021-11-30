@@ -10,12 +10,13 @@ import {
   updateTour,
 } from "../../../redux/actions/tour.action";
 import { useHistory } from "react-router-dom";
+import { getImage } from "../../../redux/actions/upload.action";
 
 const All_tours_grid = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
-  console.log(tours);
+
   const statetours = useSelector((state) => state.tours);
   console.log(statetours.tours, "ia ma");
   useEffect(async () => {
@@ -28,6 +29,7 @@ const All_tours_grid = () => {
       setTours(statetours.tours);
     }
   }, [statetours.tours, tours]);
+
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
     history.push(`/single_tour/${id}`);
@@ -212,8 +214,8 @@ const All_tours_grid = () => {
                           <input type="checkbox" />
                           <span class="rating">
                             <i class="icon-smile voted"></i>
-                            <i class="icon-smile voted"></i>
                             <i class="icon-smile"></i>
+                            <i class="icon-smile voted"></i>
                             <i class="icon-smile"></i>
                             <i class="icon-smile"></i>
                           </span>
@@ -332,7 +334,13 @@ const All_tours_grid = () => {
                       <div class="img_container">
                         <a href="single_tour.html">
                           <img
-                            src="img/tour_box_3.jpg"
+                            src={
+                              tour?.images[0]?.name
+                                ? `http://localhost:3000/api/upload/file/${tour?.images[0]?.folderName}/fileName/${tour?.images[0]?.name}`
+                                : "img/restaurant_box_1.jpg"
+                            }
+                            key={tour?.images[0]?._id}
+                            alt={tour.name}
                             width="800"
                             height="533"
                             class="img-fluid"

@@ -1,7 +1,57 @@
-import React from "react";
+import { Button } from "@material-ui/core";
+import { Delete, Edit, Info } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteRestaurant,
+  getAllRestaurants,
+  updateRestaurant,
+} from "../../../redux/actions/restaurant.action";
 
-const All_restaurants_list = () => {
+const All_restaurants_list = ({ history }) => {
+  const dispatch = useDispatch();
+  const [restaurants, setRestaurants] = useState([]);
+  const staterestaurants = useSelector((state) => state.restaurants);
+  console.log(staterestaurants, "ia ma");
+
+  useEffect(async () => {
+    if (staterestaurants.restaurants.length === 0) {
+      const { data } = await dispatch(getAllRestaurants());
+      console.log("I am data in File", data);
+      setRestaurants(data);
+    } else {
+      setRestaurants(staterestaurants.restaurants);
+    }
+  }, [staterestaurants.restaurants, restaurants]);
+
+  const handleDeleteResturant = async (e, id) => {
+    e.preventDefault();
+    await dispatch(deleteRestaurant(id));
+    await dispatch(getAllRestaurants());
+  };
+
+  const handleDetailRestaurant = async (e, id) => {
+    e.preventDefault();
+    history.push(`/single_restaurant/${id}`);
+  };
+
+  const handleEditResturant = async (e, restaurant) => {
+    e.preventDefault();
+    await dispatch(
+      updateRestaurant(
+        restaurant.id,
+        restaurant.name,
+        restaurant.description,
+        restaurant.address,
+        restaurant.noOfTables,
+        restaurant.openingTime,
+        restaurant.menu,
+        restaurant.images
+      )
+    );
+    history.push(`/update_restaurant/${restaurant._id}`);
+  };
   return (
     <>
       <section
@@ -266,709 +316,191 @@ const All_restaurants_list = () => {
                 </div>
               </div>
               {/*/tools */}
-              <div
-                className="strip_all_tour_list wow fadeIn"
-                data-wow-delay="0.1s"
-              >
-                <div className="row">
-                  <div className="col-lg-4 col-md-4">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="wishlist">
-                      <a
-                        className="tooltip_flip tooltip-effect-1"
-                        href="javascript:void(0);"
-                      >
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    <div className="img_list">
-                      <a href="single_restaurant.html">
-                        <img src="img/restaurant_box_1.jpg" alt="Image" />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-2" /> Fast food
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="tour_list_desc">
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
+              {restaurants?.map((restaurant) => (
+                <div
+                  key={restaurant._id}
+                  className="strip_all_tour_list wow fadeIn"
+                  data-wow-delay="0.1s"
+                >
+                  <div className="row">
+                    <div className="col-lg-4 col-md-4">
+                      <div className="ribbon_3 popular">
+                        <span>Popular</span>
                       </div>
-                      <h3>
-                        <strong>King food</strong> restaurant
-                      </h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, quem convenire interesset ut
-                        vix, ad dicat sanctus detracto vis. Eos modus dolorum
-                        ex, qui adipisci maiestatis inciderint no, eos in elit
-                        dicat.....
-                      </p>
-                      <ul className="add_info">
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-13" />
+                      <div className="wishlist">
+                        <a
+                          className="tooltip_flip tooltip-effect-1"
+                          href="javascript:void(0);"
+                        >
+                          +
+                          <span className="tooltip-content-flip">
+                            <span className="tooltip-back">
+                              Add to wishlist
                             </span>
-                            <div className="tooltip-content">
-                              <h4>Disabled</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
+                          </span>
+                        </a>
+                      </div>
+                      <div className="img_list">
+                        <a href="single_restaurant.html">
+                          <img
+                            src={
+                              restaurant?.images[0]?.name
+                                ? `http://localhost:3000/api/upload/file/${restaurant?.images[0]?.folderName}/fileName/${restaurant?.images[0]?.name}`
+                                : "img/restaurant_box_1.jpg"
+                            }
+                            alt="Image"
+                          />
+                          <div className="short_info">
+                            <i className="icon_set_3_restaurant-2" /> Fast food
                           </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-47" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>No smoking area</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-27" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Parking</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-25" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Transport</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-lg-2 col-md-2">
-                    <div className="price_list">
-                      <div>
-                        <sup>$</sup>39*
-                        <span className="normal_price_list">$99</span>
-                        <small>*Per person</small>
-                        <p>
-                          <a href="single_restaurant.html" className="btn_1">
-                            Details
-                          </a>
-                        </p>
+                    <div className="col-lg-6 col-md-6">
+                      <div className="tour_list_desc">
+                        <div className="rating">
+                          <i className="icon-smile voted" />
+                          <i className="icon-smile  voted" />
+                          <i className="icon-smile  voted" />
+                          <i className="icon-smile  voted" />
+                          <i className="icon-smile" />
+                          <small>(75)</small>
+                        </div>
+                        <h3>
+                          <strong> {restaurant.name} </strong> restaurant
+                        </h3>
+                        <p>{restaurant.description}</p>
+                        <ul className="add_info">
+                          <li>
+                            <div className="tooltip_styled tooltip-effect-4">
+                              <span className="tooltip-item">
+                                <i className="icon_set_1_icon-13" />
+                              </span>
+                              <div className="tooltip-content">
+                                <h4>Disabled</h4> Usu in novum nostrud
+                                disputando, ei quo aperiri omittam vidit
+                                fastidii.
+                                <br />
+                              </div>
+                            </div>
+                          </li>
+                          <li>
+                            <div className="tooltip_styled tooltip-effect-4">
+                              <span className="tooltip-item">
+                                <i className="icon_set_1_icon-47" />
+                              </span>
+                              <div className="tooltip-content">
+                                <h4>No smoking area</h4> Usu in novum nostrud
+                                disputando, ei quo aperiri omittam vidit
+                                fastidii.
+                                <br />
+                              </div>
+                            </div>
+                          </li>
+                          <li>
+                            <div className="tooltip_styled tooltip-effect-4">
+                              <span className="tooltip-item">
+                                <i className="icon_set_1_icon-27" />
+                              </span>
+                              <div className="tooltip-content">
+                                <h4>Parking</h4> Usu in novum nostrud
+                                disputando, ei quo aperiri omittam vidit
+                                fastidii.
+                                <br />
+                              </div>
+                            </div>
+                          </li>
+                          <li>
+                            <div className="tooltip_styled tooltip-effect-4">
+                              <span className="tooltip-item">
+                                <i className="icon_set_1_icon-25" />
+                              </span>
+                              <div className="tooltip-content">
+                                <h4>Transport</h4> Usu in novum nostrud
+                                disputando, ei quo aperiri omittam vidit
+                                fastidii.
+                                <br />
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                          className="btn"
+                        >
+                          <Button
+                            variant="contained"
+                            size="small"
+                            startIcon={<Edit />}
+                            style={{
+                              backgroundColor: "green",
+                              color: "white",
+                            }}
+                            onClick={(e) => handleEditResturant(e, restaurant)}
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Delete />}
+                            style={{
+                              color: "red",
+                            }}
+                            onClick={(e) =>
+                              handleDeleteResturant(e, restaurant._id)
+                            }
+                          >
+                            Delete
+                          </Button>
+                          {/* <Button
+                                    variant="outlined"
+                                    size="small"
+                                    startIcon={<Info />}
+                                    style={{
+                                      backgroundColor: "green",
+                                      color: "white",
+                                    }}
+                                    onClick={(e) => handleDetailPlan(e, list._id)}
+                                  >
+                                    Details
+                                  </Button> */}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-2 col-md-2">
+                      <div className="price_list">
+                        <div>
+                          <p>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              startIcon={<Info />}
+                              style={{
+                                backgroundColor: "green",
+                                color: "white",
+                              }}
+                              onClick={(e) =>
+                                handleDetailRestaurant(e, restaurant._id)
+                              }
+                            >
+                              Details
+                            </Button>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
+
               {/*End strip */}
-              <div
-                className="strip_all_tour_list wow fadeIn"
-                data-wow-delay="0.2s"
-              >
-                <div className="row">
-                  <div className="col-lg-4 col-md-4">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="wishlist">
-                      <a
-                        className="tooltip_flip tooltip-effect-1"
-                        href="javascript:void(0);"
-                      >
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    <div className="img_list">
-                      <a href="single_restaurant.html">
-                        <img src="img/restaurant_box_2.jpg" alt="Image" />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-2" /> Fast food
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="tour_list_desc">
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      <h3>
-                        <strong>Catrine</strong> restaurant
-                      </h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, quem convenire interesset ut
-                        vix, ad dicat sanctus detracto vis. Eos modus dolorum
-                        ex, qui adipisci maiestatis inciderint no, eos in elit
-                        dicat.....
-                      </p>
-                      <ul className="add_info">
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-13" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Disabled</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-47" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>No smoking area</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-27" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Parking</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-25" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Transport</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-md-2">
-                    <div className="price_list">
-                      <div>
-                        <sup>$</sup>42*
-                        <span className="normal_price_list">$99</span>
-                        <small>*Per person</small>
-                        <p>
-                          <a href="single_restaurant.html" className="btn_1">
-                            Details
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
               {/*End strip */}
-              <div
-                className="strip_all_tour_list wow fadeIn"
-                data-wow-delay="0.3s"
-              >
-                <div className="row">
-                  <div className="col-lg-4 col-md-4">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="wishlist">
-                      <a
-                        className="tooltip_flip tooltip-effect-1"
-                        href="javascript:void(0);"
-                      >
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    <div className="img_list">
-                      <a href="single_restaurant.html">
-                        <img src="img/restaurant_box_3.jpg" alt="Image" />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-1" /> Pizza /
-                          Italian
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="tour_list_desc">
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      <h3>
-                        <strong>Bella Napoli</strong> restaurant
-                      </h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, quem convenire interesset ut
-                        vix, ad dicat sanctus detracto vis. Eos modus dolorum
-                        ex, qui adipisci maiestatis inciderint no, eos in elit
-                        dicat.....
-                      </p>
-                      <ul className="add_info">
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-13" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Disabled</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-47" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>No smoking area</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-27" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Parking</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-25" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Transport</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-md-2">
-                    <div className="price_list">
-                      <div>
-                        <sup>$</sup>39*
-                        <span className="normal_price_list">$99</span>
-                        <small>*Per person</small>
-                        <p>
-                          <a href="single_restaurant.html" className="btn_1">
-                            Details
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/*End strip */}
-              <div
-                className="strip_all_tour_list wow fadeIn"
-                data-wow-delay="0.4s"
-              >
-                <div className="row">
-                  <div className="col-lg-4 col-md-4">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="wishlist">
-                      <a
-                        className="tooltip_flip tooltip-effect-1"
-                        href="javascript:void(0);"
-                      >
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    <div className="img_list">
-                      <a href="single_restaurant.html">
-                        <img src="img/restaurant_box_4.jpg" alt="Image" />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-4" /> Chinese
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="tour_list_desc">
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      <h3>
-                        <strong>Dragon tower</strong> restaurant
-                      </h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, quem convenire interesset ut
-                        vix, ad dicat sanctus detracto vis. Eos modus dolorum
-                        ex, qui adipisci maiestatis inciderint no, eos in elit
-                        dicat.....
-                      </p>
-                      <ul className="add_info">
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-13" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Disabled</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-47" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>No smoking area</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-27" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Parking</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-25" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Transport</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-md-2">
-                    <div className="price_list">
-                      <div>
-                        <sup>$</sup>69*
-                        <span className="normal_price_list">$59</span>
-                        <small>*Per person</small>
-                        <p>
-                          <a href="single_restaurant.html" className="btn_1">
-                            Details
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/*End strip */}
-              <div
-                className="strip_all_tour_list wow fadeIn"
-                data-wow-delay="0.5s"
-              >
-                <div className="row">
-                  <div className="col-lg-4 col-md-4">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="wishlist">
-                      <a
-                        className="tooltip_flip tooltip-effect-1"
-                        href="javascript:void(0);"
-                      >
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    <div className="img_list">
-                      <a href="single_restaurant.html">
-                        <img src="img/restaurant_box_5.jpg" alt="Image" />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-7" /> Fish
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="tour_list_desc">
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      <h3>
-                        <strong>Sea food</strong> restaurant
-                      </h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, quem convenire interesset ut
-                        vix, ad dicat sanctus detracto vis. Eos modus dolorum
-                        ex, qui adipisci maiestatis inciderint no, eos in elit
-                        dicat.....
-                      </p>
-                      <ul className="add_info">
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-13" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Disabled</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-47" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>No smoking area</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-27" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Parking</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-25" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Transport</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-md-2">
-                    <div className="price_list">
-                      <div>
-                        <sup>$</sup>49*
-                        <span className="normal_price_list">$59</span>
-                        <small>*Per person</small>
-                        <p>
-                          <a href="single_restaurant.html" className="btn_1">
-                            Details
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/*End strip */}
-              <div
-                className="strip_all_tour_list wow fadeIn"
-                data-wow-delay="0.7s"
-              >
-                <div className="row">
-                  <div className="col-lg-4 col-md-4">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="wishlist">
-                      <a
-                        className="tooltip_flip tooltip-effect-1"
-                        href="javascript:void(0);"
-                      >
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    <div className="img_list">
-                      <a href="single_restaurant.html">
-                        <img src="img/restaurant_box_6.jpg" alt="Image" />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-5" />{" "}
-                          International
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="col-lg-6 col-md-6">
-                    <div className="tour_list_desc">
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile  voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      <h3>
-                        <strong>Alfredo</strong> restaurant
-                      </h3>
-                      <p>
-                        Lorem ipsum dolor sit amet, quem convenire interesset ut
-                        vix, ad dicat sanctus detracto vis. Eos modus dolorum
-                        ex, qui adipisci maiestatis inciderint no, eos in elit
-                        dicat.....
-                      </p>
-                      <ul className="add_info">
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-13" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Disabled</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-47" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>No smoking area</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-27" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Parking</h4> Usu in novum nostrud disputando,
-                              ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="tooltip_styled tooltip-effect-4">
-                            <span className="tooltip-item">
-                              <i className="icon_set_1_icon-25" />
-                            </span>
-                            <div className="tooltip-content">
-                              <h4>Transport</h4> Usu in novum nostrud
-                              disputando, ei quo aperiri omittam vidit fastidii.
-                              <br />
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-md-2">
-                    <div className="price_list">
-                      <div>
-                        <sup>$</sup>49*
-                        <span className="normal_price_list">$59</span>
-                        <small>*Per person</small>
-                        <p>
-                          <a href="single_restaurant.html" className="btn_1">
-                            Details
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
               {/*End strip */}
               <hr />
               <nav aria-label="Page navigation">

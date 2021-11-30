@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteTour, getTours } from "../../../redux/actions/tour.action";
 import { useHistory } from "react-router-dom";
@@ -10,11 +10,20 @@ const All_tours_list = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
+
+
+  const statetours = useSelector((state) => state.tours);
+  console.log(statetours.tours, "ia ma");
   useEffect(async () => {
-    const { data } = await dispatch(getTours());
-    console.log(data);
-    setTours(data);
-  }, [tours]);
+    if (statetours.tours.length === 0) {
+      const { data } = await dispatch(getTours());
+      console.log(data);
+      setTours(data);
+      console.log("I am in store value check if");
+    } else {
+      setTours(statetours.tours);
+    }
+  }, [statetours.tours, tours]);
 
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
@@ -23,10 +32,12 @@ const All_tours_list = () => {
   const handleDeleteTour = async (e, id) => {
     e.preventDefault();
     await dispatch(deleteTour(id));
+    await dispatch(getTours());
   };
   const handleUpdateTour = async (e, id) => {
     e.preventDefault();
     history.push(`/update_tour/${id}`);
+    await dispatch(getTours()); 
   };
 
   return (
@@ -321,7 +332,14 @@ const All_tours_list = () => {
                         </div>
                         <div className="img_list">
                           <a href="single_tour.html">
-                            <img src="img/tour_box_1.jpg" alt="Image" />
+                            <img
+                              src={
+                                tour?.images[0]?.name
+                                  ? `http://localhost:3000/api/upload/file/${tour?.images[0]?.folderName}/fileName/${tour?.images[0]?.name}`
+                                  : "img/tour_box_1.jpg"
+                              }
+                              alt="Image"
+                            />
                             <div className="short_info">
                               <i className="icon_set_1_icon-4" />
                               Museums{" "}

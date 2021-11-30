@@ -18,15 +18,12 @@ const Single_hotel = ({ history }) => {
   
   const handleUpdateHotelPush = (e) => {
     e.preventDefault();
-
     dispatch(updateHotel(id, name, price, description, images))
     history.push(`/update_hotel/${id}`);
   };
 
-
   const handleDeleteHotel = (e) => {
     e.preventDefault();
-
     dispatch(deleteHotel(hotelID));
     history.push("/create_hotel");
   };

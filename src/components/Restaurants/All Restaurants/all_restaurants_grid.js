@@ -1,7 +1,68 @@
-import React from "react";
+import { Button } from "@material-ui/core";
+import { Delete, Edit, Info } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteRestaurant,
+  getAllRestaurants,
+  updateRestaurant,
+} from "../../../redux/actions/restaurant.action";
 
-const All_restaurants_grid = () => {
+const All_restaurants_grid = ({ history }) => {
+  const dispatch = useDispatch();
+  const [restaurants, setRestaurants] = useState([]);
+  const staterestaurants = useSelector((state) => state.restaurants);
+  console.log(staterestaurants, "ia ma");
+
+  useEffect(async () => {
+    if (staterestaurants.restaurants.length === 0) {
+      const { data } = await dispatch(getAllRestaurants());
+      console.log("I am data in File", data);
+      setRestaurants(data);
+    } else {
+      setRestaurants(staterestaurants.restaurants);
+    }
+  }, [staterestaurants.restaurants, restaurants]);
+
+  // const handleDeleteResturant = async (e, id) => {
+  //   e.preventDefault();
+  //   await dispatch(deleteRestaurant(id));
+  //   await dispatch(getAllRestaurants());
+  // };
+
+  const handleEditResturant = async (e, list) => {
+    e.preventDefault();
+    await dispatch(
+      updateRestaurant(
+        list.id,
+        list.name,
+        list.description,
+        list.address,
+        list.noOfTables,
+        list.openingTime,
+        list.menu,
+        list.images
+      )
+    );
+    history.push(`/update_restaurant/${list._id}`);
+  };
+
+  const handleDetailRestaurant = async (e, id) => {
+    e.preventDefault();
+    history.push(`/single_restaurant/${id}`);
+  };
+  const handleDeleteRestaurant = async (e, id) => {
+    e.preventDefault();
+    await dispatch(deleteRestaurant(id));
+    await dispatch(getAllRestaurants());
+  };
+  const handleUpdateRestaurant = async (e, id) => {
+    e.preventDefault();
+    history.push(`/update_restaurant/${id}`);
+    await dispatch(getAllRestaurants());
+  };
+
   return (
     <>
       <main>
@@ -237,459 +298,126 @@ const All_restaurants_grid = () => {
                     </div>
                   </div>
                   <div className="col-md-6 col-sm-4 d-none d-sm-block text-right">
-                    <Link
-                        to="/all_restaurants_grid" 
-                        className="bt_filters">
-                        <i className="icon-th" />
+                    <Link to="/all_restaurants_grid" className="bt_filters">
+                      <i className="icon-th" />
                     </Link>
-                    <Link
-                        to="/all_restaurants_list" 
-                        className="bt_filters">
-                        <i className=" icon-list" />
+                    <Link to="/all_restaurants_list" className="bt_filters">
+                      <i className=" icon-list" />
                     </Link>
                   </div>
                 </div>
               </div>
               {/*End tools */}
               <div className="row">
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.1s">
-                  <div className="tour_container">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_1.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-2" /> Fast food
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>King Food</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
+                {restaurants.map((restaurant) => (
+                  <div
+                    className="col-md-6 wow zoomIn"
+                    data-wow-delay="0.1s"
+                    key={restaurant._id}
+                  >
+                    <div className="tour_container">
+                      <div className="ribbon_3 popular">
+                        <span>Popular</span>
                       </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a className="tooltip_flip tooltip-effect-1" href="#">
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
+                      <div className="img_container">
+                        <a href="single_restaurant.html">
+                          <img
+                            src={
+                              restaurant?.images[0]?.name
+                                ? `http://localhost:3000/api/upload/file/${restaurant?.images[0]?.folderName}/fileName/${restaurant?.images[0]?.name}`
+                                : "img/restaurant_box_1.jpg"
+                            }
+                            width={800}
+                            height={533}
+                            className="img-fluid"
+                            alt="Image"
+                          />
                         </a>
                       </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.2s">
-                  <div className="tour_container">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_2.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-2" /> Fast food
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
+                      <div className="tour_title">
+                        <h3>
+                          <strong>{restaurant.name}</strong>
+                        </h3>
+                        <div className="rating">
+                          <i className="icon-smile voted" />
+                          <i className="icon-smile voted" />
+                          <i className="icon-smile voted" />
+                          <i className="icon-smile voted" />
+                          <i className="icon-smile" />
+                          <small>(75)</small>
                         </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Catrine</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a className="tooltip_flip tooltip-effect-1" href="#">
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
+                        {/* end rating */}
+                        <div className="wishlist">
+                          <a className="tooltip_flip tooltip-effect-1" href="#">
+                            +
+                            <span className="tooltip-content-flip">
+                              <span className="tooltip-back">
+                                Add to wishlist
+                              </span>
                             </span>
-                          </span>
-                        </a>
+                          </a>
+                        </div>
+                        {/* End wish list*/}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                          className="btn"
+                        >
+                          <Button
+                            variant="contained"
+                            size="small"
+                            startIcon={<Edit />}
+                            style={{
+                              backgroundColor: "green",
+                              color: "white",
+                            }}
+                            onClick={(e) =>
+                              handleUpdateRestaurant(e, restaurant._id)
+                            }
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Delete />}
+                            style={{
+                              color: "red",
+                            }}
+                            onClick={(e) =>
+                              handleDeleteRestaurant(e, restaurant._id)
+                            }
+                          >
+                            Delete
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Info />}
+                            style={{
+                              backgroundColor: "green",
+                              color: "white",
+                            }}
+                            onClick={(e) =>
+                              handleDetailRestaurant(e, restaurant._id)
+                            }
+                          >
+                            Details
+                          </Button>
+                        </div>
                       </div>
-                      {/* End wish list*/}
                     </div>
+                    {/* End box tour */}
                   </div>
-                  {/* End box tour */}
-                </div>
+                ))}
+
                 {/* End col-md-6 */}
               </div>
+
               {/* End row */}
-              <div className="row">
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.3s">
-                  <div className="tour_container">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_3.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-1" /> Pizza /
-                          Italian
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Bella Napoli</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a className="tooltip_flip tooltip-effect-1" href="#">
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.4s">
-                  <div className="tour_container">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_4.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-4" /> Chinese
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Dragon tower</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a
-                          className="tooltip_flip tooltip-effect-1"
-                          href="javascript:void(0);"
-                        >
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-              </div>
-              {/* End row */}
-              <div className="row">
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.5s">
-                  <div className="tour_container">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_5.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-7" /> Fish
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Seafood</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a
-                          className="tooltip_flip tooltip-effect-1"
-                          href="javascript:void(0);"
-                        >
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.6s">
-                  <div className="tour_container">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_6.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-5" />{" "}
-                          International
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Alfredo</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a
-                          className="tooltip_flip tooltip-effect-1"
-                          href="javascript:void(0);"
-                        >
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-              </div>
-              {/* End row */}
-              <div className="row">
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.7s">
-                  <div className="tour_container">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_7.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-5" />{" "}
-                          International
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Madlene Bar</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a
-                          className="tooltip_flip tooltip-effect-1"
-                          href="javascript:void(0);"
-                        >
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-                <div className="col-md-6 wow zoomIn" data-wow-delay="0.8s">
-                  <div className="tour_container">
-                    <div className="ribbon_3">
-                      <span>Top rated</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_restaurant.html">
-                        <img
-                          src="img/restaurant_box_8.jpg"
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="Image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_3_restaurant-5" />{" "}
-                          International
-                          <span className="price">
-                            <sup>$</sup>45
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>Spago Bistrot</strong>
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a
-                          className="tooltip_flip tooltip-effect-1"
-                          href="javascript:void(0);"
-                        >
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-                {/* End col-md-6 */}
-              </div>
-              {/* End row */}
+
               <hr />
               <nav aria-label="Page navigation">
                 <ul className="pagination justify-content-center">

@@ -3,21 +3,25 @@ import { MultiSelect } from "react-multi-select-component";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import { getAllDishes } from "../../../redux/actions/dishes.action";
-import { getRestaurantById, updateRestaurant } from "../../../redux/actions/restaurant.action";
-import { getImage, uploadImage } from "../../../redux/actions/upload.action";
+import {
+  createRestaurant,
+  getRestaurantById,
+  updateRestaurant,
+} from "../../../redux/actions/restaurant.action";
+import { uploadImage } from "../../../redux/actions/upload.action";
 import "../Styles/admin.css";
 
 const UpdateRestaurant = () => {
-  const dispatch = useDispatch();
   const restaurantid = useParams();
-
-  const [name, setName] = useState("Default Restaurant");
+  console.log(restaurantid);
+  const dispatch = useDispatch();
+  const [name, setName] = useState("AlKhan Restaurant");
   const [description, setDescription] = useState(
-    "Default Restaurant with So many Dishes to eat."
+    "ABeautifull Restaurant with So many Dishes to eat."
   );
   const [createSchedule, setCreateSchedule] = useState(false);
-  const [addressName, setAddressName] = useState("No Place");
-  const [noOfTables, setNoOfTables] = useState("4");
+  const [addressName, setAddressName] = useState("Lahore Pakistan");
+  const [noOfTables, setNoOfTables] = useState("30");
   const [country, setCountry] = useState("Pakistan");
   const [streetAddress, setStreetAddress] = useState("221B Baker Street");
   const [openingTime, setOpeningTime] = useState([]);
@@ -26,7 +30,7 @@ const UpdateRestaurant = () => {
   const [options, setOptions] = useState([]);
   const [dishes, setDishes] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [taskName, setTaskName] = useState("Deal No");
+  const [taskName, setTaskName] = useState("Deal 01");
   const [startTime, setStartTime] = useState("08:00 AM");
   const [endTime, setEndTime] = useState("10:00 PM");
   const [completed, setCompleted] = useState(false);
@@ -34,7 +38,7 @@ const UpdateRestaurant = () => {
   const [dateOfDay, setDateOfDay] = useState("7/10/2021");
   const [coordinates, setCoordinates] = useState("31.473186, 74.2650702");
   const [schedule, setSchedule] = useState([]);
-  const [imagedata, setImagedata] = useState("");
+
   const optionsData = [];
 
   const setScheduleArray = (e) => {
@@ -55,20 +59,16 @@ const UpdateRestaurant = () => {
     setDateOfDay("");
     setCreateSchedule(false);
   };
-  useEffect(async () => {
-    const restaurantData = await dispatch(getRestaurantById(restaurantid.id));
-    setName(restaurantData.data.name);
-    setDescription(restaurantData.data.description);
-    setAddressName(restaurantData.data.address.addressName);
-    setCountry(restaurantData.data.address.country);
-    setStreetAddress(restaurantData.data.address.streetAddress);
-    setNoOfTables(restaurantData.data.noOfTables);
-    console.log(restaurantData.data.addressName);
-  }, []);
 
   useEffect(async () => {
-    const imageData = await dispatch(getImage());
-    setImagedata(imageData);
+    const restaurantData = await dispatch(getRestaurantById(restaurantid.id));
+    setName(restaurantData.name);
+    setNoOfTables(restaurantData.noOfTables);
+    setDescription(restaurantData.description);
+    setAddressName(restaurantData.addressName);
+    setCountry(restaurantData.country);
+    setStreetAddress(restaurantData.streetAddress);
+    console.log(restaurantData);
     const data = await dispatch(getAllDishes());
     setDishes(data);
     console.log("Data comming back from getAllDishes", data);
@@ -90,39 +90,35 @@ const UpdateRestaurant = () => {
     e.preventDefault();
     console.log("I am Dishes Data", selectedOptions);
     setMenu(selectedOptions);
-    console.log(schedule);
+
     console.log(
       restaurantid.id,
       name,
       description,
-      {
-        addressName,
-        country,
-        streetAddress,
-        coordinates,
-      },
+      addressName,
+      country,
+      streetAddress,
       noOfTables,
       menu,
       images,
       schedule
     );
-    dispatch(
-      updateRestaurant(
-        restaurantid.id,
-        name,
-        description,
-        {
-          addressName,
-          country,
-          streetAddress,
-          coordinates,
-        },
-        noOfTables,
-        selectedOptions,
-        images,
-        schedule
-      )
-    );
+    // dispatch(
+    //   updateRestaurant(
+    //     restaurantid.id,
+    //     name,
+    //     description,
+    //     {
+    //       addressName,
+    //       country,
+    //       streetAddress,
+    //     },
+    //     noOfTables,
+    //     menu,
+    //     images,
+    //     schedule
+    //   )
+    // );
   };
 
   return (
@@ -160,7 +156,6 @@ const UpdateRestaurant = () => {
           </div>
         </div>
         {/* End Position */}
-
         <div className="margin_60 container">
           <div>
             <div className="content1">
@@ -169,7 +164,7 @@ const UpdateRestaurant = () => {
                 <div className="divider" />
                 <div className="row">
                   <div className="col-md-12">
-                    <h4>Update Restaurant</h4>
+                    <h4>Create Restaurant</h4>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
@@ -322,9 +317,9 @@ const UpdateRestaurant = () => {
                       <div className="form-group">
                         <label>Task Name</label>
                         <input
+                          id="taskname"
                           className="form-control"
                           name="taskname"
-                          id="taskname"
                           type="text"
                           value={taskName}
                           onChange={(e) => setTaskName(e.target.value)}
@@ -410,7 +405,7 @@ const UpdateRestaurant = () => {
                 <button
                   type="submit"
                   className="btn_1 green"
-                  onClick={handleSubmit}
+                  onClick={(e) => handleSubmit(e)}
                 >
                   Update Restaurant
                 </button>

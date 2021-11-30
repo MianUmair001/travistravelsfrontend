@@ -106,6 +106,7 @@ import AdminDashBoard from "./components/Admin/admin";
 import StripeContainer from "./components/Payment/StripeContainer";
 import CreateBooking from "./components/Admin/Bookings/CreateBooking";
 import Checkout from "./components/Payment/Checkout";
+import Single_restuarant from "./components/Restaurants/Single Restaurant/single_restuarant";
 
 function App() {
   const history = useHistory();
@@ -189,7 +190,11 @@ function App() {
 
           {/* Restaurants Routes */}
           <Route exact path="/create_restaurant" component={CreateRestaurant} />
-          <Route exact path="/update_restaurant" component={UpdateRestaurant} />
+          <Route
+            exact
+            path="/update_restaurant/:id"
+            component={UpdateRestaurant}
+          />
           <Route
             exact
             path="/all_restaurants_grid"
@@ -207,8 +212,9 @@ function App() {
           />
           <Route
             exact
-            path="/single_restaurant"
-            component={Single_restaurant}
+            path="/single_restaurant/:id"
+            component={Single_restuarant}
+
           />
           <Route
             exact
@@ -306,7 +312,7 @@ function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_profile" component={CreateProfile} />
           <Route exact path="/bookings" component={Bookings} />
-          <Route exact path="/create_bookings" component={CreateBooking} />
+          <Route exact path="/create_bookings/:id" component={CreateBooking} />
 
           <Route exact path="/admin_dashboard" component={AdminDashBoard} />
 

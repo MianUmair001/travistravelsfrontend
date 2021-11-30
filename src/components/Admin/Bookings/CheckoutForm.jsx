@@ -11,8 +11,19 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-const CheckoutForm = ({ price }) => {
-  const [user, setUser] = useState("");
+const CheckoutForm = ({
+  serviceName,
+  firstName,
+  lastName,
+  email,
+  phone,
+  price,
+  adultsQuantity,
+  childrenQuantity,
+  bookedServiceType,
+  bookedServiceId,
+}) => {
+  const user = useSelector((state) => state.auth.user);
   const [success, setSuccess] = useState("");
   const stripe = useStripe();
   const elements = useElements();
@@ -30,100 +41,115 @@ const CheckoutForm = ({ price }) => {
       const { id } = paymentMethod;
       try {
         const response = await axios.post("http://localhost:3000/api/payment", {
-          name: "MuhammadUmair",
-          price: 1000,
+          name: serviceName,
+          price: price,
           paymentMethodId: id,
-          user: "614b2a355f68b52ee88d7500",
+          user: user,
+          paymentIntentId: "exaamplePaymentId",
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phone: phone,
         });
-        console.log("I am Response", response);
-        success();
+        const bookingresponse = await axios.post(
+          "http://localhost:3000/api/booking",
+          {
+            type: "self",
+            title: serviceName,
+            bookingDate: "11/28/2021",
+            noOfAdults: Number(adultsQuantity),
+            noOfChildren: Number(childrenQuantity),
+            bookedServiceType: bookedServiceType,
+            bookedService: bookedServiceId,
+          }
+        );
+        console.log("I am Response", response, bookingresponse);
+        setSuccess(true);
       } catch (error) {
-        console.log(error);
+        console.log({ error });
       }
     }
   };
   return (
     <>
       <div className="step">
-        <div className="form_title">
-          <h3>
-            <strong>2</strong>Payment Information
-          </h3>
-          <p>Mussum ipsum cacilds, vidis litro abertis.</p>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-md-6 col-sm-12">
-          <div className="form-group">
-            <label>Card number</label>
-            <CardNumberElement
-              id="card_number"
-              name="card_number"
-              className="form-control"
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <div className="form-group">
+              <label>Card number</label>
+              <CardNumberElement
+                id="card_number"
+                name="card_number"
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-6 col-sm-12"></div>
+            <img
+              src="img/cards.png"
+              width={207}
+              height={43}
+              alt="Cards"
+              className="cards"
             />
           </div>
-          <div className="col-md-6 col-sm-12"></div>
-          <img
-            src="img/cards.png"
-            width={207}
-            height={43}
-            alt="Cards"
-            className="cards"
-          />
         </div>
-      </div>
-      <div className="row">
-        <div className="col-md-6">
-          <label>Expiration date</label>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="form-group">
-                <CardExpiryElement
-                  id="expire_month"
-                  name="expire_month"
-                  className="form-control"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="form-group">
-            <label>Security code</label>
+        <div className="row">
+          <div className="col-md-6">
+            <label>Expiration date</label>
             <div className="row">
-              <div className="col-4">
+              <div className="col-md-6">
                 <div className="form-group">
-                  <CardCvcElement
-                    id="ccv"
-                    name="ccv"
+                  <CardExpiryElement
+                    id="expire_month"
+                    name="expire_month"
                     className="form-control"
-                    placeholder="CCV"
                   />
                 </div>
               </div>
-              <div className="col-8">
-                <img src="img/icon_ccv.gif" width={50} height={29} alt="ccv" />
-                <small>Last 3 digits</small>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="form-group">
+              <label>Security code</label>
+              <div className="row">
+                <div className="col-4">
+                  <div className="form-group">
+                    <CardCvcElement
+                      id="ccv"
+                      name="ccv"
+                      className="form-control"
+                      placeholder="CCV"
+                    />
+                  </div>
+                </div>
+                <div className="col-8">
+                  <img
+                    src="img/icon_ccv.gif"
+                    width={50}
+                    height={29}
+                    alt="ccv"
+                  />
+                  <small>Last 3 digits</small>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      {/*End row */}
+        {/*End row */}
 
-      <Button
-        className="btn_map"
-        data-toggle="collapse"
-        href="#collapseMap"
-        aria-expanded="false"
-        aria-controls="collapseMap"
-        data-text-swap="Hide map"
-        data-text-original="View on map"
-        onClick={(e) => handleSubmit(e)}
-      >
-        Book Now
-      </Button>
+        <Button
+          className="btn_map"
+          data-toggle="collapse"
+          href="#collapseMap"
+          aria-expanded="false"
+          aria-controls="collapseMap"
+          data-text-swap="Hide map"
+          data-text-original="View on map"
+          onClick={(e) => handleSubmit(e)}
+        >
+          Book Now
+        </Button>
+      </div>
     </>
   );
 };
