@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -17,17 +17,31 @@ const All_hotels_grid = ({ history }) => {
   const [hotelsListShow, setHotelsListShow] = useState([]);
   const AllHotels = hotelsListShow[0];
 
+  const [hotels, setHotels] = useState();
+
+  const statehotels = useSelector((state) => state.hotels);
   useEffect(async () => {
-    const hotelListArray = await dispatch(getAllHotels());
-    setHotelsListShow(hotelListArray);
-    return hotelListArray;
-  }, [AllHotels]);
+    if (statehotels.hotels.length === 0) {
+      const data = await dispatch(getAllHotels());
+      console.log(data);
+      setHotels(data);
+      console.log("I am in store value check if");
+    } else {
+      setHotels(statehotels.hotels);
+    }
+  }, [statehotels.hotels, hotels]);
+
+  // useEffect(async () => {
+  //   const hotelListArray = await dispatch(getAllHotels());
+  //   setHotelsListShow(hotelListArray);
+  //   return hotelListArray;
+  // }, [AllHotels]);
 
   const handleDeleteHotel = async (e, props) => {
     e.preventDefault();
     let id = props;
-
-    dispatch(deleteHotel(id));
+    await dispatch(deleteHotel(id));
+    await dispatch(getAllHotels())
   };
 
   const handleUpdateHotel = async (e, props) => {
@@ -375,18 +389,18 @@ const All_hotels_grid = ({ history }) => {
                   </div>
                 </div>
                 {/*End tools */}
-                {AllHotels?.length === 0 ? (
+                {hotels?.length === 0 ? (
                   <h3 style={{ display: "flex", justifyContent: "center" }}>
                     No Hotels To Show
                   </h3>
                 ) : (
                   <div>
                     <div className="row">
-                      {AllHotels?.map((grid) => (
+                      {hotels?.map((hotel) => (
                         <div
                           className="col-md-6 wow zoomIn"
                           data-wow-delay="0.1s"
-                          key={grid._id}
+                          key={hotel._id}
                         >
                           <div className="hotel_container">
                             <div className="ribbon_3 popular">
@@ -407,14 +421,15 @@ const All_hotels_grid = ({ history }) => {
                                 <div className="short_info hotel">
                                   From/Per night
                                   <span className="price">
-                                    <sup>$</sup>{grid.price}
+                                    <sup>$</sup>
+                                    {hotel.price}
                                   </span>
                                 </div>
                               </a>
                             </div>
                             <div className="hotel_title">
                               <h3>
-                                <strong>{grid.name}</strong> Hotel
+                                <strong>{hotel.name}</strong> Hotel
                               </h3>
                               <div className="rating">
                                 <i className="icon-star voted" />
@@ -445,17 +460,17 @@ const All_hotels_grid = ({ history }) => {
                                 display: "flex",
                                 justifyContent: "space-between",
                               }}
-                              className="btn"
                             >
                               <Button
                                 variant="contained"
                                 size="small"
                                 startIcon={<Edit />}
                                 style={{
+                                  className: "btn",
                                   backgroundColor: "green",
                                   color: "white",
                                 }}
-                                onClick={(e) => handleUpdateHotel(e, grid)}
+                                onClick={(e) => handleUpdateHotel(e, hotel)}
                               >
                                 Update
                               </Button>
@@ -466,7 +481,7 @@ const All_hotels_grid = ({ history }) => {
                                 style={{
                                   color: "red",
                                 }}
-                                onClick={(e) => handleDeleteHotel(e, grid._id)}
+                                onClick={(e) => handleDeleteHotel(e, hotel._id)}
                               >
                                 Delete
                               </Button>
@@ -478,7 +493,7 @@ const All_hotels_grid = ({ history }) => {
                                   backgroundColor: "green",
                                   color: "white",
                                 }}
-                                onClick={(e) => handleDetailHotel(e, grid._id)}
+                                onClick={(e) => handleDetailHotel(e, hotel._id)}
                               >
                                 Details
                               </Button>

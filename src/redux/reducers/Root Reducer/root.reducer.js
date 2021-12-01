@@ -4,7 +4,7 @@ import storage from "redux-persist/lib/storage";
 
 import { authReducer } from "../auth.reducer";
 import { profileReducer } from "../profile.reducer";
-import { hotelReducer } from "../hotel.reducer";
+import { hotelReducer, hotelsReducer } from "../hotel.reducer";
 import { transportReducer } from "../transport.reducer";
 import { plan_reducer } from "../plan.reducer";
 import { tourReducer, toursReducer } from "../tour.reducer";
@@ -20,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   profile: profileReducer,
   hotel: hotelReducer,
+  hotels: hotelsReducer,
   transport: transportReducer,
   plan: plan_reducer,
   tours: toursReducer,

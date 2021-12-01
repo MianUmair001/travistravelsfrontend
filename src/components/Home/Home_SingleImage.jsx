@@ -1,29 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { getTours } from "../../redux/actions/tour.action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllHotels } from "../../redux/actions/hotels.action";
 import { Button } from "@material-ui/core";
 
 const Home_SingleImage = ({ history }) => {
   const dispatch = useDispatch();
-  const [allTours, setAllTours] = useState([]);
+  const [tours, setTours] = useState([]);
   const [allHotels, setAllHotels] = useState([]);
 
+ 
+  const [hotels, setHotels] = useState();
+
+  const statehotels = useSelector((state) => state.hotels);
   useEffect(async () => {
-    const toursList = await dispatch(getTours());
-    setAllTours(toursList.data);
-  }, [allTours]);
+    if (statehotels.hotels.length === 0) {
+      const data = await dispatch(getAllHotels());
+      console.log(data);
+      setHotels(data);
+      console.log("I am in store value check if");
+    } else {
+      setHotels(statehotels.hotels);
+    }
+  }, [statehotels.hotels, hotels]);
 
+  const statetours = useSelector((state) => state.tours);
+  console.log(statetours.tours, "ia ma");
   useEffect(async () => {
-    const hotelList = await dispatch(getAllHotels());
-    setAllHotels(hotelList);
-  }, [allHotels]);
+    if (statetours.tours.length === 0) {
+      const { data } = await dispatch(getTours());
+      console.log(data);
+      setTours(data);
+      console.log("I am in store value check if");
+    } else {
+      setTours(statetours.tours);
+    }
+  }, [statetours.tours, tours]);
 
-  const allHotelList = allHotels[0];
+  // useEffect(async () => {
+  //   const hotelList = await dispatch(getAllHotels());
+  //   setAllHotels(hotelList);
+  // }, [allHotels]);
 
-  const tourSlice = allTours?.slice(0, 6);
+  // const allHotelList = allHotels[0];
 
-  const hotelSlice = allHotelList?.slice(0, 6);
+  const tourSlice = tours?.slice(0, 6);
+
+  const hotelSlice = hotels?.slice(0, 6);
 
   const handleToursPush = (e) => {
     e.preventDefault();
@@ -54,18 +77,6 @@ const Home_SingleImage = ({ history }) => {
         </div>
       </section>
       <main>
-<<<<<<< HEAD
-        {/* Hero Image */}
-        {/* <div style={{ textAlign: "center" }}>
-          <img src="./img/slides_bg/slide_8.jpg" alt="" />
-        </div> */}
-
-        {/* Slider */}
-
-        {/* End layerslider */}
-
-=======
->>>>>>> ErrorFixed
         <div className="container margin_60">
           <div className="main_title">
             <h2>
@@ -76,72 +87,7 @@ const Home_SingleImage = ({ history }) => {
               Curabitur consequat.
             </p>
           </div>
-<<<<<<< HEAD
-          <div className="row">
-            {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div
-                className="col-lg-4 col-md-6 wow zoomIn"
-                data-wow-delay="0.1s"
-                key={num}
-              >
-                <div className="tour_container">
-                  <div className="ribbon_3 popular">
-                    <span>Popular</span>
-                  </div>
-                  <div className="img_container">
-                    <a href="single_tour.html">
-                      <img
-                        src={"./img/tour_box_1.jpg"}
-                        width={800}
-                        height={533}
-                        className="img-fluid"
-                        alt="image"
-                      />
-                      <div className="short_info">
-                        <i className="icon_set_1_icon-44" />
-                        Historic Buildings
-                        <span className="price">
-                          <sup>$</sup>39
-                        </span>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="tour_title">
-                    <h3>
-                      <strong>Arc Triomphe</strong> tour
-                    </h3>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <small>(75)</small>
-                    </div>
-                    {/* end rating */}
-                    <div className="wishlist">
-                      <a className="tooltip_flip tooltip-effect-1" href="">
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    {/* End wish list*/}
-                  </div>
-                </div>
-                {/* End box tour */}
-              </div>
-            ))}
-          </div>
-          {/* End row */}
-          <p className="text-center add_bottom_30">
-            <a href="all_tours_list.html" className="btn_1 medium">
-              <i className="icon-eye-7" />
-              View all tours (144){" "}
-            </a>
-=======
-          {allTours?.length === 0 ? (
+          {tours?.length === 0 ? (
             <h3 style={{ display: "flex", justifyContent: "center" }}>
               No Tours To Show
             </h3>
@@ -151,7 +97,7 @@ const Home_SingleImage = ({ history }) => {
                 <div
                   className="col-lg-4 col-md-6 wow zoomIn"
                   data-wow-delay="0.1s"
-                  key={tour}
+                  key={tour._id}
                 >
                   <div className="tour_container">
                     <div className="ribbon_3 popular">
@@ -213,9 +159,8 @@ const Home_SingleImage = ({ history }) => {
           <p className="text-center add_bottom_30">
             <Button className="btn_1 medium" onClick={handleToursPush}>
               <i className="icon-eye-7" />
-              View all tours ({allTours?.length}){" "}
+              View all tours ({tours?.length}){" "}
             </Button>
->>>>>>> ErrorFixed
           </p>
           <hr />
           <div className="main_title">
@@ -227,73 +172,7 @@ const Home_SingleImage = ({ history }) => {
               Curabitur consequat.
             </p>
           </div>
-<<<<<<< HEAD
-          <div className="row">
-            {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div
-                className="col-lg-4 col-md-6 wow zoomIn"
-                data-wow-delay="0.1s"
-                key={num}
-              >
-                <div className="hotel_container">
-                  <div className="ribbon_3 popular">
-                    <span>Popular</span>
-                  </div>
-                  <div className="img_container">
-                    <a href="single_hotel.html">
-                      <img
-                        src={"./img/hotel_1.jpg"}
-                        width={800}
-                        height={533}
-                        className="img-fluid"
-                        alt="image"
-                      />
-                      <div className="score">
-                        <span>7.5</span>Good
-                      </div>
-                      <div className="short_info hotel">
-                        From/Per night
-                        <span className="price">
-                          <sup>$</sup>59
-                        </span>
-                      </div>
-                    </a>
-                  </div>
-                  <div className="hotel_title">
-                    <h3>
-                      <strong>Park Hyatt</strong> Hotel
-                    </h3>
-                    <div className="rating">
-                      <i className="icon-star voted" />
-                      <i className="icon-star voted" />
-                      <i className="icon-star voted" />
-                      <i className="icon-star voted" />
-                      <i className="icon-star-empty" />
-                    </div>
-                    {/* end rating */}
-                    <div className="wishlist">
-                      <a className="tooltip_flip tooltip-effect-1" href="#">
-                        +
-                        <span className="tooltip-content-flip">
-                          <span className="tooltip-back">Add to wishlist</span>
-                        </span>
-                      </a>
-                    </div>
-                    {/* End wish list*/}
-                  </div>
-                </div>
-                {/* End box */}
-              </div>
-            ))}
-          </div>
-          {/* End row */}
-          <p className="text-center nopadding">
-            <a href="all_hotels_list.html" className="btn_1 medium">
-              <i className="icon-eye-7" />
-              View all hotels (70){" "}
-            </a>
-=======
-          {allHotelList?.length === 0 ? (
+          {hotels?.length === 0 ? (
             <h3 style={{ display: "flex", justifyContent: "center" }}>
               No Hotels To Show
             </h3>
@@ -365,9 +244,8 @@ const Home_SingleImage = ({ history }) => {
           <p className="text-center nopadding">
             <Button className="btn_1 medium" onClick={handleHotelPush}>
               <i className="icon-eye-7" />
-              View all hotels ({allHotelList?.length}){" "}
+              View all hotels ({hotels?.length}){" "}
             </Button>
->>>>>>> ErrorFixed
           </p>
         </div>
         {/* End container */}
@@ -535,13 +413,9 @@ const Home_SingleImage = ({ history }) => {
                   <p>
                     <a href="#">
                       <img
-<<<<<<< HEAD
-                        src={"./img/bus.jpg"}
-=======
                         src={
                           "https://images.unsplash.com/photo-1572482520019-159781d56ae9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80"
                         }
->>>>>>> ErrorFixed
                         alt="Pic"
                         className="img-fluid"
                       />

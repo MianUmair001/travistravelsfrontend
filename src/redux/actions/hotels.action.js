@@ -12,7 +12,7 @@ import {
 
 export const createHotel =
   (name, price, description, images, auth) => async (dispatch) => {
-    console.log('createHotel', name, price, description, images, auth)
+    console.log("createHotel", name, price, description, images, auth);
     try {
       dispatch({
         type: CREATE_HOTEL_REQUEST,
@@ -45,7 +45,7 @@ export const createHotel =
 
 export const updateHotel =
   (id, name, description, images, auth) => async (dispatch) => {
-    console.log('updateHotel', id, name, description, images, auth)
+    console.log("updateHotel", id, name, description, images, auth);
     try {
       dispatch({
         type: UPDATE_HOTEL_REQUEST,
@@ -56,7 +56,7 @@ export const updateHotel =
           description,
           images,
           name,
-          auth
+          auth,
         }
       );
       // console.log(URL + endpoints.UPDATE_HOTEL_BY_ID + id)
@@ -78,11 +78,11 @@ export const updateHotel =
 export const getAllHotels = () => async (dispatch) => {
   try {
     // console.log(URL.concat(endpoints.GET_HOTEL));
-    const response = await axios.get(URL + endpoints.GET_HOTEL);
+    const { data } = await axios.get(URL + endpoints.GET_HOTEL);
     // console.log("I'm in get all hotels", response.data.data)
-    const result = response.data.data;
-    // console.log("result", result);
-    return [result];
+    console.log("I am Data");
+    dispatch({ type: "GET_ALL_HOTELS_SUCCESS", payload: data });
+    return data;
   } catch (error) {
     console.log({ error });
   }

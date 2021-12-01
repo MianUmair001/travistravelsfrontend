@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -15,14 +15,27 @@ const All_hotels_list = ({ history }) => {
   const dispatch = useDispatch();
 
   const [hotelsListShow, setHotelsListShow] = useState([]);
+  const [hotels, setHotels] = useState([]);
 
-  const AllHotels = hotelsListShow[0];
+  // const AllHotels = hotelsListShow[0];
 
+  const statehotels = useSelector((state) => state.hotels);
   useEffect(async () => {
-    const hotelListArray = await dispatch(getAllHotels());
-    setHotelsListShow(hotelListArray);
-    return hotelListArray;
-  }, [AllHotels]);
+    if (statehotels.hotels.length === 0) {
+      const data = await dispatch(getAllHotels());
+      console.log(data);
+      setHotels(data);
+      console.log("I am in store value check if");
+    } else {
+      setHotels(statehotels.hotels);
+    }
+  }, [statehotels.hotels, hotels]);
+
+  // useEffect(async () => {
+  //   const hotelListArray = await dispatch(getAllHotels());
+  //   setHotelsListShow(hotelListArray);
+  //   return hotelListArray;
+  // }, [AllHotels]);
 
   const handleDeleteHotel = (e, props) => {
     e.preventDefault();
@@ -371,17 +384,17 @@ const All_hotels_list = ({ history }) => {
                   </div>
                 </div>
                 {/*End tools */}
-                {AllHotels?.length === 0 ? (
+                {hotels?.length === 0 ? (
                   <h3 style={{ display: "flex", justifyContent: "center" }}>
                     No Hotels To Show
                   </h3>
                 ) : (
                   <div>
-                    {AllHotels?.map((lists) => (
+                    {hotels?.map((hotel) => (
                       <div
                         className="strip_all_tour_list wow fadeIn"
                         data-wow-delay="0.1s"
-                        key={lists._id}
+                        key={hotel._id}
                       >
                         <div className="row">
                           <div className="col-lg-4 col-md-4">
@@ -421,9 +434,9 @@ const All_hotels_list = ({ history }) => {
                                 <i className="icon-star-empty" />
                               </div>
                               <h3>
-                                <strong>{lists.name}</strong> Hotel
+                                <strong>{hotel.name}</strong> Hotel
                               </h3>
-                              <p>{lists.description}</p>
+                              <p>{hotel.description}</p>
                               <ul className="add_info">
                                 <li>
                                   <a
@@ -482,7 +495,7 @@ const All_hotels_list = ({ history }) => {
                                       backgroundColor: "green",
                                       color: "white",
                                     }}
-                                    onClick={(e) => handleUpdateHotel(e, lists)}
+                                    onClick={(e) => handleUpdateHotel(e, hotel)}
                                   >
                                     Update
                                   </Button>
@@ -495,7 +508,7 @@ const All_hotels_list = ({ history }) => {
                                     startIcon={<DeleteOutlined />}
                                     style={{ color: "red" }}
                                     onClick={(e) =>
-                                      handleDeleteHotel(e, lists._id)
+                                      handleDeleteHotel(e, hotel._id)
                                     }
                                   >
                                     Delete
@@ -508,7 +521,7 @@ const All_hotels_list = ({ history }) => {
                             <div className="price_list">
                               <div>
                                 <sup>$</sup>
-                                {lists.price}
+                                {hotel.price}
                                 <span className="normal_price_list">$99</span>
                                 <small>*From/Per night</small>
                                 <p>
@@ -521,7 +534,7 @@ const All_hotels_list = ({ history }) => {
                                     startIcon={<Info />}
                                     className="btn_1"
                                     onClick={(e) =>
-                                      handleDetailHotel(e, lists._id)
+                                      handleDetailHotel(e, hotel._id)
                                     }
                                   >
                                     Details

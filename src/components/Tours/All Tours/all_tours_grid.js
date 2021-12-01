@@ -11,11 +11,13 @@ import {
 } from "../../../redux/actions/tour.action";
 import { useHistory } from "react-router-dom";
 import { getImage } from "../../../redux/actions/upload.action";
+import { getAllHotels } from "../../../redux/actions/hotels.action";
 
 const All_tours_grid = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
+  const [hotels, setHotels] = useState([]);
   const statetours = useSelector((state) => state.tours);
   console.log(statetours.tours, "ia ma");
   useEffect(async () => {
@@ -28,6 +30,19 @@ const All_tours_grid = () => {
       setTours(statetours.tours);
     }
   }, [statetours.tours, tours]);
+
+  const statehotels = useSelector((state) => state.hotels);
+  useEffect(async () => {
+    if (statehotels.hotels.length === 0) {
+      const data = await dispatch(getAllHotels());
+      console.log(data);
+      setHotels(data);
+      console.log("I am in store value check if");
+    } else {
+      setHotels(statehotels.hotels);
+    }
+  }, [statehotels.hotels, hotels]);
+
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
     history.push(`/single_tour/${id}`);

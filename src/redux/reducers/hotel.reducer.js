@@ -22,6 +22,8 @@ const initialState = {
   loading: false,
 };
 
+const allHotelsInitialState = { hotels: [], error: null, loading: null };
+
 export const hotelReducer = (prevState = initialState, action) => {
   const { type, payload } = action;
 
@@ -120,6 +122,20 @@ export const hotelReducer = (prevState = initialState, action) => {
         images: payload.images,
       };
 
+    default:
+      return prevState;
+  }
+};
+
+export const hotelsReducer = (prevState = allHotelsInitialState, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "GET_ALL_HOTELS_Request":
+      return { ...prevState, loading: true };
+    case "GET_ALL_HOTELS_SUCCESS":
+      return { ...prevState, hotels: payload.data };
+    case "GET_ALL_HOTELS_FAIL":
+      return [];
     default:
       return prevState;
   }
