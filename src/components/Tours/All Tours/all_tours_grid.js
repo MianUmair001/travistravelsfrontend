@@ -16,7 +16,6 @@ const All_tours_grid = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
-
   const statetours = useSelector((state) => state.tours);
   console.log(statetours.tours, "ia ma");
   useEffect(async () => {
@@ -29,7 +28,6 @@ const All_tours_grid = () => {
       setTours(statetours.tours);
     }
   }, [statetours.tours, tours]);
-
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
     history.push(`/single_tour/${id}`);

@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import { HotelOutlined } from "@material-ui/icons";
 
 import { updateHotel } from "../../../redux/actions/hotels.action";
+import { uploadImage } from "../../../redux/actions/upload.action";
 
 const UpdateHotel = ({ history }) => {
   const dispatch = useDispatch();
@@ -12,16 +13,26 @@ const UpdateHotel = ({ history }) => {
   const { hotelID, hotelName, price, description, images } = useSelector(
     (state) => state.hotel
   );
-  // console.log("hotelState", hotelID, hotelName, description, images);
 
+  const userId = useSelector((state) => state.auth);
   const [hotelName_, setHotelName_] = useState(hotelName);
   const [hotelPrice_, setHotelPrice_] = useState(price);
   const [description_, setDescription_] = useState(description);
-  const [images_, setImages_] = useState([images]);
+  const [images_, setImages] = useState(images);
 
   const updateHotelHandler = async (e) => {
     e.preventDefault();
-    dispatch(updateHotel(hotelID, hotelName_, hotelPrice_, description_, images_));
+
+    dispatch(
+      updateHotel(
+        hotelID,
+        hotelName_,
+        hotelPrice_,
+        description_,
+        images_,
+        userId, 
+      )
+    );
     history.push(`/single_hotel/${hotelID}`);
   };
 
@@ -114,58 +125,24 @@ const UpdateHotel = ({ history }) => {
 
                   <hr />
                   <h4>Upload profile photo</h4>
-                  <div className="form-inline upload_1">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <input
                         type="file"
-                        name="files[]"
-                        id="js-upload-files"
-                        value={images_}
+                        className="form-control-file"
                         multiple
+                        onChange={async (e) => {
+                          let formData = new FormData();
+                          formData.append("file", e.target.files[0]);
+                          formData.append("isPlaceImage", true);
+                          const { data } = await dispatch(
+                            uploadImage(formData)
+                          );
+                          setImages(data);
+                        }}
                       />
                     </div>
-                    <button
-                      type="submit"
-                      className="btn_1 green"
-                      id="js-upload-submit"
-                    >
-                      Upload file
-                    </button>
                   </div>
-                  {/* Drop Zone */}
-                  <h5>Or drag and drop files below</h5>
-                  <div className="upload-drop-zone" id="drop-zone">
-                    Just drag and drop files here
-                  </div>
-                  {/* Progress Bar */}
-                  <div className="progress">
-                    <div
-                      className="progress-bar"
-                      role="progressbar"
-                      aria-valuenow={60}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      style={{ width: "60%" }}
-                    >
-                      <span className="sr-only">60% Complete</span>
-                    </div>
-                  </div>
-                  {/* Upload Finished */}
-                  <div className="js-upload-finished">
-                    <h5>Processed files</h5>
-                    <div className="list-group">
-                      <a
-                        href="#"
-                        className="list-group-item list-group-item-success"
-                      >
-                        <span className="badge alert-success pull-right">
-                          Success
-                        </span>
-                        image-01.jpg
-                      </a>
-                    </div>
-                  </div>
-                  {/* End Hidden on mobiles */}
                   <hr />
                   <Button
                     type="submit"

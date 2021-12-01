@@ -13,6 +13,7 @@ import {
 
 const initialState = {
   hotelID: null,
+  userId: null,
   hotelName: null,
   description: null,
   images: null,
@@ -34,6 +35,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case CREATE_HOTEL_SUCCESS:
       return {
         hotelID: payload.hotelID,
+        userId: payload.userId,
         hotelName: payload.hotelName,
         price: payload.price,
         description: payload.description,
@@ -43,6 +45,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case CREATE_HOTEL_FAIL:
       return {
         hotelID: null,
+        userId: null,
         hotelName: null,
         price: null,
         description: null,
@@ -60,6 +63,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case UPDATE_HOTEL_SUCCESS:
       return {
         hotelID: payload.hotelID,
+        userId: payload.userId,
         hotelName: payload.hotelName,
         price: payload.price,
         description: payload.description,
@@ -69,6 +73,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case UPDATE_HOTEL_FAIL:
       return {
         hotelID: null,
+        userId: null,
         hotelName: null,
         price: null,
         description: null,
@@ -86,6 +91,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case DELETE_HOTEL_SUCCESS:
       return {
         hotelID: null,
+        userId: null,
         hotelName: null,
         price: null,
         description: null,
@@ -97,6 +103,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case DELETE_HOTEL_FAIL:
       return {
         hotelID: payload.hotelID,
+        userId: payload.userId,
         hotelName: payload.hotelName,
         price: payload.price,
         description: payload.description,
@@ -106,6 +113,7 @@ export const hotelReducer = (prevState = initialState, action) => {
     case GET_HOTEL_BY_ID_SUCCESS:
       return {
         hotelID: payload.hotelID,
+        userId: payload.userId,
         hotelName: payload.hotelName,
         price: payload.price,
         description: payload.description,

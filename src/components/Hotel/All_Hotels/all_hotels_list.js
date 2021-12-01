@@ -42,12 +42,7 @@ const All_hotels_list = ({ history }) => {
   const handleUpdateHotel = async (e, props) => {
     e.preventDefault();
 
-    let id = props._id;
-    let name = props.name;
-    let description = props.description;
-    let images = props.images;
-
-    await dispatch(updateHotel(id, name, description, images));
+    await dispatch(getHotelByID(props._id));
     history.push(`/update_hotel/${props._id}`);
   };
 
@@ -489,7 +484,7 @@ const All_hotels_list = ({ history }) => {
                                     }}
                                     onClick={(e) => handleUpdateHotel(e, lists)}
                                   >
-                                    Update 
+                                    Update
                                   </Button>
                                 </div>
                                 <div class="col-sm-6">
@@ -512,7 +507,8 @@ const All_hotels_list = ({ history }) => {
                           <div className="col-lg-2 col-md-2">
                             <div className="price_list">
                               <div>
-                                <sup>$</sup>{lists.price}
+                                <sup>$</sup>
+                                {lists.price}
                                 <span className="normal_price_list">$99</span>
                                 <small>*From/Per night</small>
                                 <p>

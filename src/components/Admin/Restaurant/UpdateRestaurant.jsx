@@ -160,7 +160,6 @@ const UpdateRestaurant = () => {
           </div>
         </div>
         {/* End Position */}
-
         <div className="margin_60 container">
           <div>
             <div className="content1">

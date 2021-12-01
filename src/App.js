@@ -195,6 +195,7 @@ function App() {
             path="/update_restaurant/:id"
             component={UpdateRestaurant}
           />
+
           <Route
             exact
             path="/all_restaurants_grid"
@@ -313,6 +314,7 @@ function App() {
           <Route exact path="/create_profile" component={CreateProfile} />
           <Route exact path="/bookings" component={Bookings} />
           <Route exact path="/create_bookings/:id" component={CreateBooking} />
+ 
 
           <Route exact path="/admin_dashboard" component={AdminDashBoard} />
 

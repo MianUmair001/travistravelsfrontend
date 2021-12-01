@@ -273,24 +273,13 @@ const CreateProfile = ({ history }) => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Country</label>
-                          <select
+                          <input
                             id="country"
                             className="form-control"
                             name="country"
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
-                          >
-                            {errorMessage === true ? (
-                              <h6
-                                style={{
-                                  color: "red",
-                                  marginTop: "2px",
-                                }}
-                              >
-                                <small>This field is Requird</small>
-                              </h6>
-                            ) : null}
-                          </select>
+                          />
                         </div>
                       </div>
                     </div>
@@ -315,39 +304,6 @@ const CreateProfile = ({ history }) => {
                       </button>
                     </div>
                     {/* Drop Zone */}
-                    <h5>Or drag and drop files below</h5>
-                    <div className="upload-drop-zone" id="drop-zone">
-                      Just drag and drop files here
-                    </div>
-                    {/* Progress Bar */}
-                    <div className="progress">
-                      <div
-                        className="progress-bar"
-                        role="progressbar"
-                        aria-valuenow={60}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        style={{ width: "60%" }}
-                      >
-                        <span className="sr-only">60% Complete</span>
-                      </div>
-                    </div>
-                    {/* Upload Finished */}
-                    <div className="js-upload-finished">
-                      <h5>Processed files</h5>
-                      <div className="list-group">
-                        <a
-                          href="#"
-                          className="list-group-item list-group-item-success"
-                        >
-                          <span className="badge alert-success pull-right">
-                            Success
-                          </span>
-                          image-01.jpg
-                        </a>
-                      </div>
-                    </div>
-                    {/* End Hidden on mobiles */}
                     <hr />
                     <Button
                       type="submit"

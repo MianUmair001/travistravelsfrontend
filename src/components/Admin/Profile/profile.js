@@ -13,11 +13,11 @@ const Profile = ({ history }) => {
   const dispatch = useDispatch();
 
   const email = useSelector(state => state.auth.userEmail);
+  const token = useSelector((state) => state.auth.accessToken);
 
   const { address, firstName, lastName, DateOfBirth, phone, username, auth } =
     useSelector((state) => state.profile);
 
-  console.log(address, firstName, lastName, DateOfBirth, phone, username, auth);
 
   const [firstNameUser, setFirstNameUser] = useState(firstName);
   const [lastNameUser, setLastNameUser] = useState(lastName);
@@ -50,7 +50,8 @@ const Profile = ({ history }) => {
         phoneUser,
         username,
         auth,
-      })
+      }, 
+      token)
     );
     setShowUpdateProfile(false)
   };
@@ -63,7 +64,7 @@ const Profile = ({ history }) => {
   const handleDeleteProfile = (e) => {
     e.preventDefault();
 
-    dispatch(deleteProfile(auth));
+    dispatch(deleteProfile(auth, token));
     history.push("/create_profile");
   };
 

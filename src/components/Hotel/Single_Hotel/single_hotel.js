@@ -22,8 +22,10 @@ const Single_hotel = ({ history }) => {
     history.push(`/update_hotel/${id}`);
   };
 
+
   const handleDeleteHotel = (e) => {
     e.preventDefault();
+
     dispatch(deleteHotel(hotelID));
     history.push("/create_hotel");
   };

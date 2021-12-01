@@ -99,20 +99,23 @@ export const createProfile =
   };
 
 export const updateprofile =
-  ({
-    address: {
-      addressNameUser,
-      countryUser,
-      streetAddressUser,
-      coordinatesUser,
+  (
+    {
+      address: {
+        addressNameUser,
+        countryUser,
+        streetAddressUser,
+        coordinatesUser,
+      },
+      firstNameUser,
+      lastNameUser,
+      DateOfBirthUser,
+      phoneUser,
+      username,
+      auth,
     },
-    firstNameUser,
-    lastNameUser,
-    DateOfBirthUser,
-    phoneUser,
-    username,
-    auth,
-  }) =>
+    token
+  ) =>
   async (dispatch) => {
     try {
       dispatch({
@@ -138,13 +141,11 @@ export const updateprofile =
         {
           headers: {
             contentType: "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTI2NTUyMWI3YWVkNTQzYTRlNDJhMDkiLCJlbWFpbCI6ImFtaWFudW1haXJAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2Mjk5NzA0NDksImV4cCI6MTYzNTE1NDQ0OX0.Aiz5VeiJVgkVFv8r4pikbNyaAUUN0i2A-1aYQePvwTw",
+            Authorization: "Bearer " + token,
           },
         }
       );
-
-      console.log("I m in update profile", response.data.data);
+      console.log("I m in update profile", response.data.data, token);
       dispatch({
         type: UPDATE_PROFILE_SUCCESS,
         payload: {
@@ -183,7 +184,7 @@ export const updateprofile =
     }
   };
 
-export const deleteProfile = (id) => async (dispatch) => {
+export const deleteProfile = (id, token) => async (dispatch) => {
   console.log("id", id);
   dispatch({
     type: DELETE_PROFILE_REQUEST,
@@ -192,8 +193,7 @@ export const deleteProfile = (id) => async (dispatch) => {
     const response = await axios.delete(URL + endpoints.DELETE_PROFILE, {
       headers: {
         contentType: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTI2NTUyMWI3YWVkNTQzYTRlNDJhMDkiLCJlbWFpbCI6ImFtaWFudW1haXJAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2Mjk5NzA0NDksImV4cCI6MTYzNTE1NDQ0OX0.Aiz5VeiJVgkVFv8r4pikbNyaAUUN0i2A-1aYQePvwTw",
+        Authorization: "Bearer " + token,
       },
     });
 
