@@ -12,6 +12,8 @@ const Map = ({
   places,
   setChildClicked,
   weatherData,
+  lanLongStartlocation,
+  lanLongEndlocation,
 }) => {
   var myLatLng = { lat: 38.346, lng: -0.4907 };
 
@@ -28,6 +30,8 @@ const Map = ({
     setDirectionRenderer(maps.DirectionsRenderer());
     console.log("directionsService", directionsService);
     console.log("directionsDisplay", directionsRenderer);
+    directionsRenderer.setMap(map);
+    RouteCalculate(maps);
   };
   const RouteCalculate = (maps) => {
     var request = {
@@ -68,8 +72,8 @@ const Map = ({
         defaultCenter={coordinates}
         center={coordinates}
         defaultZoom={14}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+        // yesIWantToUseGoogleMapApiInternals
+        // onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
         margin={[50, 50, 50, 50]}
         options={{
           disableDefaultUI: true,
@@ -84,6 +88,40 @@ const Map = ({
           setChildClicked(child);
         }}
       >
+        <div
+          className={classes.markerContainer}
+          lat={lanLongStartlocation.lat}
+          lng={lanLongStartlocation.lng}
+        >
+          <Paper elevation={3} className={classes.paper}>
+            <Typography
+              className={classes.typography}
+              variant="subtitle2"
+              gutterBottom
+            >
+              {/* {place.name} */}
+              Start Location
+            </Typography>
+          </Paper>
+        </div>
+
+        <div
+          className={classes.markerContainer}
+          lat={lanLongEndlocation.lat}
+          lng={lanLongEndlocation.lng}
+        >
+          <Paper elevation={3} className={classes.paper}>
+            <Typography
+              className={classes.typography}
+              variant="subtitle2"
+              gutterBottom
+            >
+              {/* {place.name} */}
+              End Location
+            </Typography>
+          </Paper>
+        </div>
+
         {places?.map((place, i) => (
           <div
             className={classes.markerContainer}

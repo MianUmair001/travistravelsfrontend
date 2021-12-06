@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -13,14 +13,28 @@ import {
 
 const All_transfer_grid = ({ history }) => {
   const dispatch = useDispatch();
+  const role = useSelector((state) => state.auth.user.role);
 
   const [transportsListShow, setTransportsListShow] = useState([]);
 
+  const statetransports = useSelector((state) => state.transports);
+  console.log(statetransports.transports, "ia ma");
   useEffect(async () => {
-    const transportListArray = await dispatch(getALlTransport());
-    setTransportsListShow(transportListArray);
-    return transportListArray;
-  }, [transportsListShow]);
+    if (statetransports.transports.length === 0) {
+      const { data } = await dispatch(getALlTransport());
+      console.log(data);
+      setTransportsListShow(data);
+      console.log("I am in store value check if");
+    } else {
+      setTransportsListShow(statetransports.transports);
+    }
+  }, [statetransports.transports, transportsListShow]);
+
+  // useEffect(async () => {
+  //   const transportListArray = await dispatch(getALlTransport());
+  //   setTransportsListShow(transportListArray);
+  //   return transportListArray;
+  // }, [transportsListShow]);
 
   const handleDeleteTransport = async (e, props) => {
     e.preventDefault();
@@ -387,7 +401,11 @@ const All_transfer_grid = ({ history }) => {
                             <div className="img_container">
                               <a href="single_hotel.html">
                                 <img
-                                  src="img/hotel_1.jpg"
+                                  src={
+                                    transportGrid?.images[0]?.name
+                                      ? `http://localhost:3000/api/upload/file/${transportGrid?.images[0]?.folderName}/fileName/${transportGrid?.images[0]?.name}`
+                                      : "img/tour_box_1.jpg"
+                                  }
                                   width={800}
                                   height={533}
                                   className="img-fluid"
@@ -440,33 +458,37 @@ const All_transfer_grid = ({ history }) => {
                               }}
                               className="btn"
                             >
-                              <Button
-                                variant="contained"
-                                size="small"
-                                startIcon={<Edit />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) =>
-                                  handleUpdateTransport(e, transportGrid)
-                                }
-                              >
-                                Update
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<DeleteOutlined />}
-                                style={{
-                                  color: "red",
-                                }}
-                                onClick={(e) =>
-                                  handleDeleteTransport(e, transportGrid)
-                                }
-                              >
-                                Delete
-                              </Button>
+                              {role === "admin" && (
+                                <>
+                                  <Button
+                                    variant="contained"
+                                    size="small"
+                                    startIcon={<Edit />}
+                                    style={{
+                                      backgroundColor: "green",
+                                      color: "white",
+                                    }}
+                                    onClick={(e) =>
+                                      handleUpdateTransport(e, transportGrid)
+                                    }
+                                  >
+                                    Update
+                                  </Button>
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    startIcon={<DeleteOutlined />}
+                                    style={{
+                                      color: "red",
+                                    }}
+                                    onClick={(e) =>
+                                      handleDeleteTransport(e, transportGrid)
+                                    }
+                                  >
+                                    Delete
+                                  </Button>
+                                </>
+                              )}
                               <Button
                                 variant="outlined"
                                 size="small"

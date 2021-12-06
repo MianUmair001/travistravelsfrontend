@@ -18,6 +18,7 @@ const initialState = {
   loading: false,
   error: false,
 };
+const allToursInitialState = { transports: [], error: null, loading: null };
 
 export const transportReducer = (prevState = initialState, action) => {
   const { type, payload } = action;
@@ -61,6 +62,20 @@ export const transportReducer = (prevState = initialState, action) => {
         error: false,
       };
 
+    default:
+      return prevState;
+  }
+};
+
+export const transportsReducer = (prevState = allToursInitialState, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "GET_ALL_TRANSPORT_Request":
+      return { ...prevState, loading: true };
+    case "GET_ALL_TRANSPORT_SUCCESS":
+      return { ...prevState, transports: payload.data };
+    case "GET_ALL_TRANSPORT_FAIL":
+      return [];
     default:
       return prevState;
   }

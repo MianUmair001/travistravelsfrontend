@@ -11,6 +11,7 @@ const initialState = {
   accessToken: null,
   loading: false,
   error: false,
+  role: null,
 };
 
 export const authReducer = (prevState = initialState, action) => {
@@ -28,6 +29,7 @@ export const authReducer = (prevState = initialState, action) => {
         user: payload.user,
         accessToken: payload.accessToken,
         loading: false,
+        role: payload.role,
       };
     }
     case LOGIN_FAIL:

@@ -330,6 +330,7 @@ function App() {
           {/* Place Routes */}
           <Route exact path="/create_place" component={CreatePlace} />
           <Route exact path="/update_place" component={UpdatePlace} />
+          
 
           {/* Rooms Routes */}
           <Route exact path="/create_room/:id" component={CreateRooms} />

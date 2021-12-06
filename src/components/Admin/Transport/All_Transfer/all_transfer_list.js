@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
@@ -14,13 +14,21 @@ import {
 const All_transfer_list = ({ history }) => {
   const dispatch = useDispatch();
 
-  const [transportsListShow, setTransportListShow] = useState([]);
+  const [transportsListShow, setTransportsListShow] = useState([]);
+  const role = useSelector((state) => state.auth.user.role);
 
+  const statetransports = useSelector((state) => state.transports);
+  console.log(statetransports.transports, "ia ma");
   useEffect(async () => {
-    const transportListArray = await dispatch(getALlTransport());
-    setTransportListShow(transportListArray);
-    return transportListArray;
-  }, [transportsListShow]);
+    if (statetransports.transports.length === 0) {
+      const { data } = await dispatch(getALlTransport());
+      console.log(data);
+      setTransportsListShow(data);
+      console.log("I am in store value check if");
+    } else {
+      setTransportsListShow(statetransports.transports);
+    }
+  }, [statetransports.transports, transportsListShow]);
 
   const handleDeleteTransport = async (e, props) => {
     e.preventDefault();
@@ -372,39 +380,41 @@ const All_transfer_list = ({ history }) => {
                               </div>
                             </li>
                           </ul>
-                          <div className="row">
-                            <div class="col-sm-6">
-                              <Button
-                                variant="contained"
-                                size="small"
-                                className="btn mt-4"
-                                startIcon={<Edit />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) =>
-                                  handleUpdateTransport(e, transportList)
-                                }
-                              >
-                                Update
-                              </Button>
+                          {role === "admin" && (
+                            <div className="row">
+                              <div class="col-sm-6">
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  className="btn mt-4"
+                                  startIcon={<Edit />}
+                                  style={{
+                                    backgroundColor: "green",
+                                    color: "white",
+                                  }}
+                                  onClick={(e) =>
+                                    handleUpdateTransport(e, transportList)
+                                  }
+                                >
+                                  Update
+                                </Button>
+                              </div>
+                              <div class="col-sm-6">
+                                <Button
+                                  variant="outlined"
+                                  size="small"
+                                  className="btn mt-4"
+                                  startIcon={<DeleteOutlined />}
+                                  style={{ color: "red" }}
+                                  onClick={(e) =>
+                                    handleDeleteTransport(e, transportList)
+                                  }
+                                >
+                                  Delete
+                                </Button>
+                              </div>
                             </div>
-                            <div class="col-sm-6">
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                className="btn mt-4"
-                                startIcon={<DeleteOutlined />}
-                                style={{ color: "red" }}
-                                onClick={(e) =>
-                                  handleDeleteTransport(e, transportList)
-                                }
-                              >
-                                Delete
-                              </Button>
-                            </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                       <div className="col-lg-2 col-md-2">

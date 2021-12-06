@@ -17,12 +17,14 @@ const All_hotels_list = ({ history }) => {
   const [hotels, setHotels] = useState([]);
 
   const statehotels = useSelector((state) => state.hotels);
+  const role = useSelector((state) => state.auth.user.role);
+
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
       const data = await dispatch(getAllHotels());
       const hotelList = data.data;
       setHotels(hotelList);
-      console.log(hotelList); 
+      console.log(hotelList);
     } else {
       setHotels(statehotels.hotels);
     }
@@ -481,37 +483,41 @@ const All_hotels_list = ({ history }) => {
                                   </a>
                                 </li>
                               </ul>
-                              <div className="row">
-                                <div class="col-sm-6">
-                                  <Button
-                                    variant="contained"
-                                    size="small"
-                                    className="btn mt-4"
-                                    startIcon={<Edit />}
-                                    style={{
-                                      backgroundColor: "green",
-                                      color: "white",
-                                    }}
-                                    onClick={(e) => handleUpdateHotel(e, hotel)}
-                                  >
-                                    Update
-                                  </Button>
+                              {role === "admin" && (
+                                <div className="row">
+                                  <div class="col-sm-6">
+                                    <Button
+                                      variant="contained"
+                                      size="small"
+                                      className="btn mt-4"
+                                      startIcon={<Edit />}
+                                      style={{
+                                        backgroundColor: "green",
+                                        color: "white",
+                                      }}
+                                      onClick={(e) =>
+                                        handleUpdateHotel(e, hotel)
+                                      }
+                                    >
+                                      Update
+                                    </Button>
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <Button
+                                      variant="outlined"
+                                      size="small"
+                                      className="btn mt-4"
+                                      startIcon={<DeleteOutlined />}
+                                      style={{ color: "red" }}
+                                      onClick={(e) =>
+                                        handleDeleteHotel(e, hotel._id)
+                                      }
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
                                 </div>
-                                <div class="col-sm-6">
-                                  <Button
-                                    variant="outlined"
-                                    size="small"
-                                    className="btn mt-4"
-                                    startIcon={<DeleteOutlined />}
-                                    style={{ color: "red" }}
-                                    onClick={(e) =>
-                                      handleDeleteHotel(e, hotel._id)
-                                    }
-                                  >
-                                    Delete
-                                  </Button>
-                                </div>
-                              </div>
+                              )}
                             </div>
                           </div>
                           <div className="col-lg-2 col-md-2">

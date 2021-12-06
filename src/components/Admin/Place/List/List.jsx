@@ -21,6 +21,7 @@ const List = ({
   setName,
   setDescription,
   setImages,
+  handlePlaceCreateSubmit,
 }) => {
   const [elRefs, setElRefs] = useState([]);
   const classes = useStyles();
@@ -68,6 +69,7 @@ const List = ({
                   setName={setName}
                   setDescription={setDescription}
                   setImages={setImages}
+                  handlePlaceCreateSubmit={handlePlaceCreateSubmit}
                   place={place}
                   selected={Number(childClicked) === index}
                   refProp={elRefs[index]}

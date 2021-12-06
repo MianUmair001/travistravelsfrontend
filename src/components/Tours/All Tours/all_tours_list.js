@@ -11,6 +11,7 @@ const All_tours_list = () => {
   const history = useHistory();
   const [tours, setTours] = useState([]);
 
+  const role = useSelector((state) => state.auth.user.role);
 
   const statetours = useSelector((state) => state.tours);
   console.log(statetours.tours, "ia ma");
@@ -37,7 +38,7 @@ const All_tours_list = () => {
   const handleUpdateTour = async (e, id) => {
     e.preventDefault();
     history.push(`/update_tour/${id}`);
-    await dispatch(getTours()); 
+    await dispatch(getTours());
   };
 
   return (
@@ -434,38 +435,39 @@ const All_tours_list = () => {
                               </div>
                             </li>
                           </ul>
-
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                            className="btn"
-                          >
-                            <Button
-                              variant="contained"
-                              size="small"
-                              startIcon={<Edit />}
+                          {role === "admin" && (
+                            <div
                               style={{
-                                backgroundColor: "green",
-                                color: "white",
+                                display: "flex",
+                                justifyContent: "space-between",
                               }}
-                              onClick={(e) => handleUpdateTour(e, tour._id)}
+                              className="btn"
                             >
-                              Update Tour
-                            </Button>
-                            <Button
-                              variant="outlined"
-                              size="small"
-                              startIcon={<Delete />}
-                              style={{
-                                color: "red",
-                              }}
-                              onClick={(e) => handleDeleteTour(e, tour._id)}
-                            >
-                              Delete Tour
-                            </Button>
-                          </div>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<Edit />}
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                                onClick={(e) => handleUpdateTour(e, tour._id)}
+                              >
+                                Update Tour
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Delete />}
+                                style={{
+                                  color: "red",
+                                }}
+                                onClick={(e) => handleDeleteTour(e, tour._id)}
+                              >
+                                Delete Tour
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       </div>
 

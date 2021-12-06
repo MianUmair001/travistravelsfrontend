@@ -25,13 +25,14 @@ const PlaceDetails = ({
   setName,
   setDescription,
   setImages,
+  handlePlaceCreateSubmit,
 }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   if (selected)
     refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
     setName(place.name);
     setDescription(place.description);
 
@@ -47,6 +48,7 @@ const PlaceDetails = ({
     const { data } = await dispatch(uploadImage(formData));
     setImages(data);
     /** setImages(place.photo.images); */
+    handlePlaceCreateSubmit(e, place.name, place.description, data);
   };
   return (
     <Card elevation={6}>
@@ -140,7 +142,7 @@ const PlaceDetails = ({
           >
             Website
           </Button>
-          <Button size="small" color="primary" onClick={handleClick}>
+          <Button size="small" color="primary" onClick={(e) => handleClick(e)}>
             Add Place
           </Button>
         </CardActions>

@@ -55,6 +55,7 @@ const CreatePlace = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(createPlaces(name, description, [images]));
+    dispatch(getPlaces());
   };
 
   return (

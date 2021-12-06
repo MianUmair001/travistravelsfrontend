@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../Styles/admin.css";
 import { createTour, getTours } from "../../../redux/actions/tour.action";
-import { getPlaces } from "../../../redux/actions/places.action";
+import { createPlaces, getPlaces } from "../../../redux/actions/places.action";
 import { MultiSelect } from "react-multi-select-component";
 import { uploadImage } from "../../../redux/actions/upload.action";
-
+import axios from "axios";
+import PlaceSuggestions from "../Place/PlaceSuggestions";
+import { Button } from "@material-ui/core";
 const CreateTour = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("NaranKaghan");
   const [description, setDescription] = useState(
     "A Tour from Lahore to Naran Kaghan"
   );
+  const auth = useSelector((state) => state.auth);
+  console.log(auth.role);
+
   const [startLocation, setStartLocation] = useState("Lahore");
-  const [endLocation, setEndLocation] = useState("NaranKaghan");
-  const [price, setPrice] = useState("3000");
+  const [endLocation, setEndLocation] = useState("Naran Valley");
+  const [price, setPrice] = useState(3000);
   const [startDate, setStartDate] = useState("7/29/2021");
   const [endDate, setEndDate] = useState("8/5/2021");
   const [image, setImage] = useState("");
@@ -27,24 +32,116 @@ const CreateTour = () => {
   const [tourType, setTourType] = useState("");
   const optionsData = [];
   const [images, setImages] = useState([]);
+  const [lanLongStartlocation, setLanLongStartlocation] = useState("");
+  const [lanLongEndlocation, setLanLongEndlocation] = useState("");
+  const [distances, setDistances] = useState(0);
+  const [durations, setDurations] = useState(0);
+
+  // useEffect(() => {
+  //   findlatlngLocations();
+  // }, [startLocation, endLocation]);
+
+  const handlePlaceCreateSubmit = (e, name, description, images) => {
+    e.preventDefault();
+    console.log(name, description, images);
+    if (name && description && images) {
+      dispatch(createPlaces(name, description, [images]));
+    } else {
+      if (!name) {
+        dispatch(createPlaces("", description, [images]));
+      } else if (!description) {
+        dispatch(createPlaces(name, "description", [images]));
+      }
+    }
+  };
+
+  const statePlaces = useSelector((state) => state.places);
 
   useEffect(async () => {
-    const { data } = await dispatch(getPlaces());
-    setPlaces(data);
-    data?.map((place) => {
-      optionsData.push({
-        label: place.name,
-        value: place.name,
-        _id: place._id,
-        name: place.name,
-        description: place.description,
-        images: place.images,
-        createdAt: place.createdAt,
-        updatedAt: place.updatedAt,
+    if (statePlaces.places.length === 0) {
+      const { data } = await dispatch(getPlaces());
+      setPlaces(data);
+      data?.map((place) => {
+        optionsData.push({
+          label: place.name,
+          value: place.name,
+          _id: place._id,
+          name: place.name,
+          description: place.description,
+          images: place.images,
+          createdAt: place.createdAt,
+          updatedAt: place.updatedAt,
+        });
+        setOptions(optionsData);
       });
-    });
-    setOptions(optionsData);
-  }, [selectedOptions]);
+    } else {
+      const { places } = statePlaces;
+      setPlaces(places);
+      places?.map((place) => {
+        optionsData.push({
+          label: place.name,
+          value: place.name,
+          _id: place._id,
+          name: place.name,
+          description: place.description,
+          images: place.images,
+          createdAt: place.createdAt,
+          updatedAt: place.updatedAt,
+        });
+      });
+    }
+  }, [statePlaces.place, selectedOptions]);
+
+  const findlatlngLocations = async (startLocation, endLocation) => {
+    try {
+      console.log(startLocation, endLocation);
+
+      const {
+        data: { results },
+      } = await axios.get(`
+    https://maps.googleapis.com/maps/api/geocode/json?address=${startLocation}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`);
+      console.log(results);
+      setLanLongStartlocation(results[0].geometry?.location);
+
+      const data2 = await axios.get(`
+    https://maps.googleapis.com/maps/api/geocode/json?address=${endLocation}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`);
+      console.log(data2);
+      setLanLongEndlocation(data2?.data?.results[0]?.geometry?.location);
+
+      console.log(
+        results[0].geometry?.location,
+        data2?.data?.results[0]?.geometry?.location
+      );
+      const distancedata = await axios.get(
+        `https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix`,
+        {
+          params: {
+            origins: `${results[0].geometry?.location.lat},${results[0].geometry?.location.lng}`,
+            destinations: `${data2?.data?.results[0]?.geometry?.location.lat},${data2?.data?.results[0]?.geometry?.location.lng}`,
+          },
+          headers: {
+            "x-rapidapi-host": "trueway-matrix.p.rapidapi.com",
+            "x-rapidapi-key":
+              "0f2d353845mshbcc6321a9e9eca1p17f084jsnad0808357c3b",
+          },
+        }
+      );
+      console.log("I am duration cal", distancedata?.data?.durations[0]);
+      console.log("I am Distance cal", distancedata?.data?.distances[0]);
+      setDistances(distancedata?.data?.distances[0] / 1000);
+      setDurations(distancedata?.data?.durations[0]);
+      console.log(
+        "I am Distance from State",
+        distancedata?.data?.distances[0] / 1000
+      );
+      const calculatedprice =
+        (distancedata?.data?.distances[0] / 1000 / 10) * 145;
+      console.log("I am Calculated", calculatedprice);
+      setPrice(calculatedprice);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,6 +279,14 @@ const CreateTour = () => {
                       />
                     </div>
                   </div>
+                  <Button
+                    className="btn_1 green"
+                    onClick={() =>
+                      findlatlngLocations(startLocation, endLocation)
+                    }
+                  >
+                    Calculate Price{" "}
+                  </Button>
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Price</label>
@@ -252,28 +357,35 @@ const CreateTour = () => {
                     />
                   </div>
 
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Images</label>
-                      <input
-                        type="file"
-                        className="form-control-file"
-                        multiple
-                        onChange={async (e) => {
-                          let formData = new FormData();
-                          formData.append("file", e.target.files[0]);
-                          formData.append("isPlaceImage", true);
-                          const { data } = await dispatch(
-                            uploadImage(formData)
-                          );
-                          setImages(data);
-                        }}
-                      />
+                  {auth.role != "user" && (
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Images</label>
+                        <input
+                          type="file"
+                          className="form-control-file"
+                          multiple
+                          onChange={async (e) => {
+                            let formData = new FormData();
+                            formData.append("file", e.target.files[0]);
+                            formData.append("isPlaceImage", true);
+                            const { data } = await dispatch(
+                              uploadImage(formData)
+                            );
+                            setImages(data);
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 {/* End row */}
                 <hr />
+                <PlaceSuggestions
+                  lanLongStartlocation={lanLongStartlocation}
+                  lanLongEndlocation={lanLongEndlocation}
+                  handlePlaceCreateSubmit={handlePlaceCreateSubmit}
+                />
                 <button
                   type="submit"
                   className="btn_1 green"

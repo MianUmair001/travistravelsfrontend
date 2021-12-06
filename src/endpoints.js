@@ -111,4 +111,8 @@ export const endpoints = {
   GET_RESTAURANT_BY_ID: "/api/restaurants/restaurant/",
   UPDATE_RESTAURANTS: "/api/restaurants",
   DELETE_RESTAURANTS: "/api/restaurants",
+
+
+
+
 };

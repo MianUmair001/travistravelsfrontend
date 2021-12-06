@@ -12,17 +12,19 @@ export const login = (email, password) => async (dispatch) => {
       email: email,
       password: password,
     });
+    console.log("I am Response Complete", response.data.data.user.role);
     const {
       access_token,
       user: { _id: user },
     } = response.data.data;
-    console.log("I m in login response", response.data.data.user);
+    console.log("I m in login response", response.data.data.role);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: {
         userEmail: response.data.data.user.email,
         accessToken: access_token,
         user,
+        role: response.data.data.user.role,
       },
     });
     return response.data.data.user;

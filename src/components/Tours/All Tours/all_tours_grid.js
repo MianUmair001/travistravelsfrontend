@@ -19,6 +19,7 @@ const All_tours_grid = () => {
   const [tours, setTours] = useState([]);
   const [hotels, setHotels] = useState([]);
   const statetours = useSelector((state) => state.tours);
+  const role = useSelector((state) => state.auth.user.role);
   console.log(statetours.tours, "ia ma");
   useEffect(async () => {
     if (statetours.tours.length === 0) {
@@ -31,17 +32,17 @@ const All_tours_grid = () => {
     }
   }, [statetours.tours, tours]);
 
-  const statehotels = useSelector((state) => state.hotels);
-  useEffect(async () => {
-    if (statehotels.hotels.length === 0) {
-      const data = await dispatch(getAllHotels());
-      console.log(data);
-      setHotels(data);
-      console.log("I am in store value check if");
-    } else {
-      setHotels(statehotels.hotels);
-    }
-  }, [statehotels.hotels, hotels]);
+  // const statehotels = useSelector((state) => state.hotels);
+  // useEffect(async () => {
+  //   if (statehotels.hotels.length === 0) {
+  //     const data = await dispatch(getAllHotels());
+  //     console.log(data);
+  //     setHotels(data);
+  //     console.log("I am in store value check if");
+  //   } else {
+  //     setHotels(statehotels.hotels);
+  //   }
+  // }, [statehotels.hotels, hotels]);
 
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
@@ -389,7 +390,6 @@ const All_tours_grid = () => {
                             </span>
                           </a>
                         </div>
-
                         <div
                           style={{
                             display: "flex",
@@ -397,29 +397,33 @@ const All_tours_grid = () => {
                           }}
                           className="btn"
                         >
-                          <Button
-                            variant="contained"
-                            size="small"
-                            startIcon={<Edit />}
-                            style={{
-                              backgroundColor: "green",
-                              color: "white",
-                            }}
-                            onClick={(e) => handleUpdateTour(e, tour._id)}
-                          >
-                            Update
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Delete />}
-                            style={{
-                              color: "red",
-                            }}
-                            onClick={(e) => handleDeleteTour(e, tour._id)}
-                          >
-                            Delete
-                          </Button>
+                          {role === "admin" && (
+                            <>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<Edit />}
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
+                                onClick={(e) => handleUpdateTour(e, tour._id)}
+                              >
+                                Update
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Delete />}
+                                style={{
+                                  color: "red",
+                                }}
+                                onClick={(e) => handleDeleteTour(e, tour._id)}
+                              >
+                                Delete
+                              </Button>
+                            </>
+                          )}
                           <Button
                             variant="outlined"
                             size="small"

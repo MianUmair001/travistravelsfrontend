@@ -13,10 +13,12 @@ import {
 
 const All_hotels_grid = ({ history }) => {
   const dispatch = useDispatch();
+  const role = useSelector((state) => state.auth.user.role);
 
   const [hotels, setHotels] = useState([]);
 
   const statehotels = useSelector((state) => state.hotels);
+
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
       const data = await dispatch(getAllHotels());
@@ -455,30 +457,36 @@ const All_hotels_grid = ({ history }) => {
                                 justifyContent: "space-between",
                               }}
                             >
-                              <Button
-                                variant="contained"
-                                size="small"
-                                startIcon={<Edit />}
-                                style={{
-                                  className: "btn",
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) => handleUpdateHotel(e, hotel)}
-                              >
-                                Update
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<DeleteOutlined />}
-                                style={{
-                                  color: "red",
-                                }}
-                                onClick={(e) => handleDeleteHotel(e, hotel._id)}
-                              >
-                                Delete
-                              </Button>
+                              {role === "admin" && (
+                                <>
+                                  <Button
+                                    variant="contained"
+                                    size="small"
+                                    startIcon={<Edit />}
+                                    style={{
+                                      className: "btn",
+                                      backgroundColor: "green",
+                                      color: "white",
+                                    }}
+                                    onClick={(e) => handleUpdateHotel(e, hotel)}
+                                  >
+                                    Update
+                                  </Button>
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    startIcon={<DeleteOutlined />}
+                                    style={{
+                                      color: "red",
+                                    }}
+                                    onClick={(e) =>
+                                      handleDeleteHotel(e, hotel._id)
+                                    }
+                                  >
+                                    Delete
+                                  </Button>
+                                </>
+                              )}
                               <Button
                                 variant="outlined"
                                 size="small"

@@ -33,6 +33,7 @@ export const getPlaces = () => async (dispatch) => {
   try {
     const { data } = await axios.get(URL + endpoints.GET_PLACES);
     console.log({ data });
+    dispatch({ type: "GET_ALL_PLACES_SUCCESS", payload: data });
     return data;
   } catch (error) {
     console.log({ error });
