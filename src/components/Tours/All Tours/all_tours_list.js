@@ -58,7 +58,7 @@ const All_tours_list = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Paris tours</h1>
+            <h1>Pakistan Tours</h1>
             <p>
               Ridiculus sociosqu cursus neque cursus curae ante scelerisque
               vehicula.

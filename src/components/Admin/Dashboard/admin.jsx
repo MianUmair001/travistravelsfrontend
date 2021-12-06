@@ -105,7 +105,7 @@ const AdminDashBoard = () => {
 
   const handleCreateTour = (e) => {
     e.preventDefault();
-    history.push("/createTour");
+    history.push("/create_tour");
   };
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
