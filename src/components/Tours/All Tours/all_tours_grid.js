@@ -58,18 +58,24 @@ const All_tours_grid = () => {
     history.push(`/update_tour/${id}`);
     await dispatch(getTours());
   };
+
+  const addMoreToursHandler = async (e) => {
+    e.preventDefault()
+
+    history.push('/create_tour')
+  }
   return (
     <>
       <section
         className="parallax-window"
         data-parallax="scroll"
-        data-image-src="../../../img/bg.jpg"
+        data-image-src="img/Tour/tour-header.jpg"
         data-natural-width={1400}
         data-natural-height={470}
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Paris tours</h1>
+            <h1>Pakistan Tours</h1>
             <p>
               Ridiculus sociosqu cursus neque cursus curae ante scelerisque
               vehicula.
@@ -84,12 +90,9 @@ const All_tours_grid = () => {
           <div class="container">
             <ul>
               <li>
-                <a href="#">Home</a>
+                <a href="/">Home</a>
               </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
+              <li>Tours</li>
             </ul>
           </div>
         </div>
@@ -112,6 +115,20 @@ const All_tours_grid = () => {
                   data-text-original="View on map"
                 >
                   View on map
+                </a>
+              </p>
+              <p>
+                <a
+                  class="btn_map"
+                  data-toggle="collapse"
+                  href="#collapseMap"
+                  aria-expanded="false"
+                  aria-controls="collapseMap"
+                  data-text-swap="Hide map"
+                  data-text-original="View on map"
+                  onClick={addMoreToursHandler}
+                >
+                  Add More Tours
                 </a>
               </p>
 

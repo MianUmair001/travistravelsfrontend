@@ -9,9 +9,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const userId = useSelector((state) => state.auth.user);
-  // console.log("user Now", userId);
   const profileState = useSelector((state) => state.profile);
-  // console.log("user profileState", profileState);
 
   const logoutHandler = (e) => {
     e.preventDefault();
@@ -32,15 +30,6 @@ const Header = () => {
       history.push("/profile");
     }
   };
-
-  // const hanldeAllHotelList = async (e) => {
-  //   e.preventDefault();
-
-  //   const allHotelsList = await dispatch(getAllHotels());
-
-  //   history.push("/all_hotels_list");
-  //   // return allHotelsList;
-  // };
 
   return (
     <>

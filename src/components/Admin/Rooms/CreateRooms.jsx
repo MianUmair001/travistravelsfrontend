@@ -87,7 +87,6 @@ const CreateRooms = () => {
             </ul>
           </div>
         </div>
-
         <div className="margin_60 container">
           <div>
             <div className="content1">

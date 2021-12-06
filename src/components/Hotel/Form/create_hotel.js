@@ -33,10 +33,12 @@ const CreateHotel = ({ history }) => {
     const response = await dispatch(
       createHotel(hotelName, hotelPrice, description, images, userID)
     );
-    setnewHotelId(response.data.data._id);
-    console.log(response);
     if (response !== undefined) {
       setShowSuccessMessage(true);
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
+      return () => clearTimeout(timer);
     }
   };
 
@@ -46,13 +48,13 @@ const CreateHotel = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/admin_top.jpg"
+          data-image-src="img/Hotels/hotel-header.png"
           data-natural-width={1400}
           data-natural-height={470}
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1 style={{ textTransform: "uppercase" }}>Hello Ibrar!</h1>
+              <h1 style={{ textTransform: "uppercase" }}>Create Hotel</h1>
               <p>
                 Ridiculus sociosqu cursus neque cursus curae ante scelerisque
                 vehicula.
@@ -69,7 +71,7 @@ const CreateHotel = ({ history }) => {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/">Category</Link>
+                  <Link to="/all_hotels_list">Hotels</Link>
                 </li>
                 <li>Create Hotel</li>
               </ul>
@@ -139,10 +141,10 @@ const CreateHotel = ({ history }) => {
                           let formData = new FormData();
                           formData.append("file", e.target.files[0]);
                           formData.append("isPlaceImage", true);
-                          const { data } = await dispatch(
-                            uploadImage(formData)
-                          );
-                          setImages(data);
+                          const data = await dispatch(uploadImage(formData));
+                          const response = data?.data;
+                          console.log("data", response);
+                          setImages(response);
                         }}
                       />
                     </div>
@@ -163,11 +165,9 @@ const CreateHotel = ({ history }) => {
                   >
                     Create Hotel
                   </Button>
-
                   {showSuccessMessage ? (
                     <h6 className="mt-3">
                       Hotel Created Successfully!
-                      {history.push("/create_room/" + newHotelId)}
                       <Link
                         to={`/single_hotel/${hotelID}`}
                         style={{ marginLeft: "3px", color: "green" }}

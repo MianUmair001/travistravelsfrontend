@@ -14,7 +14,19 @@ import { placeReducer, placesReducer, place_reducer } from "../places.reducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "profile", "hotel", "transport", "plan"],
+  whitelist: [
+    "auth",
+    "profile",
+    "hotel",
+    "hotels",
+    "transport",
+    "transports",
+    "plan",
+    "tour",
+    "tours",
+    "restaurant",
+    "restaurants",
+  ],
 };
 
 const rootReducer = combineReducers({

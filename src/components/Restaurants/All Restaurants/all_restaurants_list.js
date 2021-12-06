@@ -14,7 +14,6 @@ const All_restaurants_list = ({ history }) => {
   const [restaurants, setRestaurants] = useState([]);
   const staterestaurants = useSelector((state) => state.restaurants);
   console.log(staterestaurants, "ia ma");
-  
   useEffect(async () => {
     if (staterestaurants.restaurants.length === 0) {
       const { data } = await dispatch(getAllRestaurants());

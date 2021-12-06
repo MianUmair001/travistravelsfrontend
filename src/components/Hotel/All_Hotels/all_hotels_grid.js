@@ -18,7 +18,6 @@ const All_hotels_grid = ({ history }) => {
   const [hotels, setHotels] = useState([]);
 
   const statehotels = useSelector((state) => state.hotels);
-
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
       const data = await dispatch(getAllHotels());
@@ -68,13 +67,13 @@ const All_hotels_grid = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/hotels_bg.jpg"
+          data-image-src="img/Hotels/hotel-header.png"
           data-natural-width={1400}
           data-natural-height={470}
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1>Paris Hotels</h1>
+              <h1>Pakistan Hotels</h1>
               <p>
                 Ridiculus sociosqu cursus neque cursus curae ante scelerisque
                 vehicula.
@@ -406,6 +405,7 @@ const All_hotels_grid = ({ history }) => {
                                       ? `http://localhost:3000/api/upload/file/${hotel?.images[0]?.folderName}/fileName/${hotel?.images[0]?.name}`
                                       : "img/tour_box_1.jpg"
                                   }
+                                  alt="Image"
                                   width={800}
                                   height={533}
                                   className="img-fluid"
@@ -425,7 +425,7 @@ const All_hotels_grid = ({ history }) => {
                             </div>
                             <div className="hotel_title">
                               <h3>
-                                <strong>{hotel.name}</strong> Hotel
+                                <strong>{hotel.name}</strong>
                               </h3>
                               <div className="rating">
                                 <i className="icon-star voted" />
@@ -494,6 +494,7 @@ const All_hotels_grid = ({ history }) => {
                                 style={{
                                   backgroundColor: "green",
                                   color: "white",
+                                  margin: "0 10px 10px 0",
                                 }}
                                 onClick={(e) => handleDetailHotel(e, hotel._id)}
                               >

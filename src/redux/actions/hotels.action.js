@@ -21,10 +21,10 @@ export const createHotel =
         description,
         images,
         name,
-        price: Number(price),
         auth,
+        price: Number(price),
       });
-      console.log("I m in create hotel", response.data.data);
+      // console.log("I m in create hotel", response.data.data);
       dispatch({
         type: CREATE_HOTEL_SUCCESS,
         payload: {
@@ -45,7 +45,6 @@ export const createHotel =
 
 export const updateHotel =
   (id, name, description, images, auth) => async (dispatch) => {
-    console.log("updateHotel", id, name, description, images, auth);
     try {
       dispatch({
         type: UPDATE_HOTEL_REQUEST,
@@ -60,7 +59,7 @@ export const updateHotel =
         }
       );
       // console.log(URL + endpoints.UPDATE_HOTEL_BY_ID + id)
-      console.log("I'm in update hotel", response.data.data._id);
+      console.log("I'm in update hotel", response.status);
       dispatch({
         type: UPDATE_HOTEL_SUCCESS,
         payload: {
@@ -70,6 +69,7 @@ export const updateHotel =
           images,
         },
       });
+      return response.status
     } catch (error) {
       console.error({ error });
     }
@@ -81,6 +81,7 @@ export const getAllHotels = () => async (dispatch) => {
     const { data } = await axios.get(URL + endpoints.GET_HOTEL);
     // console.log("I'm in get all hotels", response.data.data)
     dispatch({ type: "GET_ALL_HOTELS_SUCCESS", payload: data });
+    // console.log('data', data)
     return data;
   } catch (error) {
     console.log({ error });
@@ -91,7 +92,6 @@ export const getHotelByID = (id) => async (dispatch) => {
   try {
     // console.log(URL.concat(endpoints.GET_HOTEL_BY_ID));
     const response = await axios.get(URL + endpoints.GET_HOTEL_BY_ID + id);
-    console.log(response);
     // console.log("getHotelByID", response.data.data);
     dispatch({
       type: GET_HOTEL_BY_ID_SUCCESS,

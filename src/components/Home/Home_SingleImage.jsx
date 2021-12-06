@@ -7,45 +7,40 @@ import { Button } from "@material-ui/core";
 const Home_SingleImage = ({ history }) => {
   const dispatch = useDispatch();
   const [tours, setTours] = useState([]);
-  const [allHotels, setAllHotels] = useState([]);
-
+  const [sliceHotel, setSliceHotel] = useState();
+  const [sliceTour, setSliceTour] = useState();
   const [hotels, setHotels] = useState();
 
   const statehotels = useSelector((state) => state.hotels);
+  const statetours = useSelector((state) => state.tours);
+
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
       const data = await dispatch(getAllHotels());
-      console.log(data);
-      setHotels(data);
-      console.log("I am in store value check if");
+      const response = data.data;
+      setHotels(response);
+      const hotelSlice = response?.slice(0, 6);
+      setSliceHotel(hotelSlice);
     } else {
       setHotels(statehotels.hotels);
+      const stateHotelSlice = statehotels.hotels?.slice(0, 6);
+      setSliceHotel(stateHotelSlice);
     }
   }, [statehotels.hotels, hotels]);
 
-  const statetours = useSelector((state) => state.tours);
-  console.log(statetours.tours, "ia ma");
   useEffect(async () => {
     if (statetours.tours.length === 0) {
       const { data } = await dispatch(getTours());
-      console.log(data);
       setTours(data);
-      console.log("I am in store value check if");
+      console.log("data", data);
+      const tourSlice = data?.slice(0, 6);
+      setSliceTour(tourSlice);
     } else {
       setTours(statetours.tours);
+      const stateSliceTour = statetours.tours?.slice(0, 6);
+      setSliceTour(stateSliceTour);
     }
   }, [statetours.tours, tours]);
-
-  // useEffect(async () => {
-  //   const hotelList = await dispatch(getAllHotels());
-  //   setAllHotels(hotelList);
-  // }, [allHotels]);
-
-  // const allHotelList = allHotels[0];
-
-  const tourSlice = tours?.slice(0, 6);
-
-  const hotelSlice = hotels?.slice(0, 6);
 
   const handleToursPush = (e) => {
     e.preventDefault();
@@ -92,7 +87,7 @@ const Home_SingleImage = ({ history }) => {
             </h3>
           ) : (
             <div className="row">
-              {tourSlice?.map((tour) => (
+              {sliceTour?.map((tour) => (
                 <div
                   className="col-lg-4 col-md-6 wow zoomIn"
                   data-wow-delay="0.1s"
@@ -107,9 +102,8 @@ const Home_SingleImage = ({ history }) => {
                         <img
                           src={
                             tour?.images[0]?.name
-                            ? `http://localhost:3000/api/upload/file/${tour?.images[0]?.folderName}/fileName/${tour?.images[0]?.name}`
-                            : "img/restaurant_box_1.jpg"
-                            // "https://images.unsplash.com/photo-1624087315243-8fbb9f90e5bd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                              ? `http://localhost:3000/api/upload/file/${tour?.images[0]?.folderName}/fileName/${tour?.images[0]?.name}`
+                              : "img/tour_box_1.jpg"
                           }
                           width={800}
                           height={533}
@@ -120,7 +114,7 @@ const Home_SingleImage = ({ history }) => {
                           <i className="icon_set_1_icon-44" />
                           Historic Buildings
                           <span className="price">
-                            <sup>$</sup>
+                            <sup>${tour.price}</sup>
                           </span>
                         </div>
                       </a>
@@ -159,7 +153,11 @@ const Home_SingleImage = ({ history }) => {
 
           {/* End row */}
           <p className="text-center add_bottom_30">
-            <Button className="btn_1 medium" onClick={handleToursPush}>
+            <Button
+              className="btn_1 medium"
+              onClick={handleToursPush}
+              style={{ backgroundColor: "green", color: "white" }}
+            >
               <i className="icon-eye-7" />
               View all tours ({tours?.length}){" "}
             </Button>
@@ -180,7 +178,7 @@ const Home_SingleImage = ({ history }) => {
             </h3>
           ) : (
             <div className="row">
-              {hotelSlice?.map((hotel) => (
+              {sliceHotel?.map((hotel) => (
                 <div
                   className="col-lg-4 col-md-6 wow zoomIn"
                   data-wow-delay="0.1s"
@@ -194,7 +192,9 @@ const Home_SingleImage = ({ history }) => {
                       <a href="single_hotel.html">
                         <img
                           src={
-                            "https://images.unsplash.com/photo-1561204812-4f7ed4793f84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80"
+                            hotel?.images[0]?.name
+                              ? `http://localhost:3000/api/upload/file/${hotel?.images[0]?.folderName}/fileName/${hotel?.images[0]?.name}`
+                              : "img/tour_box_1.jpg"
                           }
                           width={800}
                           height={533}
@@ -244,7 +244,11 @@ const Home_SingleImage = ({ history }) => {
           {/* End row */}
 
           <p className="text-center nopadding">
-            <Button className="btn_1 medium" onClick={handleHotelPush}>
+            <Button
+              className="btn_1 medium"
+              onClick={handleHotelPush}
+              style={{ backgroundColor: "green", color: "white" }}
+            >
               <i className="icon-eye-7" />
               View all hotels ({hotels?.length}){" "}
             </Button>

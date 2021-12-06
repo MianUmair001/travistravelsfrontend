@@ -112,7 +112,4 @@ export const endpoints = {
   UPDATE_RESTAURANTS: "/api/restaurants",
   DELETE_RESTAURANTS: "/api/restaurants",
 
-
-
-
 };

@@ -62,13 +62,13 @@ const All_hotels_list = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/hotels_bg.jpg"
+          data-image-src="img/Hotels/hotel-header.png"
           data-natural-width={1400}
           data-natural-height={470}
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1>Paris Hotels</h1>
+              <h1>Pakistan Hotels</h1>
               <p>
                 Ridiculus sociosqu cursus neque cursus curae ante scelerisque
                 vehicula.
@@ -408,7 +408,6 @@ const All_hotels_list = ({ history }) => {
                             <div className="img_list">
                               <a href="single_hotel.html">
                                 <img
-                                  // src="img/hotel_1.jpg"
                                   src={
                                     hotel?.images[0]?.name
                                       ? `http://localhost:3000/api/upload/file/${hotel?.images[0]?.folderName}/fileName/${hotel?.images[0]?.name}`
@@ -433,7 +432,7 @@ const All_hotels_list = ({ history }) => {
                                 <i className="icon-star-empty" />
                               </div>
                               <h3>
-                                <strong>{hotel.name}</strong> Hotel
+                                <strong>{hotel.name}</strong>
                               </h3>
                               <p>{hotel.description}</p>
                               <ul className="add_info">
@@ -523,6 +522,10 @@ const All_hotels_list = ({ history }) => {
                           <div className="col-lg-2 col-md-2">
                             <div className="price_list">
                               <div>
+                                <sup>$</sup>
+                                {hotel.price}
+                                <span className="normal_price_list">$99</span>
+                                <small>*From/Per night</small>
                                 <p>
                                   <Button
                                     type="submit"

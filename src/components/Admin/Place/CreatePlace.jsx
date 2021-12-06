@@ -30,7 +30,6 @@ const CreatePlace = () => {
         setCoordinates({ lat: latitude, lng: longitude });
       }
     );
-
   }, []);
 
   useEffect(() => {
@@ -140,7 +139,6 @@ const CreatePlace = () => {
                           let formData = new FormData();
                           formData.append("file", e.target.files[0]);
                           formData.append("isPlaceImage", true);
-
                           const { data } = await dispatch(
                             uploadImage(formData)
                           );

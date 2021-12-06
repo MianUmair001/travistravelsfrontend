@@ -322,7 +322,6 @@ function App() {
           <Route exact path="/bookings" component={Bookings} />
           <Route exact path="/create_bookings/:id" component={CreateBooking} />
           <Route exact path="/adminTours" component={Tours} />
-
           {/* Hotel Routes */}
           <Route exact path="/create_hotel" component={CreateHotel} />
           <Route exact path="/update_hotel/:id" component={UpdateHotel} />

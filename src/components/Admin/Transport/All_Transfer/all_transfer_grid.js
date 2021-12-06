@@ -81,7 +81,7 @@ const All_transfer_grid = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/hotels_bg.jpg"
+          data-image-src="img/Transport/transport_header.jpg"
           data-natural-width={1400}
           data-natural-height={470}
         >
@@ -383,7 +383,7 @@ const All_transfer_grid = ({ history }) => {
                 {/*End tools */}
                 {transportsListShow?.length === 0 ? (
                   <h3 style={{ display: "flex", justifyContent: "center" }}>
-                    No Hotels To Show
+                    No Transport To Show
                   </h3>
                 ) : (
                   <div>

@@ -14,7 +14,9 @@ const UpdateHotel = ({ history }) => {
     (state) => state.hotel
   );
 
-  const userId = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth.user);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   const [hotelName_, setHotelName_] = useState(hotelName);
   const [hotelPrice_, setHotelPrice_] = useState(price);
   const [description_, setDescription_] = useState(description);
@@ -23,17 +25,16 @@ const UpdateHotel = ({ history }) => {
   const updateHotelHandler = async (e) => {
     e.preventDefault();
 
-    dispatch(
-      updateHotel(
-        hotelID,
-        hotelName_,
-        hotelPrice_,
-        description_,
-        images_,
-        userId, 
-      )
+    const response = await dispatch(
+      updateHotel(hotelID, hotelName_, description_, images_, auth, hotelPrice_)
     );
-    history.push(`/single_hotel/${hotelID}`);
+    if (response === 200) {
+      setShowSuccessMessage(true);
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
+      return () => clearTimeout();
+    }
   };
 
   return (
@@ -135,10 +136,9 @@ const UpdateHotel = ({ history }) => {
                           let formData = new FormData();
                           formData.append("file", e.target.files[0]);
                           formData.append("isPlaceImage", true);
-                          const { data } = await dispatch(
-                            uploadImage(formData)
-                          );
-                          setImages(data);
+                          const data = await dispatch(uploadImage(formData));
+                          const response = data?.data;
+                          setImages(response);
                         }}
                       />
                     </div>
@@ -157,6 +157,17 @@ const UpdateHotel = ({ history }) => {
                   >
                     Update Hotel
                   </Button>
+                  {showSuccessMessage ? (
+                    <h6 className="mt-3">
+                      Hotel Updated Successfully!
+                      <Link
+                        to={`/single_hotel/${hotelID}`}
+                        style={{ marginLeft: "3px", color: "green" }}
+                      >
+                        View Hotel
+                      </Link>
+                    </h6>
+                  ) : null}
                 </section>
                 {/* End section 4 */}
               </div>

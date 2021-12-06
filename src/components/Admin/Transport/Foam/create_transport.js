@@ -40,9 +40,12 @@ const CreateTransport = ({ history }) => {
         images
       )
     );
-    console.log(response);
     if (response !== undefined) {
       setShowSuccessMessage(true);
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
+      return () => clearTimeout();
     }
   };
 
@@ -54,7 +57,7 @@ const CreateTransport = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/admin_top.jpg"
+          data-image-src="img/Transport/transport_header.jpg"
           data-natural-width={1400}
           data-natural-height={470}
         >
@@ -203,25 +206,26 @@ const CreateTransport = ({ history }) => {
                   </div>
 
                   <hr />
-                  <h4>Upload profile photo</h4>
-                  <div className="form-inline upload_1">
+                  <h4>Upload photo</h4>
+                  <div className="col-md-6">
                     <div className="form-group">
                       <input
                         type="file"
-                        name="files[]"
-                        id="js-upload-files"
+                        className="form-control-file"
                         multiple
+                        onChange={async (e) => {
+                          let formData = new FormData();
+                          formData.append("file", e.target.files[0]);
+                          formData.append("isPlaceImage", true);
+                          const data = await dispatch(uploadImage(formData));
+                          const response = data?.data;
+                          console.log("data", response);
+                          setImages(response);
+                        }}
                       />
                     </div>
-                    <button
-                      type="submit"
-                      className="btn_1 green"
-                      id="js-upload-submit"
-                    >
-                      Upload file
-                    </button>
                   </div>
-                  
+
                   {/* End Hidden on mobiles */}
                   <hr />
                   <Button

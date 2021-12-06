@@ -41,12 +41,18 @@ const All_tours_list = () => {
     await dispatch(getTours());
   };
 
+  const addTourHandler = (e) => {
+    e.preventDefault();
+
+    history.push("/create_tour");
+  };
+
   return (
     <>
       <section
         className="parallax-window"
         data-parallax="scroll"
-        data-image-src="../../../img/bg.jpg"
+        data-image-src="img/Tour/tour-header.jpg"
         data-natural-width={1400}
         data-natural-height={470}
       >
@@ -96,6 +102,20 @@ const All_tours_list = () => {
                 >
                   View on map
                 </a>
+              </p>
+              <p>
+                <Button
+                  className="btn_map"
+                  data-toggle="collapse"
+                  href="#collapseMap"
+                  aria-expanded="false"
+                  aria-controls="collapseMap"
+                  data-text-swap="Hide map"
+                  data-text-original="View on map"
+                  onClick={addTourHandler}
+                >
+                  Add More Tours
+                </Button>
               </p>
               <div className="box_style_cat">
                 <ul id="cat_nav">
