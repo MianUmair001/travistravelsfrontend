@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { useDispatch } from "react-redux";
 import { getAllDishes } from "../../../redux/actions/dishes.action";
-import { createRestaurant } from "../../../redux/actions/restaurant.action";
+import {
+  createRestaurant,
+  getAllRestaurants,
+} from "../../../redux/actions/restaurant.action";
 import { getImage, uploadImage } from "../../../redux/actions/upload.action";
 import "../Styles/admin.css";
 
@@ -96,6 +99,7 @@ const CreateRestaurant = () => {
         price
       )
     );
+    await dispatch(getAllRestaurants());
   };
 
   return (

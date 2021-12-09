@@ -13,7 +13,7 @@ import {
 
 const All_hotels_grid = ({ history }) => {
   const dispatch = useDispatch();
-  const role = useSelector((state) => state.auth.user.role);
+  const role = useSelector((state) => state.auth.role);
 
   const [hotels, setHotels] = useState([]);
 

@@ -31,6 +31,7 @@ const CheckoutForm = ({
   const elements = useElements();
   const history = useHistory();
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -64,6 +65,7 @@ const CheckoutForm = ({
             noOfChildren: Number(childrenQuantity),
             bookedServiceType: bookedServiceType,
             bookedService: bookedServiceId,
+            user:user
           }
         );
 

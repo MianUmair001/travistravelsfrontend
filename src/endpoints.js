@@ -6,7 +6,7 @@ export const URL =
 export const endpoints = {
   /* AUTH */
   LOGIN: "/api/auth/login",
-  SIGNUP: "/api/auth/signup/user",
+  SIGNUP: "/api/auth/signup/",
   VERIFY_EMAIL: "/api/auth/verifyEmail",
   FORGOT_PASS: "/api/auth/forgotPass",
   RESET_PASSWORD: "/api/auth/resetPass",

@@ -51,6 +51,12 @@ const All_restaurants_list = ({ history }) => {
     );
     history.push(`/update_restaurant/${restaurant._id}`);
   };
+
+  const handleCreateRestuarant = (e) => {
+    e.preventDefault();
+
+    history.push("/create_restaurant");
+  };
   return (
     <>
       <section
@@ -106,6 +112,20 @@ const All_restaurants_list = ({ history }) => {
                 >
                   View on map
                 </a>
+              </p>
+              <p>
+                <Button
+                  className="btn_map"
+                  data-toggle="collapse"
+                  href="#collapseMap"
+                  aria-expanded="false"
+                  aria-controls="collapseMap"
+                  data-text-swap="Hide map"
+                  data-text-original="View on map"
+                  onClick={handleCreateRestuarant}
+                >
+                  Add More restuarant
+                </Button>
               </p>
               <div className="box_style_cat">
                 <ul id="cat_nav">

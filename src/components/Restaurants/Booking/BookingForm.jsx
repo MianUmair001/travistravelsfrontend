@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 
 const BookingForm = ({
@@ -13,11 +14,12 @@ const BookingForm = ({
   const [adultsQuantity, setAdultsQuantity] = useState(0);
   const history = useHistory();
   const location = useLocation();
-//   const params = location.state;
-//   const serviceName = params.servicename;
-//   const bookedServiceId = params.bookedServiceId;
-//   const bookedServiceType = params.bookedServiceType;
-//   const price = params.price;
+  const user = useSelector((state) => state.auth.user);
+  //   const params = location.state;
+  //   const serviceName = params.servicename;
+  //   const bookedServiceId = params.bookedServiceId;
+  //   const bookedServiceType = params.bookedServiceType;
+  //   const price = params.price;
   const handleBookClick = (e) => {
     e.preventDefault();
     history.push({
@@ -32,6 +34,7 @@ const BookingForm = ({
         serviceId: bookedServiceId,
         bookedServiceType: bookedServiceType,
         bookedServiceId: bookedServiceId,
+        user: user,
       },
     });
   };

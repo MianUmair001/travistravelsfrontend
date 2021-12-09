@@ -16,8 +16,7 @@ const VerifyEmail = () => {
     e.preventDefault();
     console.log("handle submit");
     dispatch(verifyEmail(email, code));
-      history.push("/login");
-    
+    history.push("/login");
   };
   return (
     <>
@@ -32,13 +31,15 @@ const VerifyEmail = () => {
                       src="img/logo_sticky.png"
                       alt="Image"
                       data-retina="true"
+                      style={{ width: "200px" }}
                     />
                   </div>
                   <hr />
                   <form>
                     <div className="form-group">
                       <label>
-                        A Email containing code has been sent to your Email - <b>{email}</b>
+                        A Email containing code has been sent to your Email -{" "}
+                        <b>{email}</b>
                       </label>
                       <input
                         type="text"

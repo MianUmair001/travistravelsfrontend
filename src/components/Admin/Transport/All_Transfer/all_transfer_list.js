@@ -15,7 +15,7 @@ const All_transfer_list = ({ history }) => {
   const dispatch = useDispatch();
 
   const [transportsListShow, setTransportsListShow] = useState([]);
-  const role = useSelector((state) => state.auth.user.role);
+  const role = useSelector((state) => state.auth.role);
 
   const statetransports = useSelector((state) => state.transports);
   console.log(statetransports.transports, "ia ma");

@@ -30,6 +30,7 @@ const Register = () => {
       console.log("succuss, failed", success.success);
       const result = success.success;
       setAfterSubmit(false);
+      const UserEmail = localStorage.setItem('UserEmail', email);
       if (result === false) {
         setShowError(true);
       } else {
@@ -39,7 +40,7 @@ const Register = () => {
       toast.error("Passwords are not same");
     }
   };
-
+  
   return (
     <>
       <main>

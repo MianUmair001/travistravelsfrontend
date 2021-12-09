@@ -11,8 +11,8 @@ const All_tours_list = () => {
   const history = useHistory();
   const [tours, setTours] = useState([]);
 
-  const role = useSelector((state) => state.auth.user.role);
-
+  const role = useSelector((state) => state.auth.role);
+  console.log("I am Role", role);
   const statetours = useSelector((state) => state.tours);
   console.log(statetours.tours, "ia ma");
   useEffect(async () => {
@@ -499,12 +499,16 @@ const All_tours_list = () => {
                             <span className="normal_price_list">$99</span>
                             <small>*Per person</small>
                             <p>
-                              <a
+                              <Button
                                 onClick={(e) => handleDetailTour(e, tour._id)}
                                 className="btn_1"
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                }}
                               >
                                 Details
-                              </a>
+                              </Button>
                             </p>
                           </div>
                         </div>

@@ -84,7 +84,6 @@ export const getTours = () => async (dispatch) => {
     console.log("I am in Get Tours", data);
     return data;
   } catch (error) {
-    toast.error(error.response.data.message);
     console.log({ error });
   }
 };
@@ -117,7 +116,7 @@ export const updateTour =
         endDate,
         status,
       });
-      console.log('Update Tour', data)
+      console.log("Update Tour", data);
       toast.success("Tour has been Updated");
     } catch (error) {
       toast.error(error.response.data.message);

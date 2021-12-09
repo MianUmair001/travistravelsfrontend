@@ -36,15 +36,26 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const signUp = (email, password) => async (dispatch) => {
+export const signUp = (email, password, role) => async (dispatch) => {
   try {
-    const response = await axios.post(URL + endpoints.SIGNUP, {
-      email: email,
-      password: password,
-    });
-    toast.success(response.data.message);
-    const success = response.data.message;
-    return success;
+    if (role === "admin") {
+      const response = await axios.post(URL + endpoints.SIGNUP + "admin", {
+        email: email,
+        password: password,
+      });
+
+      toast.success(response.data.message);
+      const success = response.data.message;
+      return success;
+    } else {
+      const response = await axios.post(URL + endpoints.SIGNUP + "user", {
+        email: email,
+        password: password,
+      });
+      toast.success(response.data.message);
+      const success = response.data.message;
+      return success;
+    }
   } catch (error) {
     toast.error(error.response.data.message);
     console.log("Signup error response", error.response.data);

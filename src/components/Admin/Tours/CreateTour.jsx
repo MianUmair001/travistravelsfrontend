@@ -14,8 +14,8 @@ const CreateTour = () => {
   const [description, setDescription] = useState(
     "A Tour from Lahore to Naran Kaghan"
   );
-  const auth = useSelector((state) => state.auth);
-  console.log(auth.role);
+  const role = useSelector((state) => state.auth.role);
+  console.log("Role", role);
 
   const [startLocation, setStartLocation] = useState("Lahore");
   const [endLocation, setEndLocation] = useState("Naran Valley");
@@ -134,8 +134,7 @@ const CreateTour = () => {
         "I am Distance from State",
         distancedata?.data?.distances[0] / 1000
       );
-      const calculatedprice =
-        (distancedata?.data?.distances[0] / 1000 / 10) * 145;
+      const calculatedprice = (distancedata?.data?.distances[0] / 100) * 145;
       console.log("I am Calculated", calculatedprice);
       setPrice(calculatedprice);
     } catch (error) {
@@ -147,21 +146,40 @@ const CreateTour = () => {
     e.preventDefault();
     const places = selectedOptions;
     console.log("I amImages Data before Dispatch", images);
-    await dispatch(
-      createTour(
-        name,
-        description,
-        "withtravistravels",
-        startLocation,
-        endLocation,
-        Number(price),
-        startDate,
-        endDate,
-        "initialized",
-        places,
-        images
-      )
-    );
+    if (role === "user") {
+      await dispatch(
+        createTour(
+          name,
+          description,
+          "self",
+          startLocation,
+          endLocation,
+          Number(price),
+          startDate,
+          endDate,
+          "initialized",
+          places,
+          images
+        )
+      );
+    } else {
+      await dispatch(
+        createTour(
+          name,
+          description,
+          "withtravistravels",
+          startLocation,
+          endLocation,
+          Number(price),
+          startDate,
+          endDate,
+          "initialized",
+          places,
+          images
+        )
+      );
+    }
+
     await dispatch(getTours());
   };
 
@@ -237,22 +255,25 @@ const CreateTour = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Tour Type</label>
-                      <select
-                        id="tourType"
-                        className="form-control"
-                        name="tourType"
-                        defaultValue="Company"
-                        name={tourType}
-                        onChange={(e) => setTourType(e.target.value)}
-                      >
-                        <option value>Company</option>
-                        <option value>User</option>
-                      </select>
+                  {role === "admin" && (
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Tour Type</label>
+                        <select
+                          id="tourType"
+                          className="form-control"
+                          name="tourType"
+                          defaultValue="Company"
+                          name={tourType}
+                          onChange={(e) => setTourType(e.target.value)}
+                        >
+                          <option value>Company</option>
+                          <option value>User</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  )}
+
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Start Location</label>
@@ -327,25 +348,27 @@ const CreateTour = () => {
                     </div>
                   </div>
 
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Tour Type</label>
-                      <select
-                        id="tourType"
-                        className="form-control"
-                        name="tourType"
-                        defaultValue="Company"
-                        name={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                      >
-                        <option value="initialized">Initialized</option>
-                        <option value="inprocess">Inprocess</option>
-                        <option value="started">Started</option>
-                        <option value="onjourney">Onjourney</option>
-                        <option value="ended">Ended</option>
-                      </select>
+                  {/* {role === "admin" && (
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Tour Type</label>
+                        <select
+                          id="tourType"
+                          className="form-control"
+                          name="tourType"
+                          defaultValue="Company"
+                          name={status}
+                          onChange={(e) => setStatus(e.target.value)}
+                        >
+                          <option value="initialized">Initialized</option>
+                          <option value="inprocess">Inprocess</option>
+                          <option value="started">Started</option>
+                          <option value="onjourney">Onjourney</option>
+                          <option value="ended">Ended</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  )} */}
 
                   <div className="col-sm-6">
                     <label>Places</label>
@@ -357,7 +380,7 @@ const CreateTour = () => {
                     />
                   </div>
 
-                  {auth.role != "user" && (
+                  {role != "user" && (
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Images</label>

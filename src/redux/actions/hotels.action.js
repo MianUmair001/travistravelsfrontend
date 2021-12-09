@@ -69,7 +69,7 @@ export const updateHotel =
           images,
         },
       });
-      return response.status
+      return response.status;
     } catch (error) {
       console.error({ error });
     }
@@ -110,12 +110,13 @@ export const getHotelByID = (id) => async (dispatch) => {
 };
 
 export const deleteHotel = (id) => async (dispatch) => {
+  console.log("jjjd", id);
   try {
     const response = await axios.delete(URL + endpoints.DELETE_HOTEL + id);
     if (response.statusCode) {
       toast.success("Hotel has been deleted successfully");
     }
-    // console.log("delete response", response.data.data);
+    console.log("delete response", response);
     dispatch({
       type: DELETE_HOTEL_SUCCESS,
       payload: {

@@ -185,6 +185,11 @@ const AdminDashBoard = () => {
     await dispatch(getTours());
   };
 
+  const handleCreateRestuarant = (e) => {
+    e.preventDefault();
+
+    history.push("/create_restaurant");
+  };
   return (
     <>
       <section
@@ -259,7 +264,7 @@ const AdminDashBoard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowRestaurants(!showRestaurants)}
+                    onClick={() => setshowRestaurants(true)}
                     className="icon-profile"
                   >
                     <span>Restaurant</span>
@@ -270,6 +275,7 @@ const AdminDashBoard = () => {
 
             <div className="content">
               <section id="section-1">
+                Bookings
                 {showBookings && (
                   <>
                     <div id="tools">
@@ -343,6 +349,7 @@ const AdminDashBoard = () => {
 
               {/* End section 1 */}
               <section id="section-2">
+                Tours
                 {showTours && (
                   <>
                     <div class="row">
@@ -457,19 +464,20 @@ const AdminDashBoard = () => {
                         </div>
                       ))}
                     </div>
-                    <button
+                    <Button
                       type="submit"
                       className="btn_1 green"
                       onClick={(e) => handleCreateTour(e)}
                     >
                       Create Tour
-                    </button>
+                    </Button>
                   </>
                 )}
               </section>
 
               {/* End section 2 */}
               <section id="section-3">
+                Hotels
                 {showHotels && (
                   <>
                     <div class="row">
@@ -596,6 +604,7 @@ const AdminDashBoard = () => {
               </section>
 
               <section id="section-4">
+                Transports
                 {showTransports && (
                   <>
                     <div class="row">
@@ -740,6 +749,7 @@ const AdminDashBoard = () => {
               </section>
 
               <section id="section-5">
+                Restaurants
                 {showRestaurants && (
                   <div className="row">
                     {restaurants.map((restaurant) => (
@@ -848,8 +858,19 @@ const AdminDashBoard = () => {
                         {/* End box tour */}
                       </div>
                     ))}
-
                     {/* End col-md-6 */}
+                    <Button
+                      type="submit"
+                      className="btn_1 green"
+                      onClick={(e) => handleCreateRestuarant(e)}
+                      style={{
+                        marginLeft: "15px",
+                        backgroundColor: "green",
+                        color: "white",
+                      }}
+                    >
+                      Create Restuarant
+                    </Button>
                   </div>
                 )}
               </section>

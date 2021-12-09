@@ -17,7 +17,7 @@ const All_hotels_list = ({ history }) => {
   const [hotels, setHotels] = useState([]);
 
   const statehotels = useSelector((state) => state.hotels);
-  const role = useSelector((state) => state.auth.user.role);
+  const role = useSelector((state) => state.auth.role);
 
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
@@ -30,12 +30,11 @@ const All_hotels_list = ({ history }) => {
     }
   }, [statehotels.hotels, hotels]);
 
-  const handleDeleteHotel = (e, props) => {
+  const handleDeleteHotel = async (e, props) => {
     e.preventDefault();
-
-    dispatch(deleteHotel(props));
+    await dispatch(deleteHotel(props));
+    await dispatch(getAllHotels());
   };
-
   const handleDetailHotel = async (e, props) => {
     e.preventDefault();
 
