@@ -129,8 +129,9 @@ export const getALlTransport = () => async (dispatch) => {
 
 export const getTransportByid = (id) => async (dispatch) => {
   try {
-    const response = await axios.get(URL + endpoints.GET_TRANSPORT_BY_ID + id);
-    console.log("I'm from get transport by id", response);
+    const { data } = await axios.get(URL + endpoints.GET_TRANSPORT_BY_ID + id);
+    console.log("I'm from get transport by id", data);
+    return data;
   } catch (error) {
     console.log(error);
   }

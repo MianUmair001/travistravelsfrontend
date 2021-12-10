@@ -30,19 +30,7 @@ const All_tours_list = () => {
       {/* End section */}
 
       <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
+        
         {/* Position */}
         <div className="collapse" id="collapseMap">
           <div id="map" className="map" />

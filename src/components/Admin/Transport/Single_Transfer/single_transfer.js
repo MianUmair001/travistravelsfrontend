@@ -1,38 +1,65 @@
 import { Button } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   deleteTransportByID,
+  getALlTransport,
+  getTransportByid,
   updateTransport,
 } from "../../../../redux/actions/transport.action";
+import { getImage } from "../../../../redux/actions/upload.action";
+import BookingForm from "../../../Restaurants/Booking/BookingForm";
 
 const Single_transfer = ({ history }) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
+  console.log(id, "I am Params");
+  const [name, setName] = useState("");
+  const [modelName, setModelName] = useState("");
+  const [description, setDescription] = useState("");
+  const [transportType, setTransportType] = useState("");
+  const [numberofSeats, setNumberofSeats] = useState(0);
+  const [pricePerKillomter, setPricePerKillomter] = useState(0);
+  const [airConditioner, setAirConditioner] = useState();
+  const [availability, setavailability] = useState(0);
+  const [images, setImages] = useState([]);
+  const [url, setUrl] = useState();
 
-  const {
-    transportID,
-    transportName,
-    modelName,
-    description,
-    transportType,
-    numberOfSeats,
-    pricePerKillomter,
-    airConditioner,
-    availability,
-    images,
-  } = useSelector((state) => state.transport);
+  useEffect(async () => {
+    const { data } = await dispatch(getTransportByid(id));
+    console.log(data, "I am TRansport");
+    if (data?.images) {
+      const link = await dispatch(
+        getImage(data?.images[0]?.name, data?.images[0]?.folderName)
+      );
+      console.log(link);
+      setUrl(link);
+    } else {
+      setUrl(null);
+    }
+    setName(data.name);
+    setModelName(data.modelName);
+    setDescription(data.description);
+    setTransportType(data.transportType);
+    setNumberofSeats(data.numberofSeats);
+    setPricePerKillomter(data.pricePerKillomter);
+    setAirConditioner(data.airConditioner);
+    setavailability(data.availability);
+    setImages(data.images);
+  }, []);
 
   const updateTransportHandler = async (e) => {
     e.preventDefault();
 
     await dispatch(
       updateTransport(
-        transportID,
-        transportName,
+        id,
+        name,
         modelName,
         description,
         transportType,
-        numberOfSeats,
+        numberofSeats,
         pricePerKillomter,
         airConditioner,
         availability,
@@ -40,13 +67,13 @@ const Single_transfer = ({ history }) => {
       )
     );
 
-    history.push(`/update_transport/${transportID}`);
+    history.push(`/update_transport/${id}`);
   };
 
   const deleteTransportHandler = async (e) => {
     e.preventDefault();
 
-    await dispatch(deleteTransportByID(transportID));
+    await dispatch(deleteTransportByID(id));
     history.push("/all_transfer_list");
   };
 
@@ -62,7 +89,8 @@ const Single_transfer = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/transfer_top.jpg"
+          data-image-src={url === null && "img/transfer_top.jpg"}
+          style={{ backgroundImage: `url(${url})` }}
           data-natural-width={1400}
           data-natural-height={470}
         >
@@ -70,22 +98,14 @@ const Single_transfer = ({ history }) => {
             <div className="container">
               <div className="row">
                 <div className="col-md-8">
-                  <h1>{transportName}</h1>
-                  <span>Champ de Mars, 5 Avenue Anatole, 75007 Paris.</span>
-                  <span className="rating">
-                    <i className="icon-smile voted" />
-                    <i className="icon-smile voted" />
-                    <i className="icon-smile voted" />
-                    <i className="icon-smile voted" />
-                    <i className="icon-smile" />
-                    <small>(75)</small>
-                  </span>
+                  <h1>{name}</h1>
+                  <span>{description.split(".")[0]}</span>
                 </div>
                 <div className="col-md-4">
                   <div id="price_single_main">
-                    price per killometer{" "}
-                    <span>
-                      <sup>$</sup>
+                    price per killometer
+                    <span style={{ fontSize: "25px" }}>
+                      PKR:
                       {pricePerKillomter}
                     </span>
                   </div>
@@ -117,34 +137,6 @@ const Single_transfer = ({ history }) => {
           <div className="container margin_60">
             <div className="row">
               <div className="col-lg-8" id="single_tour_desc">
-                <div id="single_tour_feat">
-                  <ul>
-                    <li>
-                      <i className="icon_set_1_icon-29" />
-                      Up to {numberOfSeats} passengers
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-6" />
-                      Hotel Pick up
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-13" />
-                      Accessibiliy
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-82" />
-                      144 Likes
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-22" />
-                      Pet allowed
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-33" />
-                      Large baggage
-                    </li>
-                  </ul>
-                </div>
                 <p className="d-none d-md-block d-block d-lg-none">
                   <Button
                     className="btn_map mb-2"
@@ -410,225 +402,22 @@ const Single_transfer = ({ history }) => {
                     view all transport
                   </Button>
                 </p>
-                <div className="box_style_1 expose">
-                  <h3 className="inner">- Booking -</h3>
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="form-group">
-                        <label>
-                          <i className="icon-calendar-7" /> Select a date
-                        </label>
-                        <input
-                          className="date-pick form-control"
-                          data-date-format="M d, D"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="form-group">
-                        <label>
-                          <i className=" icon-clock" /> Time
-                        </label>
-                        <input
-                          className="time-pick form-control"
-                          defaultValue="12:00 AM"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Adults</label>
-                        <div className="numbers-row">
-                          <input
-                            type="text"
-                            defaultValue={1}
-                            id="adults"
-                            className="qty2 form-control"
-                            name="quantity"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Children</label>
-                        <div className="numbers-row">
-                          <input
-                            type="text"
-                            defaultValue={0}
-                            id="children"
-                            className="qty2 form-control"
-                            name="quantity"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="form-group">
-                    <label>Pick up address</label>
-                    <select
-                      id="address"
-                      className="form-control"
-                      name="address"
-                    >
-                      <option value="Orly Airport" selected>
-                        Orly Airport
-                      </option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Drop off address</label>
-                    <select
-                      id="address_2"
-                      className="form-control"
-                      name="addres_2"
-                    >
-                      <option value="Gar du Nord Station">
-                        Gar du Nord Station
-                      </option>
-                      <option value="Place Concorde">Place Concorde</option>
-                      <option value="Hotel Rivoli">Hotel Rivoli</option>
-                    </select>
-                  </div>
-                  <a
-                    className="btn_collapse"
-                    data-toggle="collapse"
-                    href="#collapseForm"
-                    aria-expanded="false"
-                    aria-controls="collapseForm"
-                  >
-                    <i className="icon-plus-circled" />
-                    Return
-                  </a>{" "}
-                  <small>(Optionally)</small>
-                  <div className="collapse" id="collapseForm">
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <div className="form-group">
-                          <label>
-                            <i className="icon-calendar-7" /> Select a date
-                          </label>
-                          <input
-                            className="date-pick form-control"
-                            data-date-format="M d, D"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-sm-6">
-                        <div className="form-group">
-                          <label>
-                            <i className=" icon-clock" /> Time
-                          </label>
-                          <input
-                            className="time-pick form-control"
-                            defaultValue="12:00 AM"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Adults</label>
-                          <div className="numbers-row">
-                            <input
-                              type="text"
-                              defaultValue={1}
-                              id="adults"
-                              className="qty2 form-control"
-                              name="quantity"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="form-group">
-                          <label>Children</label>
-                          <div className="numbers-row">
-                            <input
-                              type="text"
-                              defaultValue={0}
-                              id="children"
-                              className="qty2 form-control"
-                              name="quantity"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>Pick up address</label>
-                      <select
-                        id="address_return"
-                        className="form-control"
-                        name="address_return"
-                      >
-                        <option value="Gar du Nord Station" selected>
-                          Gar du Nord Station
-                        </option>
-                        <option value="Place Concorde">Place Concorde</option>
-                        <option value="Hotel Rivoli">Hotel Rivoli</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Drop off address</label>
-                      <select
-                        id="address_return_2"
-                        className="form-control"
-                        name="address_return_2"
-                      >
-                        <option value="Orly Airport" selected>
-                          Orly Airport
-                        </option>
-                        <option value="Paris Central Station">
-                          Paris Central Station
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  {/* End collapse form */}
-                  <br />
-                  <table className="table table_summary">
-                    <tbody>
-                      <tr>
-                        <td>Adults</td>
-                        <td className="text-right">2</td>
-                      </tr>
-                      <tr>
-                        <td>Children</td>
-                        <td className="text-right">0</td>
-                      </tr>
-                      <tr>
-                        <td>Total amount</td>
-                        <td className="text-right">3x $52</td>
-                      </tr>
-                      <tr className="total">
-                        <td>Total cost</td>
-                        <td className="text-right">$154</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <a className="btn_full" href="cart_transfer.html">
-                    Book now
-                  </a>
-                  <a className="btn_full_outline" href="#">
-                    <i className=" icon-heart" /> Add to whislist
-                  </a>
-                </div>
+
+                <BookingForm
+                  serviceName={name}
+                  bookedServiceId={id}
+                  bookedServiceType={"Transport"}
+                  price={pricePerKillomter}
+                  
+                />
                 {/*/box_style_1 */}
                 <div className="box_style_4">
                   <i className="icon_set_1_icon-90" />
                   <h4>
                     <span>Book</span> by phone
                   </h4>
-                  <a href="tel://004542344599" className="phone">
-                    +45 423 445 99
+                  <a href="tel://03244220705" className="phone">
+                    03244220705
                   </a>
                   <small>Monday to Friday 9.00am - 7.30pm</small>
                 </div>

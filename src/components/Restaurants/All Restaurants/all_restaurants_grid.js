@@ -8,13 +8,14 @@ import {
   getAllRestaurants,
   updateRestaurant,
 } from "../../../redux/actions/restaurant.action";
+import RestaurantGrid from "./RestaurantGrid";
 
 const All_restaurants_grid = ({ history }) => {
   const dispatch = useDispatch();
   const [restaurants, setRestaurants] = useState([]);
   const staterestaurants = useSelector((state) => state.restaurants);
   console.log(staterestaurants, "ia ma");
-
+  const role = useSelector((state) => state.auth.role);
   useEffect(async () => {
     if (staterestaurants.restaurants.length === 0) {
       const { data } = await dispatch(getAllRestaurants());
@@ -31,22 +32,22 @@ const All_restaurants_grid = ({ history }) => {
   //   await dispatch(getAllRestaurants());
   // };
 
-  const handleEditResturant = async (e, list) => {
-    e.preventDefault();
-    await dispatch(
-      updateRestaurant(
-        list.id,
-        list.name,
-        list.description,
-        list.address,
-        list.noOfTables,
-        list.openingTime,
-        list.menu,
-        list.images
-      )
-    );
-    history.push(`/update_restaurant/${list._id}`);
-  };
+  // const handleUpdateRestaurant = async (e, list) => {
+  //   e.preventDefault();
+  //   await dispatch(
+  //     updateRestaurant(
+  //       list.id,
+  //       list.name,
+  //       list.description,
+  //       list.address,
+  //       list.noOfTables,
+  //       list.openingTime,
+  //       list.menu,
+  //       list.images
+  //     )
+  //   );
+  //   history.push(`/update_restaurant/${list._id}`);
+  // };
 
   const handleDetailRestaurant = async (e, id) => {
     e.preventDefault();
@@ -65,6 +66,21 @@ const All_restaurants_grid = ({ history }) => {
 
   return (
     <>
+      <section
+        className="parallax-window"
+        data-parallax="scroll"
+        data-image-src="img/restaurant_top.jpg"
+        data-natural-width={1400}
+        data-natural-height={470}
+      >
+        <div className="parallax-content-1">
+          <div className="animated fadeInDown">
+            <h1>Pakistan restaurants</h1>
+            <p>Best Restaurant in Pakistan</p>
+          </div>
+        </div>
+      </section>
+      {/* End section */}
       <main>
         <div id="position">
           <div className="container">
@@ -87,186 +103,25 @@ const All_restaurants_grid = ({ history }) => {
         <div className="container margin_60">
           <div className="row">
             <aside className="col-lg-3">
-              <p>
-                <a
-                  className="btn_map"
-                  data-toggle="collapse"
-                  href="#collapseMap"
-                  aria-expanded="false"
-                  aria-controls="collapseMap"
-                  data-text-swap="Hide map"
-                  data-text-original="View on map"
-                >
-                  View on map
-                </a>
-              </p>
               <div className="box_style_cat">
                 <ul id="cat_nav">
                   <li>
                     <a href="#" id="active">
                       <i className="icon_set_3_restaurant-10" />
-                      All restaurants <span>(141)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-1" />
-                      Pizza / Italian <span>(20)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-2" />
-                      Fast Food <span>(16)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-3" />
-                      Japanese <span>(12)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-4" />
-                      Chinese <span>(11)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-5" />
-                      International <span>(20)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-8" />
-                      Coffe bar <span>(08)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-7" />
-                      Fish <span>(08)</span>
+                      All restaurants <span>({restaurants.length})</span>
                     </a>
                   </li>
                 </ul>
               </div>
-              <div id="filters_col">
-                <a
-                  data-toggle="collapse"
-                  href="#collapseFilters"
-                  aria-expanded="false"
-                  aria-controls="collapseFilters"
-                  id="filters_col_bt"
-                >
-                  <i className="icon_set_1_icon-65" />
-                  Filters
-                </a>
-                <div className="collapse show" id="collapseFilters">
-                  <div className="filter_type">
-                    <h6>Price</h6>
-                    <input type="text" id="range" name="range" defaultValue />
-                  </div>
-                  <div className="filter_type">
-                    <h6>Rating</h6>
-                    <ul>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="filter_type">
-                    <h6>District/Area</h6>
-                    <ul>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          Paris Centre
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          La Defance
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          Latin Quarter
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                {/*End collapse */}
-              </div>
+
               {/*End filters col*/}
               <div className="box_style_2">
                 <i className="icon_set_1_icon-57" />
                 <h4>
                   Need <span>Help?</span>
                 </h4>
-                <a href="tel://004542344599" className="phone">
-                  +45 423 445 99
+                <a href="tel://03244220705" className="phone">
+                  03244220705
                 </a>
                 <small>Monday to Friday 9.00am - 7.30pm</small>
               </div>
@@ -290,7 +145,7 @@ const All_restaurants_grid = ({ history }) => {
                     <div className="styled-select-filters">
                       <select name="sort_rating" id="sort_rating">
                         <option value selected>
-                          Sort by ranking
+                          Sort by rating
                         </option>
                         <option value="lower">Lowest ranking</option>
                         <option value="higher">Highest ranking</option>
@@ -308,113 +163,13 @@ const All_restaurants_grid = ({ history }) => {
                 </div>
               </div>
               {/*End tools */}
-              <div className="row">
-                {restaurants.map((restaurant) => (
-                  <div
-                    className="col-md-6 wow zoomIn"
-                    data-wow-delay="0.1s"
-                    key={restaurant._id}
-                  >
-                    <div className="tour_container">
-                      <div className="ribbon_3 popular">
-                        <span>Popular</span>
-                      </div>
-                      <div className="img_container">
-                        <a href="single_restaurant.html">
-                          <img
-                            src={
-                              restaurant?.images[0]?.name
-                                ? `http://localhost:3000/api/upload/file/${restaurant?.images[0]?.folderName}/fileName/${restaurant?.images[0]?.name}`
-                                : "img/restaurant_box_1.jpg"
-                            }
-                            width={800}
-                            height={533}
-                            className="img-fluid"
-                            alt="Image"
-                          />
-                        </a>
-                      </div>
-                      <div className="tour_title">
-                        <h3>
-                          <strong>{restaurant.name}</strong>
-                        </h3>
-                        <div className="rating">
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile voted" />
-                          <i className="icon-smile" />
-                          <small>(75)</small>
-                        </div>
-                        {/* end rating */}
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1" href="#">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
-                        {/* End wish list*/}
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                          className="btn"
-                        >
-                          <Button
-                            variant="contained"
-                            size="small"
-                            startIcon={<Edit />}
-                            style={{
-                              backgroundColor: "green",
-                              color: "white",
-                            }}
-                            onClick={(e) =>
-                              handleUpdateRestaurant(e, restaurant._id)
-                            }
-                          >
-                            Update
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Delete />}
-                            style={{
-                              color: "red",
-                            }}
-                            onClick={(e) =>
-                              handleDeleteRestaurant(e, restaurant._id)
-                            }
-                          >
-                            Delete
-                          </Button>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Info />}
-                            style={{
-                              backgroundColor: "green",
-                              color: "white",
-                            }}
-                            onClick={(e) =>
-                              handleDetailRestaurant(e, restaurant._id)
-                            }
-                          >
-                            Details
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    {/* End box tour */}
-                  </div>
-                ))}
-
-                {/* End col-md-6 */}
-              </div>
+              <RestaurantGrid
+                restaurants={restaurants}
+                handleDeleteRestaurant={handleDeleteRestaurant}
+                handleDetailRestaurant={handleDetailRestaurant}
+                handleUpdateRestaurant={handleUpdateRestaurant}
+                role={role}
+              />
 
               {/* End row */}
 

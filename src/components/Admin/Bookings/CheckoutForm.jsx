@@ -18,6 +18,7 @@ const CheckoutForm = ({
   firstName,
   lastName,
   email,
+  bookingDate,
   phone,
   price,
   adultsQuantity,
@@ -26,11 +27,11 @@ const CheckoutForm = ({
   bookedServiceId,
 }) => {
   const user = useSelector((state) => state.auth.user);
+  const role = useSelector((state) => state.auth.role);
   const [success, setSuccess] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,14 +59,14 @@ const CheckoutForm = ({
         const bookingresponse = await axios.post(
           "http://localhost:3000/api/booking",
           {
-            type: "self",
+            type: role === "admin" ? "company" : "self",
             title: serviceName,
-            bookingDate: "11/28/2021",
+            bookingDate: bookingDate,
             noOfAdults: Number(adultsQuantity),
             noOfChildren: Number(childrenQuantity),
             bookedServiceType: bookedServiceType,
             bookedService: bookedServiceId,
-            user:user
+            user: user,
           }
         );
 

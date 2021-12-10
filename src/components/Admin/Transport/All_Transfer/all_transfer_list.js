@@ -122,119 +122,7 @@ const All_transfer_list = ({ history }) => {
                     Add More Transport
                   </Button>
                 </p>
-                <div id="filters_col">
-                  <a
-                    data-toggle="collapse"
-                    href="#collapseFilters"
-                    aria-expanded="false"
-                    aria-controls="collapseFilters"
-                    id="filters_col_bt"
-                  >
-                    <i className="icon_set_1_icon-65" />
-                    Filters
-                  </a>
-                  <div className="collapse shwo" id="collapseFilters">
-                    <div className="filter_type">
-                      <h6>Price</h6>
-                      <input type="text" id="range" name="range" defaultValue />
-                    </div>
-                    <div className="filter_type">
-                      <h6>Rating</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                            </span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                            </span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </span>
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Facility</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pet allowed
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Groups allowed
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Tour guides
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Access for disabled
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/*End collapse */}
-                </div>
+
                 {/*End filters col*/}
                 <div className="box_style_2">
                   <i className="icon_set_1_icon-57" />
@@ -420,9 +308,7 @@ const All_transfer_list = ({ history }) => {
                       <div className="col-lg-2 col-md-2">
                         <div className="price_list">
                           <div>
-                            <sup>$</sup>
-                            {transportList.pricePerKillomter}
-                            <span className="normal_price_list">$79</span>
+                            PKR {transportList.pricePerKillomter}
                             <small>Price per killometer</small>
                             <p>
                               <Button

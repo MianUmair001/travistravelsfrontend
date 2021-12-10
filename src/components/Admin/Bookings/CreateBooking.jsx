@@ -17,8 +17,8 @@ const CreateBooking = () => {
   const [adultsQuantity, setAdultsQuantity] = useState(0);
   const [childrenQuantity, setChildrenQuantity] = useState(0);
   const [price, setPrice] = useState(0);
-  const [date, setDate] = useState(0);
-  const [time, setTime] = useState(0);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [serviceName, setServiceName] = useState("");
   const [bookedServiceType, setBookedServiceType] = useState("");
   const [bookedServiceId, setBookedServiceId] = useState("");
@@ -85,17 +85,6 @@ const CreateBooking = () => {
       </section>
       {/* End Section hero_2 */}
       <main>
-        <div id="position">
-          <div className="container">
-            <a href="#">Home</a>
-            <ul>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
         {/* End position */}
         <div className="container margin_60">
           <div className="row">
@@ -182,6 +171,7 @@ const CreateBooking = () => {
                   firstName={firstName}
                   lastName={lastName}
                   email={email}
+                  bookingDate={date}
                   phone={phone}
                   price={price}
                   adultsQuantity={adultsQuantity}
@@ -216,7 +206,7 @@ const CreateBooking = () => {
                       </tr>
                       <tr className="total">
                         <td>Total cost</td>
-                        <td className="text-right">${price}</td>
+                        <td className="text-right">PKR {price}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -226,9 +216,7 @@ const CreateBooking = () => {
                   >
                     Book now
                   </a> */}
-                  <a className="btn_full_outline" href="#">
-                    <i className="icon-right" /> Continue shopping
-                  </a>
+                  
                 </div>
               </div>
               {/*End sticky */}

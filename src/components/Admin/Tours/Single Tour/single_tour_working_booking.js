@@ -4,17 +4,7 @@ const Single_tour_working_booking = () => {
     return (
         <>
         <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li><a href="#">Home</a>
-              </li>
-              <li><a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
+        
         {/* End Position */}
         <div className="collapse" id="collapseMap">
           <div id="map" className="map" />

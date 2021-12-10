@@ -10,6 +10,7 @@ import {
   getTransportByid,
   updateTransport,
 } from "../../../../redux/actions/transport.action";
+import TransferGrid from "./TransferGrid";
 
 const All_transfer_grid = ({ history }) => {
   const dispatch = useDispatch();
@@ -29,12 +30,6 @@ const All_transfer_grid = ({ history }) => {
       setTransportsListShow(statetransports.transports);
     }
   }, [statetransports.transports, transportsListShow]);
-
-  // useEffect(async () => {
-  //   const transportListArray = await dispatch(getALlTransport());
-  //   setTransportsListShow(transportListArray);
-  //   return transportListArray;
-  // }, [transportsListShow]);
 
   const handleDeleteTransport = async (e, props) => {
     e.preventDefault();
@@ -132,214 +127,15 @@ const All_transfer_grid = ({ history }) => {
                     Add More Transport
                   </Button>
                 </p>
-                <div id="filters_col">
-                  <a
-                    data-toggle="collapse"
-                    href="#collapseFilters"
-                    aria-expanded="false"
-                    aria-controls="collapseFilters"
-                    id="filters_col_bt"
-                  >
-                    <i className="icon_set_1_icon-65" />
-                    Filters
-                  </a>
-                  <div className="collapse show" id="collapseFilters">
-                    <div className="filter_type">
-                      <h6>Price</h6>
-                      <input type="text" id="range" name="range" />
-                    </div>
-                    <div className="filter_type">
-                      <h6>Star Category</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                            </span>
-                            (15)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (45)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (35)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (25)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (15)
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Review Score</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Superb: 9+ (77)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Very good: 8+ (552)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Good: 7+ (909)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pleasant: 6+ (1196)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            No rating (198)
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Facility</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pet allowed
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Wifi
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Spa
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Restaurant
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pool
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Parking
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Fitness center
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>District</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Paris Centre
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            La Defance
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            La Marais
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Latin Quarter
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/*End collapse */}
-                </div>
+
                 {/*End filters col*/}
                 <div className="box_style_2">
                   <i className="icon_set_1_icon-57" />
                   <h4>
                     Need <span>Help?</span>
                   </h4>
-                  <a href="tel://004542344599" className="phone">
-                    +45 423 445 99
+                  <a href="tel://03244220705" className="phone">
+                    03244220705
                   </a>
                   <small>Monday to Friday 9.00am - 7.30pm</small>
                 </div>
@@ -387,128 +183,10 @@ const All_transfer_grid = ({ history }) => {
                   </h3>
                 ) : (
                   <div>
-                    <div className="row">
-                      {transportsListShow?.map((transportGrid) => (
-                        <div
-                          className="col-md-6 wow zoomIn"
-                          data-wow-delay="0.1s"
-                          key={transportGrid._id}
-                        >
-                          <div className="hotel_container">
-                            <div className="ribbon_3 popular">
-                              <span>Popular</span>
-                            </div>
-                            <div className="img_container">
-                              <a href="single_hotel.html">
-                                <img
-                                  src={
-                                    transportGrid?.images[0]?.name
-                                      ? `http://localhost:3000/api/upload/file/${transportGrid?.images[0]?.folderName}/fileName/${transportGrid?.images[0]?.name}`
-                                      : "img/tour_box_1.jpg"
-                                  }
-                                  width={800}
-                                  height={533}
-                                  className="img-fluid"
-                                  alt="Image"
-                                />
-                                <div className="score">
-                                  <span>7.5</span>Good
-                                </div>
-                                <div className="short_info hotel">
-                                  price Per killometer
-                                  <span className="price">
-                                    <sup>$</sup>
-                                    {transportGrid.pricePerKillomter}
-                                  </span>
-                                </div>
-                              </a>
-                            </div>
-                            <div className="hotel_title">
-                              <h3>
-                                <strong>{transportGrid.name}</strong>
-                              </h3>
-                              <div className="rating">
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star-empty" />
-                              </div>
-                              {/* end rating */}
-                              <div className="wishlist">
-                                <a
-                                  className="tooltip_flip tooltip-effect-1"
-                                  href="#"
-                                >
-                                  +
-                                  <span className="tooltip-content-flip">
-                                    <span className="tooltip-back">
-                                      Add to wishlist
-                                    </span>
-                                  </span>
-                                </a>
-                              </div>
-
-                              {/* End wish list*/}
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                              className="btn"
-                            >
-                              {role === "admin" && (
-                                <>
-                                  <Button
-                                    variant="contained"
-                                    size="small"
-                                    startIcon={<Edit />}
-                                    style={{
-                                      backgroundColor: "green",
-                                      color: "white",
-                                    }}
-                                    onClick={(e) =>
-                                      handleUpdateTransport(e, transportGrid)
-                                    }
-                                  >
-                                    Update
-                                  </Button>
-                                  <Button
-                                    variant="outlined"
-                                    size="small"
-                                    startIcon={<DeleteOutlined />}
-                                    style={{
-                                      color: "red",
-                                    }}
-                                    onClick={(e) =>
-                                      handleDeleteTransport(e, transportGrid)
-                                    }
-                                  >
-                                    Delete
-                                  </Button>
-                                </>
-                              )}
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<Info />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) =>
-                                  handleDetailTransport(e, transportGrid)
-                                }
-                              >
-                                Details
-                              </Button>
-                            </div>
-                          </div>
-                          {/* End box tour */}
-                        </div>
-                      ))}
-                    </div>
+                    <TransferGrid
+                      transportsListShow={transportsListShow}
+                      role={role}
+                    />
                   </div>
                 )}
                 <hr />

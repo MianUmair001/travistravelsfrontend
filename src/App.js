@@ -110,10 +110,11 @@ import Checkout from "./components/Payment/Checkout";
 import Single_restuarant from "./components/Restaurants/Single Restaurant/single_restuarant";
 import FinishBooking from "./components/Admin/Bookings/FinishBooking";
 import BookingForm from "./components/Restaurants/Booking/BookingForm";
+import UserDashboard from "./components/Admin/Dashboard/UserDashboard";
+import { useSelector } from "react-redux";
 
 function App() {
   const history = useHistory();
-
   return (
     <div className="App">
       <HashRouter>
@@ -317,6 +318,8 @@ function App() {
 
           {/* Admin Routes */}
           <Route exact path="/admin_dashboard" component={AdminDashBoard} />
+          <Route exact path="/user_dashboard" component={UserDashboard} />
+
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_profile" component={CreateProfile} />
           <Route exact path="/bookings" component={Bookings} />
@@ -329,7 +332,6 @@ function App() {
           {/* Place Routes */}
           <Route exact path="/create_place" component={CreatePlace} />
           <Route exact path="/update_place" component={UpdatePlace} />
-          
 
           {/* Rooms Routes */}
           <Route exact path="/create_room/:id" component={CreateRooms} />

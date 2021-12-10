@@ -10,6 +10,7 @@ import {
   getHotelByID,
   updateHotel,
 } from "../../../redux/actions/hotels.action";
+import HotelGrid from "./HotelGrid";
 
 const All_hotels_grid = ({ history }) => {
   const dispatch = useDispatch();
@@ -97,26 +98,11 @@ const All_hotels_grid = ({ history }) => {
             </div>
           </div>
           {/* Position */}
-          <div className="collapse" id="collapseMap">
-            <div id="map" className="map" />
-          </div>
+         
           {/* End Map */}
           <div className="container margin_60">
             <div className="row">
               <aside className="col-lg-3">
-                <p>
-                  <Button
-                    className="btn_map"
-                    data-toggle="collapse"
-                    href="#collapseMap"
-                    aria-expanded="false"
-                    aria-controls="collapseMap"
-                    data-text-swap="Hide map"
-                    data-text-original="View on map"
-                  >
-                    View on map
-                  </Button>
-                </p>
                 <p>
                   <Button
                     className="btn_map"
@@ -131,214 +117,15 @@ const All_hotels_grid = ({ history }) => {
                     Add More Hotel
                   </Button>
                 </p>
-                <div id="filters_col">
-                  <a
-                    data-toggle="collapse"
-                    href="#collapseFilters"
-                    aria-expanded="false"
-                    aria-controls="collapseFilters"
-                    id="filters_col_bt"
-                  >
-                    <i className="icon_set_1_icon-65" />
-                    Filters
-                  </a>
-                  <div className="collapse show" id="collapseFilters">
-                    <div className="filter_type">
-                      <h6>Price</h6>
-                      <input type="text" id="range" name="range" />
-                    </div>
-                    <div className="filter_type">
-                      <h6>Star Category</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                            </span>
-                            (15)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (45)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (35)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (25)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (15)
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Review Score</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Superb: 9+ (77)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Very good: 8+ (552)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Good: 7+ (909)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pleasant: 6+ (1196)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            No rating (198)
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Facility</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pet allowed
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Wifi
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Spa
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Restaurant
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pool
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Parking
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Fitness center
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>District</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Paris Centre
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            La Defance
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            La Marais
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Latin Quarter
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/*End collapse */}
-                </div>
+
                 {/*End filters col*/}
                 <div className="box_style_2">
                   <i className="icon_set_1_icon-57" />
                   <h4>
                     Need <span>Help?</span>
                   </h4>
-                  <a href="tel://004542344599" className="phone">
-                    +45 423 445 99
+                  <a href="tel://03244220705" className="phone">
+                    03244220705
                   </a>
                   <small>Monday to Friday 9.00am - 7.30pm</small>
                 </div>
@@ -386,126 +173,13 @@ const All_hotels_grid = ({ history }) => {
                   </h3>
                 ) : (
                   <div>
-                    <div className="row">
-                      {hotels?.map((hotel) => (
-                        <div
-                          className="col-md-6 wow zoomIn"
-                          data-wow-delay="0.1s"
-                          key={hotel._id}
-                        >
-                          <div className="hotel_container">
-                            <div className="ribbon_3 popular">
-                              <span>Popular</span>
-                            </div>
-                            <div className="img_container">
-                              <a href="single_hotel.html">
-                                <img
-                                  src={
-                                    hotel?.images[0]?.name
-                                      ? `http://localhost:3000/api/upload/file/${hotel?.images[0]?.folderName}/fileName/${hotel?.images[0]?.name}`
-                                      : "img/tour_box_1.jpg"
-                                  }
-                                  alt="Image"
-                                  width={800}
-                                  height={533}
-                                  className="img-fluid"
-                                  alt="Image"
-                                />
-                                <div className="score">
-                                  <span>7.5</span>Good
-                                </div>
-                                <div className="short_info hotel">
-                                  From/Per night
-                                  <span className="price">
-                                    <sup>$</sup>
-                                    {hotel.price}
-                                  </span>
-                                </div>
-                              </a>
-                            </div>
-                            <div className="hotel_title">
-                              <h3>
-                                <strong>{hotel.name}</strong>
-                              </h3>
-                              <div className="rating">
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star-empty" />
-                              </div>
-                              {/* end rating */}
-                              <div className="wishlist">
-                                <a
-                                  className="tooltip_flip tooltip-effect-1"
-                                  href="#"
-                                >
-                                  +
-                                  <span className="tooltip-content-flip">
-                                    <span className="tooltip-back">
-                                      Add to wishlist
-                                    </span>
-                                  </span>
-                                </a>
-                              </div>
-
-                              {/* End wish list*/}
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              {role === "admin" && (
-                                <>
-                                  <Button
-                                    variant="contained"
-                                    size="small"
-                                    startIcon={<Edit />}
-                                    style={{
-                                      className: "btn",
-                                      backgroundColor: "green",
-                                      color: "white",
-                                    }}
-                                    onClick={(e) => handleUpdateHotel(e, hotel)}
-                                  >
-                                    Update
-                                  </Button>
-                                  <Button
-                                    variant="outlined"
-                                    size="small"
-                                    startIcon={<DeleteOutlined />}
-                                    style={{
-                                      color: "red",
-                                    }}
-                                    onClick={(e) =>
-                                      handleDeleteHotel(e, hotel._id)
-                                    }
-                                  >
-                                    Delete
-                                  </Button>
-                                </>
-                              )}
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<Info />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                  margin: "0 10px 10px 0",
-                                }}
-                                onClick={(e) => handleDetailHotel(e, hotel._id)}
-                              >
-                                Details
-                              </Button>
-                            </div>
-                          </div>
-                          {/* End box tour */}
-                        </div>
-                      ))}
-                    </div>
+                    <HotelGrid
+                      hotels={hotels}
+                      handleDeleteHotel={handleDeleteHotel}
+                      handleDetailHotel={handleDetailHotel}
+                      handleUpdateHotel={handleUpdateHotel}
+                      role={role}
+                    />
                   </div>
                 )}
                 <hr />

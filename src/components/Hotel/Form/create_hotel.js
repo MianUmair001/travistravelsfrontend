@@ -20,7 +20,6 @@ const CreateHotel = ({ history }) => {
   const userID = useSelector((state) => state.auth.user);
   const [newHotelId, setnewHotelId] = useState("");
   const [hotelName, setHotelName] = useState("Lahore Hotel");
-  const [hotelPrice, setHotelPrice] = useState(20000);
   const [description, setDescription] = useState(
     "A Five Star Hotel Located In Naran"
   );
@@ -31,7 +30,7 @@ const CreateHotel = ({ history }) => {
     e.preventDefault();
 
     const response = await dispatch(
-      createHotel(hotelName, hotelPrice, description, images, userID)
+      createHotel(hotelName, description, images, userID)
     );
     if (response !== undefined) {
       setShowSuccessMessage(true);
@@ -97,18 +96,6 @@ const CreateHotel = ({ history }) => {
                           type="text"
                           value={hotelName}
                           onChange={(e) => setHotelName(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>Price</label>
-                        <input
-                          className="form-control"
-                          name="Price"
-                          type="text"
-                          value={hotelPrice}
-                          onChange={(e) => setHotelPrice(e.target.value)}
                         />
                       </div>
                     </div>

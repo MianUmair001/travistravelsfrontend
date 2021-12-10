@@ -93,6 +93,8 @@ export const deleteRestaurant = (id) => async () => {
       URL + endpoints.DELETE_RESTAURANTS + "/" + id
     );
     console.log(data);
+
+    return data;
   } catch (error) {
     console.log({ error });
   }

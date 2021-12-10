@@ -82,7 +82,8 @@ const CreateRestaurant = () => {
     console.log("I am Dishes Data", selectedOptions);
     setMenu(selectedOptions);
     console.log(schedule);
-    dispatch(
+    console.log(menu, "I am Menu");
+    await dispatch(
       createRestaurant(
         name,
         description,
@@ -93,7 +94,7 @@ const CreateRestaurant = () => {
           coordinates,
         },
         noOfTables,
-        menu,
+        selectedOptions,
         images,
         schedule,
         price
@@ -123,19 +124,6 @@ const CreateRestaurant = () => {
       </section>
       {/* End section */}
       <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
         {/* End Position */}
         <div className="margin_60 container">
           <div>
@@ -283,7 +271,7 @@ const CreateRestaurant = () => {
                       options={options}
                       value={selectedOptions}
                       onChange={setSelectedOptions}
-                      labelledBy="Select"
+                      labelledBy="Menu"
                     />
                   </div>
                 </div>

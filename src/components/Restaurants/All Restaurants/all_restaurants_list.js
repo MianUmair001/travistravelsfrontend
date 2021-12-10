@@ -68,11 +68,8 @@ const All_restaurants_list = ({ history }) => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Paris restaurants</h1>
-            <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
-            </p>
+            <h1>Pakistan restaurants</h1>
+            <p>Best Restaurant in Pakistan</p>
           </div>
         </div>
       </section>
@@ -101,19 +98,6 @@ const All_restaurants_list = ({ history }) => {
           <div className="row">
             <aside className="col-lg-3">
               <p>
-                <a
-                  className="btn_map"
-                  data-toggle="collapse"
-                  href="#collapseMap"
-                  aria-expanded="false"
-                  aria-controls="collapseMap"
-                  data-text-swap="Hide map"
-                  data-text-original="View on map"
-                >
-                  View on map
-                </a>
-              </p>
-              <p>
                 <Button
                   className="btn_map"
                   data-toggle="collapse"
@@ -130,170 +114,22 @@ const All_restaurants_list = ({ history }) => {
               <div className="box_style_cat">
                 <ul id="cat_nav">
                   <li>
-                    <a href="#" id="active">
+                    <a id="active">
                       <i className="icon_set_3_restaurant-10" />
-                      All restaurants <span>(141)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-1" />
-                      Pizza / Italian <span>(20)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-2" />
-                      Fast Food <span>(16)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-3" />
-                      Japanese <span>(12)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-4" />
-                      Chinese <span>(11)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-5" />
-                      International <span>(20)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-8" />
-                      Coffe bar <span>(08)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_3_restaurant-7" />
-                      Fish <span>(08)</span>
+                      All restaurants <span>({restaurants.length})</span>
                     </a>
                   </li>
                 </ul>
               </div>
-              <div id="filters_col">
-                <a
-                  data-toggle="collapse"
-                  href="#collapseFilters"
-                  aria-expanded="false"
-                  aria-controls="collapseFilters"
-                  id="filters_col_bt"
-                >
-                  <i className="icon_set_1_icon-65" />
-                  Filters
-                </a>
-                <div className="collapse show" id="collapseFilters">
-                  <div className="filter_type">
-                    <h6>Price</h6>
-                    <input type="text" id="range" name="range" defaultValue />
-                  </div>
-                  <div className="filter_type">
-                    <h6>Rating</h6>
-                    <ul>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </span>
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="filter_type">
-                    <h6>District/Area</h6>
-                    <ul>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          Paris Centre
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          La Defance
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          Latin Quarter
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                {/*End collapse */}
-              </div>
+
               {/*End filters col*/}
               <div className="box_style_2">
                 <i className="icon_set_1_icon-57" />
                 <h4>
                   Need <span>Help?</span>
                 </h4>
-                <a href="tel://004542344599" className="phone">
-                  +45 423 445 99
+                <a href="tel://03244220705" className="phone">
+                  03244220705
                 </a>
                 <small>Monday to Friday 9.00am - 7.30pm</small>
               </div>
@@ -317,7 +153,7 @@ const All_restaurants_list = ({ history }) => {
                     <div className="styled-select-filters">
                       <select name="sort_rating" id="sort_rating">
                         <option value selected>
-                          Sort by ranking
+                          Sort by ranting
                         </option>
                         <option value="lower">Lowest ranking</option>
                         <option value="higher">Highest ranking</option>

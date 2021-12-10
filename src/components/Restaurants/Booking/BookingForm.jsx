@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
+import DatePicker from "react-date-picker";
+import TimePicker from "react-time-picker";
 
 const BookingForm = ({
   serviceName,
@@ -10,7 +12,7 @@ const BookingForm = ({
 }) => {
   const [childrenQuantity, setChildrenQuantity] = useState(0);
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState("10:00");
   const [adultsQuantity, setAdultsQuantity] = useState(0);
   const history = useHistory();
   const location = useLocation();
@@ -22,14 +24,21 @@ const BookingForm = ({
   //   const price = params.price;
   const handleBookClick = (e) => {
     e.preventDefault();
+    console.log(typeof date.toString());
+    const stringDate = date.toString().split("00")[0];
+
+    console.log("I am String Date", stringDate);
     history.push({
       pathname: `/create_bookings/${bookedServiceId}`,
       state: {
         adultsQuantity,
         childrenQuantity,
-        date,
+        date: stringDate,
         time,
-        price: (Number(adultsQuantity) + Number(childrenQuantity)) * price,
+        price:
+          bookedServiceType != "Transport"
+            ? (Number(adultsQuantity) + Number(childrenQuantity)) * price
+            : price,
         serviceName: serviceName,
         serviceId: bookedServiceId,
         bookedServiceType: bookedServiceType,
@@ -49,14 +58,10 @@ const BookingForm = ({
               <label>
                 <i className="icon-calendar-7" /> Select a date
               </label>
-              <input
-                className="date-pick form-control"
-                data-date-format="M d, D"
-                type="text"
+              <DatePicker
                 value={date}
-                onChange={(e) => {
-                  setDate(e.target.value);
-                }}
+                onChange={setDate}
+                minDate={new Date()}
               />
             </div>
           </div>
@@ -65,13 +70,19 @@ const BookingForm = ({
               <label>
                 <i className=" icon-clock" /> Time
               </label>
-              <input
+              {/* <input
                 className="time-pick form-control"
                 type="text"
                 value={time}
                 onChange={(e) => {
                   setTime(e.target.value);
                 }}
+              /> */}
+              <TimePicker
+                onChange={setTime}
+                value={time}
+                minTime={new Date()}
+                clockIcon={null}
               />
             </div>
           </div>
@@ -80,11 +91,11 @@ const BookingForm = ({
           <div className="col-6">
             <div className="form-group">
               <label>Adults</label>
-              <div className="numbers-row">
+              <div className="">
                 <input
                   type="number"
-                  id="adults"
-                  className="qty2 form-control"
+                  id=""
+                  className="form-control"
                   name="quantity"
                   value={adultsQuantity}
                   onChange={(e) => setAdultsQuantity(e.target.value)}
@@ -95,11 +106,10 @@ const BookingForm = ({
           <div className="col-6">
             <div className="form-group">
               <label>Children</label>
-              <div className="numbers-row">
+              <div className="">
                 <input
                   type="number"
-                  id="children"
-                  className="qty2 form-control"
+                  className="form-control"
                   name="quantity"
                   value={childrenQuantity}
                   onChange={(e) => setChildrenQuantity(e.target.value)}
@@ -122,22 +132,25 @@ const BookingForm = ({
             <tr>
               <td>Total amount</td>
               <td className="text-right">
-                {Number(adultsQuantity) + Number(childrenQuantity)}x ${price}
+                PKR
+                {bookedServiceType != "Transport"
+                  ? Number(adultsQuantity) + Number(childrenQuantity)
+                  : price}
               </td>
             </tr>
             <tr className="total">
               <td>Total cost</td>
               <td className="text-right">
-                $ {(Number(adultsQuantity) + Number(childrenQuantity)) * price}
+                PKR{" "}
+                {bookedServiceType != "Transport"
+                  ? (Number(adultsQuantity) + Number(childrenQuantity)) * price
+                  : price}
               </td>
             </tr>
           </tbody>
         </table>
         <a className="btn_full" onClick={(e) => handleBookClick(e)}>
           Book now
-        </a>
-        <a className="btn_full_outline" href="#">
-          <i className=" icon-heart" /> Add to whislist
         </a>
       </div>
     </div>

@@ -1,19 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { getTours } from "../../redux/actions/tour.action";
+import { deleteTour, getTours } from "../../redux/actions/tour.action";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllHotels } from "../../redux/actions/hotels.action";
+import { deleteHotel, getAllHotels, getHotelByID, updateHotel } from "../../redux/actions/hotels.action";
 import { Button } from "@material-ui/core";
-
+import TourGrid from "../Tours/All Tours/TourGrid";
+import { handleDetailTour } from "../Tours/All Tours/all_tours_grid";
+import HotelGrid from "../Hotel/All_Hotels/HotelGrid";
 const Home_SingleImage = ({ history }) => {
   const dispatch = useDispatch();
   const [tours, setTours] = useState([]);
   const [sliceHotel, setSliceHotel] = useState();
   const [sliceTour, setSliceTour] = useState();
   const [hotels, setHotels] = useState();
-
+  const role = useSelector((state) => state.auth.role);
   const statehotels = useSelector((state) => state.hotels);
   const statetours = useSelector((state) => state.tours);
 
+  const handleDetailTour = async (e, id) => {
+    e.preventDefault();
+    history.push(`/single_tour/${id}`);
+  };
+  const handleDeleteTour = async (e, id) => {
+    e.preventDefault();
+    await dispatch(deleteTour(id));
+    await dispatch(getTours());
+  };
+  const handleUpdateTour = async (e, id) => {
+    e.preventDefault();
+    history.push(`/update_tour/${id}`);
+    await dispatch(getTours());
+  };
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
       const data = await dispatch(getAllHotels());
@@ -54,6 +70,33 @@ const Home_SingleImage = ({ history }) => {
     history.push("/all_hotels_list");
   };
 
+  const handleDeleteHotel = async (e, props) => {
+    e.preventDefault();
+    let id = props;
+    await dispatch(deleteHotel(id));
+    await dispatch(getAllHotels());
+  };
+
+  const handleUpdateHotel = async (e, props) => {
+    e.preventDefault();
+
+    let id = props._id;
+    let name = props.name;
+    let description = props.description;
+    let images = props.images;
+
+    await dispatch(updateHotel(id, name, description, images));
+    history.push(`/update_hotel/${props._id}`);
+  };
+
+  const handleDetailHotel = async (e, props) => {
+    e.preventDefault();
+    let id = props;
+
+    await dispatch(getHotelByID(id));
+    history.push(`/single_hotel/${props}`);
+  };
+
   return (
     <>
       <section id="hero">
@@ -86,68 +129,15 @@ const Home_SingleImage = ({ history }) => {
               No Tours To Show
             </h3>
           ) : (
-            <div className="row">
-              {sliceTour?.map((tour) => (
-                <div
-                  className="col-lg-4 col-md-6 wow zoomIn"
-                  data-wow-delay="0.1s"
-                  key={tour._id}
-                >
-                  <div className="tour_container">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_tour.html">
-                        <img
-                          src={
-                            tour?.images[0]?.name
-                              ? `http://localhost:3000/api/upload/file/${tour?.images[0]?.folderName}/fileName/${tour?.images[0]?.name}`
-                              : "img/tour_box_1.jpg"
-                          }
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="image"
-                        />
-                        <div className="short_info">
-                          <i className="icon_set_1_icon-44" />
-                          Historic Buildings
-                          <span className="price">
-                            <sup>${tour.price}</sup>
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="tour_title">
-                      <h3>
-                        <strong>{tour.name}</strong> tour
-                      </h3>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <small>(75)</small>
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a className="tooltip_flip tooltip-effect-1" href="">
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box tour */}
-                </div>
-              ))}
+            <div>
+              <TourGrid
+                tours={sliceTour}
+                handleDeleteTour={handleDeleteTour}
+                handleDetailTour={handleDetailTour}
+                handleUpdateTour={handleUpdateTour}
+                role={role}
+                isHome={true}
+              />
             </div>
           )}
 
@@ -178,66 +168,15 @@ const Home_SingleImage = ({ history }) => {
             </h3>
           ) : (
             <div className="row">
-              {sliceHotel?.map((hotel) => (
-                <div
-                  className="col-lg-4 col-md-6 wow zoomIn"
-                  data-wow-delay="0.1s"
-                  key={hotel}
-                >
-                  <div className="hotel_container">
-                    <div className="ribbon_3 popular">
-                      <span>Popular</span>
-                    </div>
-                    <div className="img_container">
-                      <a href="single_hotel.html">
-                        <img
-                          src={
-                            hotel?.images[0]?.name
-                              ? `http://localhost:3000/api/upload/file/${hotel?.images[0]?.folderName}/fileName/${hotel?.images[0]?.name}`
-                              : "img/tour_box_1.jpg"
-                          }
-                          width={800}
-                          height={533}
-                          className="img-fluid"
-                          alt="image"
-                        />
-                        <div className="score">
-                          <span>7.5</span>Good
-                        </div>
-                        <div className="short_info hotel">
-                          From/Per night
-                          <span className="price">
-                            <sup>$</sup>59
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="hotel_title">
-                      <h3>{hotel.name}</h3>
-                      <div className="rating">
-                        <i className="icon-star voted" />
-                        <i className="icon-star voted" />
-                        <i className="icon-star voted" />
-                        <i className="icon-star voted" />
-                        <i className="icon-star-empty" />
-                      </div>
-                      {/* end rating */}
-                      <div className="wishlist">
-                        <a className="tooltip_flip tooltip-effect-1" href="#">
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                      {/* End wish list*/}
-                    </div>
-                  </div>
-                  {/* End box */}
-                </div>
-              ))}
+            
+              <HotelGrid
+                hotels={sliceHotel}
+                handleDeleteHotel={handleDeleteHotel}
+                handleDetailHotel={handleDetailHotel}
+                handleUpdateHotel={handleUpdateHotel}
+                role={role}
+                isHome={true}
+              />
             </div>
           )}
 
@@ -255,193 +194,7 @@ const Home_SingleImage = ({ history }) => {
           </p>
         </div>
         {/* End container */}
-        <div className="white_bg">
-          <div className="container margin_60">
-            <div className="main_title">
-              <h2>
-                Other <span>Popular</span> tours
-              </h2>
-              <p>
-                Quisque at tortor a libero posuere laoreet vitae sed arcu.
-                Curabitur consequat.
-              </p>
-            </div>
-            <div className="row add_bottom_45">
-              <div className="col-lg-4 other_tours">
-                <ul>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-3" />
-                      Tour Eiffel
-                      <span className="other_tours_price">$42</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-30" />
-                      Shopping tour
-                      <span className="other_tours_price">$35</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-44" />
-                      Versailles tour
-                      <span className="other_tours_price">$20</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-3" />
-                      Montparnasse skyline
-                      <span className="other_tours_price">$26</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-44" />
-                      Pompidue<span className="other_tours_price">$26</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-3" />
-                      Senna River tour
-                      <span className="other_tours_price">$32</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-4 other_tours">
-                <ul>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-1" />
-                      Notredame<span className="other_tours_price">$48</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-4" />
-                      Lafaiette<span className="other_tours_price">$55</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-30" />
-                      Trocadero<span className="other_tours_price">$76</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-3" />
-                      Open Bus tour
-                      <span className="other_tours_price">$55</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-30" />
-                      Louvre museum
-                      <span className="other_tours_price">$24</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-3" />
-                      Madlene Cathedral
-                      <span className="other_tours_price">$24</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-4 other_tours">
-                <ul>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-37" />
-                      Montparnasse
-                      <span className="other_tours_price">$36</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-1" />
-                      D'Orsey museum
-                      <span className="other_tours_price">$28</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-50" />
-                      Gioconda Louvre musuem
-                      <span className="other_tours_price">$44</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-44" />
-                      Tour Eiffel
-                      <span className="other_tours_price">$56</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-50" />
-                      Ladefanse<span className="other_tours_price">$16</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="icon_set_1_icon-44" />
-                      Notredame<span className="other_tours_price">$26</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            {/* End row */}
-            <div className="banner colored">
-              <h4>
-                Discover our Top tours <span>from $34</span>
-              </h4>
-              <p>
-                Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus
-                civibus efficiantur in.
-              </p>
-              <a href="single_tour.html" className="btn_1 white">
-                Read more
-              </a>
-            </div>
-            <div className="row">
-              {[1, 2, 3, 4].map((num) => (
-                <div className="col-lg-3 col-md-6 text-center" key={num}>
-                  <p>
-                    <a href="#">
-                      <img
-                        src={
-                          "https://images.unsplash.com/photo-1572482520019-159781d56ae9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80"
-                        }
-                        alt="Pic"
-                        className="img-fluid"
-                      />
-                    </a>
-                  </p>
-                  <h4>
-                    <span>Sightseen tour</span> booking
-                  </h4>
-                  <p>
-                    Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus
-                    civibus efficiantur in. Nec id tempor imperdiet
-                    deterruisset, doctus volumus explicari qui ex.
-                  </p>
-                </div>
-              ))}
-            </div>
-            {/* End row */}
-          </div>
-          {/* End container */}
-        </div>
+
         {/* End white_bg */}
         <section className="promo_full">
           <div className="promo_full_wp magnific">

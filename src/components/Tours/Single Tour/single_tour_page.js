@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import {
   deleteTour,
@@ -18,6 +18,7 @@ const Single_tour = ({ history }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [adultsQuantity, setAdultsQuantity] = useState(0);
+  const role = useSelector((state) => state.auth.role);
   console.log("I am Use params", tourId.id);
   const [childrenQuantity, setChildrenQuantity] = useState(0);
   const [url, setUrl] = useState("");
@@ -126,65 +127,38 @@ const Single_tour = ({ history }) => {
         <div className="container margin_60">
           <div className="row">
             <div className="col-lg-8" id="single_tour_desc">
-              <div id="single_tour_feat">
-                <ul>
-                  <li>
-                    <i className="icon_set_1_icon-4" />
-                    Museum
-                  </li>
-                  <li>
-                    <i className="icon_set_1_icon-83" />3 Hours
-                  </li>
-                  <li>
-                    <i className="icon_set_1_icon-13" />
-                    Accessibiliy
-                  </li>
-                  <li>
-                    <i className="icon_set_1_icon-82" />
-                    144 Likes
-                  </li>
-                  <li>
-                    <i className="icon_set_1_icon-22" />
-                    Pet allowed
-                  </li>
-                  <li>
-                    <i className="icon_set_1_icon-97" />
-                    Audio guide
-                  </li>
-                  <li>
-                    <i className="icon_set_1_icon-29" />
-                    Tour guide
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <Button
-                  className="btn_map"
-                  data-toggle="collapse"
-                  href="#collapseMap"
-                  aria-expanded="false"
-                  aria-controls="collapseMap"
-                  data-text-swap="Hide map"
-                  data-text-original="View on map"
-                  onClick={handleUpdateClick}
-                >
-                  Update Tour
-                </Button>
-                <br />
-                <a
-                  className="btn_map"
-                  data-toggle="collapse"
-                  href="#collapseMap"
-                  aria-expanded="false"
-                  aria-controls="collapseMap"
-                  data-text-swap="Hide map"
-                  data-text-original="View on map"
-                  onClick={handleDeleteClick}
-                >
-                  Delete Tour
-                </a>
-                <br />
-              </div>
+              
+              {role === "admin" && (
+                <div>
+                  <Button
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="View on map"
+                    onClick={handleUpdateClick}
+                  >
+                    Update Tour
+                  </Button>
+                  <br />
+                  <a
+                    className="btn_map"
+                    data-toggle="collapse"
+                    href="#collapseMap"
+                    aria-expanded="false"
+                    aria-controls="collapseMap"
+                    data-text-swap="Hide map"
+                    data-text-original="View on map"
+                    onClick={handleDeleteClick}
+                  >
+                    Delete Tour
+                  </a>
+                  <br />
+                </div>
+              )}
+
               <p className="d-none d-md-block d-block d-lg-none">
                 <a
                   className="btn_map"
@@ -472,20 +446,6 @@ const Single_tour = ({ history }) => {
             </div>
             {/*End  single_tour_desc*/}
             <aside className="col-lg-4">
-              <p className="d-none d-xl-block d-lg-block d-xl-none">
-                <a
-                  className="btn_map"
-                  data-toggle="collapse"
-                  href="#collapseMap"
-                  aria-expanded="false"
-                  aria-controls="collapseMap"
-                  data-text-swap="Hide map"
-                  data-text-original="View on map"
-                >
-                  View on map
-                </a>
-              </p>
-
               <BookingForm
                 serviceName={tour.name}
                 bookedServiceId={tourId.id}
@@ -493,122 +453,14 @@ const Single_tour = ({ history }) => {
                 price={tour.price}
               />
 
-              {/* 
-              <div className="box_style_1 expose">
-                <h3 className="inner">- Booking -</h3>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>
-                        <i className="icon-calendar-7" /> Select a date
-                      </label>
-                      <input
-                        className="date-pick form-control"
-                        data-date-format="M d, D"
-                        type="text"
-                        value={date}
-                        onChange={(e) => {
-                          setDate(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>
-                        <i className=" icon-clock" /> Time
-                      </label>
-                      <input
-                        className="time-pick form-control"
-                        type="text"
-                        value={time}
-                        onChange={(e) => {
-                          setTime(e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>Adults</label>
-                      <div className="numbers-row">
-                        <input
-                          type="number"
-                          id="adults"
-                          className="qty2 form-control"
-                          name="quantity"
-                          value={adultsQuantity}
-                          onChange={(e) => setAdultsQuantity(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>Children</label>
-                      <div className="numbers-row">
-                        <input
-                          type="number"
-                          id="children"
-                          className="qty2 form-control"
-                          name="quantity"
-                          value={childrenQuantity}
-                          onChange={(e) => setChildrenQuantity(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <br />
-                <table className="table table_summary">
-                  <tbody>
-                    <tr>
-                      <td>Adults</td>
-                      <td className="text-right">{adultsQuantity}</td>
-                    </tr>
-                    <tr>
-                      <td>Children</td>
-                      <td className="text-right">{childrenQuantity}</td>
-                    </tr>
-                    <tr>
-                      <td>Total amount</td>
-                      <td className="text-right">
-                        {Number(adultsQuantity) + Number(childrenQuantity)}x $
-                        {tour.price}
-                      </td>
-                    </tr>
-                    <tr className="total">
-                      <td>Total cost</td>
-                      <td className="text-right">
-                        ${" "}
-                        {(Number(adultsQuantity) + Number(childrenQuantity)) *
-                          tour.price}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <a
-                  className="btn_full"
-                  onClick={(e) => handleBookClick(e, tour)}
-                >
-                  Book now
-                </a>
-                <a className="btn_full_outline" href="#">
-                  <i className=" icon-heart" /> Add to whislist
-                </a>
-              </div>
-               */}
-
               {/*/box_style_1 */}
               <div className="box_style_4">
                 <i className="icon_set_1_icon-90" />
                 <h4>
                   <span>Book</span> by phone
                 </h4>
-                <a href="tel://004542344599" className="phone">
-                  +45 423 445 99
+                <a href="tel://03244220705" className="phone">
+                  03244220705
                 </a>
                 <small>Monday to Friday 9.00am - 7.30pm</small>
               </div>

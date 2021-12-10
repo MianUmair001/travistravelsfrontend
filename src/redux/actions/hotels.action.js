@@ -11,8 +11,8 @@ import {
 } from "../actionTypes";
 
 export const createHotel =
-  (name, price, description, images, auth) => async (dispatch) => {
-    console.log("createHotel", name, price, description, images, auth);
+  (name, description, images, auth) => async (dispatch) => {
+    console.log("createHotel", name, description, images, auth);
     try {
       dispatch({
         type: CREATE_HOTEL_REQUEST,
@@ -22,7 +22,6 @@ export const createHotel =
         images,
         name,
         auth,
-        price: Number(price),
       });
       // console.log("I m in create hotel", response.data.data);
       dispatch({
@@ -31,7 +30,6 @@ export const createHotel =
           hotelID: response.data.data._id,
           userId: auth,
           hotelName: name,
-          price: Number(price),
           description,
           images,
         },

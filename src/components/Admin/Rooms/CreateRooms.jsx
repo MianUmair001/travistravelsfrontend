@@ -74,19 +74,7 @@ const CreateRooms = () => {
       </section>
       {/* End section */}
       <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
+       
         <div className="margin_60 container">
           <div>
             <div className="content1">

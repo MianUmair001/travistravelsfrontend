@@ -107,232 +107,20 @@ const All_hotels_list = ({ history }) => {
                     aria-controls="collapseMap"
                     data-text-swap="Hide map"
                     data-text-original="View on map"
-                  >
-                    View on map
-                  </Button>
-                </p>
-                <p>
-                  <Button
-                    className="btn_map"
-                    data-toggle="collapse"
-                    href="#collapseMap"
-                    aria-expanded="false"
-                    aria-controls="collapseMap"
-                    data-text-swap="Hide map"
-                    data-text-original="View on map"
                     onClick={addHotelHandler}
                   >
                     Add More Hotel
                   </Button>
                 </p>
-                <div id="filters_col">
-                  <a
-                    data-toggle="collapse"
-                    href="#collapseFilters"
-                    aria-expanded="false"
-                    aria-controls="collapseFilters"
-                    id="filters_col_bt"
-                  >
-                    <i className="icon_set_1_icon-65" />
-                    Filters
-                  </a>
-                  <div className="collapse show" id="collapseFilters">
-                    <div className="filter_type">
-                      <h6>Price</h6>
-                      <input type="text" id="range" name="range" />
-                    </div>
-                    <div className="filter_type">
-                      <h6>Star Category</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                            </span>
-                            (15)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (45)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (35)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (25)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span className="rating">
-                              <i className="icon_set_1_icon-81 voted" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                              <i className="icon_set_1_icon-81" />
-                            </span>
-                            (15)
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Review Score</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Superb: 9+ (77)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Very good: 8+ (552)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Good: 7+ (909)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pleasant: 6+ (1196)
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            No rating (198)
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>Facility</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pet allowed
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Wifi
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Spa
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Restaurant
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Pool
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Parking
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Fitness center
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="filter_type">
-                      <h6>District</h6>
-                      <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Paris Centre
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            La Defance
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            La Marais
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            Latin Quarter
-                          </label>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/*End collapse */}
-                </div>
+
                 {/*End filters col*/}
                 <div className="box_style_2">
                   <i className="icon_set_1_icon-57" />
                   <h4>
                     Need <span>Help?</span>
                   </h4>
-                  <a href="tel://004542344599" className="phone">
-                    +45 423 445 99
+                  <a href="tel://03244220705" className="phone">
+                    03244220705
                   </a>
                   <small>Monday to Friday 9.00am - 7.30pm</small>
                 </div>
@@ -391,19 +179,7 @@ const All_hotels_list = ({ history }) => {
                             <div className="ribbon_3 popular">
                               <span>Popular</span>
                             </div>
-                            <div className="wishlist">
-                              <a
-                                className="tooltip_flip tooltip-effect-1"
-                                href="javascript:void(0);"
-                              >
-                                +
-                                <span className="tooltip-content-flip">
-                                  <span className="tooltip-back">
-                                    Add to wishlist
-                                  </span>
-                                </span>
-                              </a>
-                            </div>
+                          
                             <div className="img_list">
                               <a href="single_hotel.html">
                                 <img
@@ -521,9 +297,8 @@ const All_hotels_list = ({ history }) => {
                           <div className="col-lg-2 col-md-2">
                             <div className="price_list">
                               <div>
-                                <sup>$</sup>
+                                PKR:
                                 {hotel.price}
-                                <span className="normal_price_list">$99</span>
                                 <small>*From/Per night</small>
                                 <p>
                                   <Button

@@ -4,19 +4,7 @@ const Confirmation_fixed_sidebar = () => {
   return (
     <>
       <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
+        
         {/* End position */}
         <div className="container margin_60">
           <div className="row">

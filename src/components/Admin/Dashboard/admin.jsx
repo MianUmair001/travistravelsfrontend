@@ -21,6 +21,8 @@ import {
   deleteRestaurant,
   getAllRestaurants,
 } from "../../../redux/actions/restaurant.action";
+import TourGrid from "../../Tours/All Tours/TourGrid";
+import RestaurantGrid from "../../Restaurants/All Restaurants/RestaurantGrid";
 
 // import "./Styles/admin.css";
 
@@ -40,7 +42,7 @@ const AdminDashBoard = () => {
   console.log(statetours.tours, "ia ma");
   const [hotelsListShow, setHotelsListShow] = useState([]);
   const [transportsListShow, setTransportsListShow] = useState([]);
-
+  const role = useSelector((state) => state.auth.role);
   const [restaurants, setRestaurants] = useState([]);
   const staterestaurants = useSelector((state) => state.restaurants);
   console.log(staterestaurants, "ia ma");
@@ -212,19 +214,7 @@ const AdminDashBoard = () => {
       {/* End section */}
       {/* End section */}
       <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
+       
         {/* End Position */}
         <div className="margin_60 container">
           <div id="tabs" className="tabs">
@@ -352,118 +342,13 @@ const AdminDashBoard = () => {
                 Tours
                 {showTours && (
                   <>
-                    <div class="row">
-                      {tours.map((tour) => (
-                        <div
-                          class="col-lg-4 col-md-6 wow zoomIn"
-                          data-wow-delay="0.3s"
-                          key={tour._id}
-                        >
-                          <div class="tour_container">
-                            <div class="ribbon_3 popular">
-                              <span>Popular</span>
-                            </div>
-                            <div class="img_container">
-                              <a href="single_tour.html">
-                                <img
-                                  src={
-                                    tour?.images[0]?.name
-                                      ? `http://localhost:3000/api/upload/file/${tour?.images[0]?.folderName}/fileName/${tour?.images[0]?.name}`
-                                      : "img/restaurant_box_1.jpg"
-                                  }
-                                  width="800"
-                                  height="533"
-                                  class="img-fluid"
-                                  alt="Image"
-                                />
-                                <div class="short_info">
-                                  <i class="icon_set_1_icon-44"></i>Historic
-                                  Buildings
-                                  <span class="price">
-                                    <sup>$</sup>
-                                    {tour.price}
-                                  </span>
-                                </div>
-                              </a>
-                            </div>
-                            <div class="tour_title">
-                              <h3>
-                                <strong>{tour.name}</strong> tour
-                              </h3>
-                              <div class="rating">
-                                <i class="icon-smile voted"></i>
-                                <i class="icon-smile voted"></i>
-                                <i class="icon-smile voted"></i>
-                                <i class="icon-smile voted"></i>
-                                <i class="icon-smile"></i>
-                                <small>(75)</small>
-                              </div>
-                              {/* end rating */}
-                              <div class="wishlist">
-                                <a
-                                  class="tooltip_flip tooltip-effect-1"
-                                  href="#"
-                                >
-                                  +
-                                  <span class="tooltip-content-flip">
-                                    <span class="tooltip-back">
-                                      Add to wishlist
-                                    </span>
-                                  </span>
-                                </a>
-                              </div>
-
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                }}
-                                className="btn"
-                              >
-                                <Button
-                                  variant="contained"
-                                  size="small"
-                                  startIcon={<Edit />}
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                  }}
-                                  onClick={(e) => handleUpdateTour(e, tour._id)}
-                                >
-                                  Update
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  size="small"
-                                  startIcon={<Delete />}
-                                  style={{
-                                    color: "red",
-                                  }}
-                                  onClick={(e) => handleDeleteTour(e, tour._id)}
-                                >
-                                  Delete
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  size="small"
-                                  startIcon={<Info />}
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                  }}
-                                  onClick={(e) => handleDetailTour(e, tour._id)}
-                                >
-                                  Details
-                                </Button>
-                              </div>
-
-                              {/* End wish list */}
-                            </div>
-                          </div>
-                          {/* End box tour */}
-                        </div>
-                      ))}
-                    </div>
+                    <TourGrid
+                      tours={tours}
+                      handleDeleteTour={handleDeleteTour}
+                      handleUpdateTour={handleUpdateTour}
+                      handleDetailTour={handleDetailTour}
+                      role={role}
+                    />
                     <Button
                       type="submit"
                       className="btn_1 green"
@@ -592,6 +477,7 @@ const AdminDashBoard = () => {
                         </div>
                       ))}
                     </div>
+
                     <button
                       type="submit"
                       className="btn_1 green"
@@ -751,114 +637,14 @@ const AdminDashBoard = () => {
               <section id="section-5">
                 Restaurants
                 {showRestaurants && (
-                  <div className="row">
-                    {restaurants.map((restaurant) => (
-                      <div
-                        className="col-md-6 wow zoomIn"
-                        data-wow-delay="0.1s"
-                        key={restaurant._id}
-                      >
-                        <div className="tour_container">
-                          <div className="ribbon_3 popular">
-                            <span>Popular</span>
-                          </div>
-                          <div className="img_container">
-                            <a href="single_restaurant.html">
-                              <img
-                                src={
-                                  restaurant?.images[0]?.name
-                                    ? `http://localhost:3000/api/upload/file/${restaurant?.images[0]?.folderName}/fileName/${restaurant?.images[0]?.name}`
-                                    : "img/restaurant_box_1.jpg"
-                                }
-                                width={800}
-                                height={533}
-                                className="img-fluid"
-                                alt="Image"
-                              />
-                            </a>
-                          </div>
-                          <div className="tour_title">
-                            <h3>
-                              <strong>{restaurant.name}</strong>
-                            </h3>
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <small>(75)</small>
-                            </div>
-                            {/* end rating */}
-                            <div className="wishlist">
-                              <a
-                                className="tooltip_flip tooltip-effect-1"
-                                href="#"
-                              >
-                                +
-                                <span className="tooltip-content-flip">
-                                  <span className="tooltip-back">
-                                    Add to wishlist
-                                  </span>
-                                </span>
-                              </a>
-                            </div>
-                            {/* End wish list*/}
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                              className="btn"
-                            >
-                              <Button
-                                variant="contained"
-                                size="small"
-                                startIcon={<Edit />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) =>
-                                  handleUpdateRestaurant(e, restaurant._id)
-                                }
-                              >
-                                Update
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<Delete />}
-                                style={{
-                                  color: "red",
-                                }}
-                                onClick={(e) =>
-                                  handleDeleteRestaurant(e, restaurant._id)
-                                }
-                              >
-                                Delete
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<Info />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) =>
-                                  handleDetailRestaurant(e, restaurant._id)
-                                }
-                              >
-                                Details
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                        {/* End box tour */}
-                      </div>
-                    ))}
-                    {/* End col-md-6 */}
+                  <>
+                    <RestaurantGrid
+                      restaurants={restaurants}
+                      handleDeleteRestaurant={handleDeleteRestaurant}
+                      handleUpdateRestaurant={handleUpdateRestaurant}
+                      handleDetailRestaurant={handleDetailRestaurant}
+                      role={role}
+                    />
                     <Button
                       type="submit"
                       className="btn_1 green"
@@ -871,7 +657,7 @@ const AdminDashBoard = () => {
                     >
                       Create Restuarant
                     </Button>
-                  </div>
+                  </>
                 )}
               </section>
 
