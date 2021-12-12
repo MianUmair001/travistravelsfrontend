@@ -32,7 +32,6 @@ export const createRestaurant =
         schedule,
         price: Number(price),
       });
-      // console.log("I am in restaurant action", response);
       if (response.data.statusCode === 201) {
         dispatch({
           type: CREATE_RESTAURANT_SUCCESS,

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import { deleteTour, getTours } from "../../../redux/actions/tour.action";
+import axios from "axios";
+
 import {
   deleteHotel,
   getAllHotels,
@@ -23,6 +25,10 @@ import {
 } from "../../../redux/actions/restaurant.action";
 import TourGrid from "../../Tours/All Tours/TourGrid";
 import RestaurantGrid from "../../Restaurants/All Restaurants/RestaurantGrid";
+import { getAllBookings } from "../../../redux/actions/userDashboard.action";
+import { toast } from "react-toastify";
+import HotelGrid from "../../Hotel/All_Hotels/HotelGrid";
+import TransferGrid from "../Transport/All_Transfer/TransferGrid";
 
 // import "./Styles/admin.css";
 
@@ -30,7 +36,7 @@ const AdminDashBoard = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
-  const [AllHotels, setAllHotels] = useState([]);
+  const [hotels, setHotels] = useState([]);
   const statetours = useSelector((state) => state.tours);
   const statehotels = useSelector((state) => state.hotels);
   const [showBookings, setshowBookings] = useState(false);
@@ -40,11 +46,18 @@ const AdminDashBoard = () => {
   const [showRestaurants, setshowRestaurants] = useState(false);
   const [showProfile, setshowProfile] = useState(false);
   console.log(statetours.tours, "ia ma");
-  const [hotelsListShow, setHotelsListShow] = useState([]);
   const [transportsListShow, setTransportsListShow] = useState([]);
   const role = useSelector((state) => state.auth.role);
   const [restaurants, setRestaurants] = useState([]);
   const staterestaurants = useSelector((state) => state.restaurants);
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(async () => {
+    const data = await dispatch(getAllBookings());
+    console.log("bookings", data);
+    setBookings(data);
+  }, []);
+
   console.log(staterestaurants, "ia ma");
 
   const handleDetailRestaurant = async (e, id) => {
@@ -84,13 +97,14 @@ const AdminDashBoard = () => {
 
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
-      const data = await dispatch(getAllHotels());
-      const hotelList = data.data;
-      setAllHotels(hotelList);
+      const { data } = await dispatch(getAllHotels());
+      const hotelList = data;
+      console.log("I am hotels Data Sai wala ", data);
+      setHotels(hotelList);
     } else {
-      setAllHotels(statehotels.hotels);
+      setHotels(statehotels.hotels);
     }
-  }, [statehotels.hotels, AllHotels]);
+  }, [statehotels.hotels, hotels]);
 
   const statetransports = useSelector((state) => state.transports);
   console.log(statetransports.transports, "ia ma");
@@ -175,6 +189,20 @@ const AdminDashBoard = () => {
     await dispatch(updateHotel(id, name, description, images));
     history.push(`/update_hotel/${props._id}`);
   };
+  const deleteBooking = async (e, id) => {
+    e.preventDefault();
+    try {
+      const {
+        data: { data },
+      } = await axios.delete(`http://localhost:3000/api/booking/${id}`);
+      console.log("I am BookingDelte data", data);
+      toast.success("Booking Deleted Successfully");
+      history.push("/user_dashboard");
+    } catch (error) {
+      console.log({ error });
+      toast.error(error.response.data.message);
+    }
+  };
 
   const handleDeleteTour = async (e, id) => {
     e.preventDefault();
@@ -192,6 +220,7 @@ const AdminDashBoard = () => {
 
     history.push("/create_restaurant");
   };
+  const userEmail = useSelector((state) => state.auth.userEmail);
   return (
     <>
       <section
@@ -203,10 +232,10 @@ const AdminDashBoard = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail.split("@")[0]}!</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Welcome to Your Dashboard Here Your can manage
+              Hotels,Bookings,Restaurants,Tours
             </p>
           </div>
         </div>
@@ -214,7 +243,6 @@ const AdminDashBoard = () => {
       {/* End section */}
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div id="tabs" className="tabs">
@@ -222,7 +250,13 @@ const AdminDashBoard = () => {
               <ul>
                 <li>
                   <Button
-                    onClick={() => setshowBookings(!showBookings)}
+                    onClick={() => {
+                      setshowBookings(true);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-booking"
                   >
                     <span>Bookings</span>
@@ -230,7 +264,13 @@ const AdminDashBoard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowTours(!showTours)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(true);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-wishlist"
                   >
                     <span>Tour</span>
@@ -238,7 +278,13 @@ const AdminDashBoard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowHotels(!showHotels)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(true);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-settings"
                   >
                     <span>Hotels</span>
@@ -246,7 +292,13 @@ const AdminDashBoard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowTransports(!showTransports)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(true);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-profile"
                   >
                     <span>Transfers</span>
@@ -254,7 +306,13 @@ const AdminDashBoard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowRestaurants(true)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(true);
+                    }}
                     className="icon-profile"
                   >
                     <span>Restaurant</span>
@@ -263,400 +321,196 @@ const AdminDashBoard = () => {
               </ul>
             </nav>
 
-            <div className="content">
-              <section id="section-1">
-                Bookings
+            <div className="">
+              <section id="">
                 {showBookings && (
                   <>
-                    <div id="tools">
-                      <div className="row">
-                        <div className="col-lg-2 col-md-3 col-6">
-                          <div className="styled-select-filters">
-                            <select name="sort_type" id="sort_type">
-                              <option value>Sort by type</option>
-                              <option value="tours">Tours</option>
-                              <option value="hotels">Hotels</option>
-                              <option value="transfers">Transfers</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="col-lg-2 col-md-3 col-6">
-                          <div className="styled-select-filters">
-                            <select name="sort_date" id="sort_date">
-                              <option value>Sort by date</option>
-                              <option value="oldest">Oldest</option>
-                              <option value="recent">Recent</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {[1, 2, 3, 4].map((number) => (
-                      <div className="strip_booking" key={number}>
-                        <div className="row">
-                          <div className="col-lg-2 col-md-2">
-                            <div className="date">
-                              <span className="month">Dec</span>
-                              <span className="day">
-                                <strong>23</strong>Sat
-                              </span>
+                    <h1 style={{ textAlign: "center" }}>Bookings</h1>
+                    {bookings?.length === 0 ? (
+                      <h1>There are not any bookings yet </h1>
+                    ) : (
+                      bookings?.map((booking) => (
+                        <div className="strip_booking" key={booking._id}>
+                          <div className="row">
+                            <div className="col-lg-2 col-md-2">
+                              <div className="date">
+                                <span className="month">
+                                  {console.log(
+                                    booking.bookingDate
+                                      .split("T")[0]
+                                      .split("-")[1]
+                                  )}
+                                  Month:
+                                  {
+                                    booking.bookingDate
+                                      .split("T")[0]
+                                      .split("-")[1]
+                                  }
+                                </span>
+                                <span className="day">
+                                  <strong>
+                                    {
+                                      booking.bookingDate
+                                        .split("T")[0]
+                                        .split("-")[2]
+                                    }
+                                  </strong>
+                                </span>
+                              </div>
+                            </div>
+                            <div className="col-lg-6 col-md-5">
+                              <h3 className="hotel_booking">
+                                {booking.title}
+                                <span>
+                                  {booking.noOfAdults} Adults /{" "}
+                                  {booking.noOfChildren} Children
+                                </span>
+                              </h3>
+                            </div>
+                            <div className="col-lg-2 col-md-3">
+                              <ul className="info_booking">
+                                <li>
+                                  <strong>Booking id</strong> {booking._id}
+                                </li>
+                                <li>
+                                  <strong>Booked on</strong>
+                                  {booking.createdAt.split("T")[0]}
+                                </li>
+                              </ul>
+                            </div>
+                            <div className="col-lg-2 col-md-2">
+                              <div className="booking_buttons">
+                                <a
+                                  onClick={(e) => deleteBooking(e, booking._id)}
+                                  className="btn_3"
+                                >
+                                  Cancel
+                                </a>
+                              </div>
                             </div>
                           </div>
-                          <div className="col-lg-6 col-md-5">
-                            <h3 className="hotel_booking">
-                              Hotel Mariott Paris
-                              <span>2 Adults / 2 Nights</span>
-                            </h3>
-                          </div>
-                          <div className="col-lg-2 col-md-3">
-                            <ul className="info_booking">
-                              <li>
-                                <strong>Booking id</strong> 23442
-                              </li>
-                              <li>
-                                <strong>Booked on</strong> Sat. 23 Dec. 2015
-                              </li>
-                            </ul>
-                          </div>
-                          <div className="col-lg-2 col-md-2">
-                            <div className="booking_buttons">
-                              <a href="#0" className="btn_2">
-                                Edit
-                              </a>
-                              <a href="#0" className="btn_3">
-                                Cancel
-                              </a>
-                            </div>
-                          </div>
+                          {/* End row */}
                         </div>
-                        {/* End row */}
-                      </div>
-                    ))}
+                      ))
+                    )}
                   </>
                 )}
               </section>
 
               {/* End section 1 */}
-              <section id="section-2">
-                Tours
+              <section id="">
                 {showTours && (
                   <>
-                    <TourGrid
-                      tours={tours}
-                      handleDeleteTour={handleDeleteTour}
-                      handleUpdateTour={handleUpdateTour}
-                      handleDetailTour={handleDetailTour}
-                      role={role}
-                    />
-                    <Button
-                      type="submit"
-                      className="btn_1 green"
-                      onClick={(e) => handleCreateTour(e)}
-                    >
-                      Create Tour
-                    </Button>
+                    <h1 style={{ textAlign: "center" }}>Tours</h1>
+                    {tours?.length === 0 ? (
+                      <h1>There are not any tours yet </h1>
+                    ) : (
+                      <>
+                        <TourGrid
+                          tours={tours}
+                          handleDeleteTour={handleDeleteTour}
+                          handleUpdateTour={handleUpdateTour}
+                          handleDetailTour={handleDetailTour}
+                          role={role}
+                        />
+                        <Button
+                          type="submit"
+                          className="btn_1 green"
+                          onClick={(e) => handleCreateTour(e)}
+                        >
+                          Create Tour
+                        </Button>
+                      </>
+                    )}
                   </>
                 )}
               </section>
 
               {/* End section 2 */}
-              <section id="section-3">
-                Hotels
+              <section id="">
                 {showHotels && (
                   <>
-                    <div class="row">
-                      {AllHotels?.map((grid) => (
-                        <div
-                          className="col-lg-4 col-md-6 wow zoomIn"
-                          data-wow-delay="0.1s"
-                          key={grid._id}
+                    <h1 style={{ textAlign: "center" }}> Hotels</h1>
+                    {hotels?.length === 0 ? (
+                      <h1>There are not any Hotels In Database</h1>
+                    ) : (
+                      <>
+                        <HotelGrid
+                          hotels={hotels}
+                          handleDetailHotel={handleDetailHotel}
+                          handleDeleteHotel={handleDeleteHotel}
+                          handleUpdateHotel={handleUpdateHotel}
+                          role={role}
+                        />
+                        <Button
+                          type="submit"
+                          className="btn_1 green"
+                          onClick={(e) => handleCreateHotel(e)}
                         >
-                          <div className="hotel_container">
-                            <div className="ribbon_3 popular">
-                              <span>Popular</span>
-                            </div>
-                            <div className="img_container">
-                              <a href="single_hotel.html">
-                                <img
-                                  src={
-                                    grid?.images[0]?.name
-                                      ? `http://localhost:3000/api/upload/file/${grid?.images[0]?.folderName}/fileName/${grid?.images[0]?.name}`
-                                      : "img/tour_box_1.jpg"
-                                  }
-                                  width={800}
-                                  height={533}
-                                  className="img-fluid"
-                                  alt="Image"
-                                />
-                                <div className="score">
-                                  <span>7.5</span>Good
-                                </div>
-                                <div className="short_info hotel">
-                                  From/Per night
-                                  <span className="price">
-                                    <sup>$</sup>
-                                    {grid.price}
-                                  </span>
-                                </div>
-                              </a>
-                            </div>
-                            <div className="hotel_title">
-                              <h3>
-                                <strong>{grid.name}</strong> Hotel
-                              </h3>
-                              <div className="rating">
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star voted" />
-                                <i className="icon-star-empty" />
-                              </div>
-                              {/* end rating */}
-                              <div className="wishlist">
-                                <a
-                                  className="tooltip_flip tooltip-effect-1"
-                                  href="#"
-                                >
-                                  +
-                                  <span className="tooltip-content-flip">
-                                    <span className="tooltip-back">
-                                      Add to wishlist
-                                    </span>
-                                  </span>
-                                </a>
-                              </div>
-
-                              {/* End wish list*/}
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                              className="btn"
-                            >
-                              <Button
-                                variant="contained"
-                                size="small"
-                                startIcon={<Edit />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) => handleUpdateHotel(e, grid)}
-                              >
-                                Update
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<DeleteOutlined />}
-                                style={{
-                                  color: "red",
-                                }}
-                                onClick={(e) => handleDeleteHotel(e, grid._id)}
-                              >
-                                Delete
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<Info />}
-                                style={{
-                                  backgroundColor: "green",
-                                  color: "white",
-                                }}
-                                onClick={(e) => handleDetailHotel(e, grid._id)}
-                              >
-                                Details
-                              </Button>
-                            </div>
-                          </div>
-                          {/* End box tour */}
-                        </div>
-                      ))}
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="btn_1 green"
-                      onClick={(e) => handleCreateHotel(e)}
-                    >
-                      Create Hotel
-                    </button>
+                          Create Hotel
+                        </Button>
+                      </>
+                    )}
                   </>
                 )}
               </section>
 
-              <section id="section-4">
-                Transports
+              <section id="">
                 {showTransports && (
                   <>
-                    <div class="row">
-                      {transportsListShow?.length === 0 ? (
-                        <h3
-                          style={{ display: "flex", justifyContent: "center" }}
-                        >
-                          No Transport To Show
-                        </h3>
-                      ) : (
-                        <div>
-                          <div className="row">
-                            {transportsListShow?.map((transportGrid) => (
-                              <div
-                                className="col-md-6 wow zoomIn"
-                                data-wow-delay="0.1s"
-                                key={transportGrid._id}
-                              >
-                                <div className="hotel_container">
-                                  <div className="ribbon_3 popular">
-                                    <span>Popular</span>
-                                  </div>
-                                  <div className="img_container">
-                                    <a href="single_hotel.html">
-                                      <img
-                                        src={
-                                          transportGrid?.images[0]?.name
-                                            ? `http://localhost:3000/api/upload/file/${transportGrid?.images[0]?.folderName}/fileName/${transportGrid?.images[0]?.name}`
-                                            : "img/tour_box_1.jpg"
-                                        }
-                                        width={800}
-                                        height={533}
-                                        className="img-fluid"
-                                        alt="Image"
-                                      />
-                                      <div className="score">
-                                        <span>7.5</span>Good
-                                      </div>
-                                      <div className="short_info hotel">
-                                        price Per killometer
-                                        <span className="price">
-                                          <sup>$</sup>
-                                          {transportGrid.pricePerKillomter}
-                                        </span>
-                                      </div>
-                                    </a>
-                                  </div>
-                                  <div className="hotel_title">
-                                    <h3>
-                                      <strong>{transportGrid.name}</strong>
-                                    </h3>
-                                    <div className="rating">
-                                      <i className="icon-star voted" />
-                                      <i className="icon-star voted" />
-                                      <i className="icon-star voted" />
-                                      <i className="icon-star voted" />
-                                      <i className="icon-star-empty" />
-                                    </div>
-                                    {/* end rating */}
-                                    <div className="wishlist">
-                                      <a
-                                        className="tooltip_flip tooltip-effect-1"
-                                        href="#"
-                                      >
-                                        +
-                                        <span className="tooltip-content-flip">
-                                          <span className="tooltip-back">
-                                            Add to wishlist
-                                          </span>
-                                        </span>
-                                      </a>
-                                    </div>
+                    <h1 style={{ textAlign: "center" }}> Transports</h1>
 
-                                    {/* End wish list*/}
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                    }}
-                                    className="btn"
-                                  >
-                                    <Button
-                                      variant="contained"
-                                      size="small"
-                                      startIcon={<Edit />}
-                                      style={{
-                                        backgroundColor: "green",
-                                        color: "white",
-                                      }}
-                                      onClick={(e) =>
-                                        handleUpdateTransport(e, transportGrid)
-                                      }
-                                    >
-                                      Update
-                                    </Button>
-                                    <Button
-                                      variant="outlined"
-                                      size="small"
-                                      startIcon={<DeleteOutlined />}
-                                      style={{
-                                        color: "red",
-                                      }}
-                                      onClick={(e) =>
-                                        handleDeleteTransport(e, transportGrid)
-                                      }
-                                    >
-                                      Delete
-                                    </Button>
-                                    <Button
-                                      variant="outlined"
-                                      size="small"
-                                      startIcon={<Info />}
-                                      style={{
-                                        backgroundColor: "green",
-                                        color: "white",
-                                      }}
-                                      onClick={(e) =>
-                                        handleDetailTransport(e, transportGrid)
-                                      }
-                                    >
-                                      Details
-                                    </Button>
-                                  </div>
-                                </div>
-                                {/* End box tour */}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <button
-                      type="submit"
-                      className="btn_1 green"
-                      onClick={(e) => handleCreateTransport(e)}
-                    >
-                      Create Transport
-                    </button>
+                    {transportsListShow?.length === 0 ? (
+                      <h1>There are not any Transports in Database</h1>
+                    ) : (
+                      <>
+                        <TransferGrid
+                          transportsListShow={transportsListShow}
+                          handleDetailTransport={handleDetailTransport}
+                          role={role}
+                        />
+                        <Button
+                          type="submit"
+                          className="btn_1 green"
+                          onClick={(e) => handleCreateTransport(e)}
+                        >
+                          Create Transport
+                        </Button>
+                      </>
+                    )}
                   </>
                 )}
               </section>
 
               <section id="section-5">
-                Restaurants
                 {showRestaurants && (
                   <>
-                    <RestaurantGrid
-                      restaurants={restaurants}
-                      handleDeleteRestaurant={handleDeleteRestaurant}
-                      handleUpdateRestaurant={handleUpdateRestaurant}
-                      handleDetailRestaurant={handleDetailRestaurant}
-                      role={role}
-                    />
-                    <Button
-                      type="submit"
-                      className="btn_1 green"
-                      onClick={(e) => handleCreateRestuarant(e)}
-                      style={{
-                        marginLeft: "15px",
-                        backgroundColor: "green",
-                        color: "white",
-                      }}
-                    >
-                      Create Restuarant
-                    </Button>
+                    <h1 style={{ textAlign: "center" }}> Restaurants</h1>
+                    {restaurants?.length === 0 ? (
+                      <h1>There are not any Restaurants in Database</h1>
+                    ) : (
+                      <>
+                        <RestaurantGrid
+                          restaurants={restaurants}
+                          handleDeleteRestaurant={handleDeleteRestaurant}
+                          handleUpdateRestaurant={handleUpdateRestaurant}
+                          handleDetailRestaurant={handleDetailRestaurant}
+                          role={role}
+                        />
+                        <Button
+                          type="submit"
+                          className="btn_1 green"
+                          onClick={(e) => handleCreateRestuarant(e)}
+                          style={{
+                            marginLeft: "15px",
+                            backgroundColor: "green",
+                            color: "white",
+                          }}
+                        >
+                          Create Restuarant
+                        </Button>
+                      </>
+                    )}
                   </>
                 )}
               </section>

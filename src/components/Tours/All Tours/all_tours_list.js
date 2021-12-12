@@ -6,26 +6,55 @@ import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { Edit, Delete, Info } from "@material-ui/icons";
 
-const All_tours_list = () => {
+const All_tours_list = ({
+  indexOfFirstPage,
+  indexOfLastPage,
+  postsPerPage,
+  setCurrentPage,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
-
+  const [selectedOption, setSelectedOption] = useState();
   const role = useSelector((state) => state.auth.role);
   console.log("I am Role", role);
   const statetours = useSelector((state) => state.tours);
   console.log(statetours.tours, "ia ma");
+
   useEffect(async () => {
     if (statetours.tours.length === 0) {
       const { data } = await dispatch(getTours());
       console.log(data);
-      setTours(data);
+      const stateCurrentTours = data?.slice(indexOfFirstPage, indexOfLastPage);
+      setTours(stateCurrentTours);
       console.log("I am in store value check if");
     } else {
-      setTours(statetours.tours);
+      const stateCurrentTours = statetours.tours?.slice(
+        indexOfFirstPage,
+        indexOfLastPage
+      );
+      setTours(stateCurrentTours);
     }
-  }, [statetours.tours, tours]);
+  }, [statetours.tours]);
+  const pageNumbers = [];
+  for (
+    let i = 1;
+    i <= Math.ceil(statetours.tours?.length / postsPerPage);
+    i++
+  ) {
+    pageNumbers.push(i);
+  }
 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleChange = (value, selectOptionSetter) => {
+    selectOptionSetter(value);
+    if (value === "lower") {
+      tours?.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+    } else {
+      tours?.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+    }
+  };
   const handleDetailTour = async (e, id) => {
     e.preventDefault();
     history.push(`/single_tour/${id}`);
@@ -133,8 +162,15 @@ const All_tours_list = () => {
                 <div className="row">
                   <div className="col-md-3 col-sm-4 col-6">
                     <div className="styled-select-filters">
-                      <select name="sort_price" id="sort_price">
-                        <option value="sortByPrice">Sort by price</option>
+                      <select
+                        value={selectedOption}
+                        name="sort_price"
+                        id="sort_price"
+                        onChange={(e) =>
+                          handleChange(e.target.value, setSelectedOption)
+                        }
+                      >
+                        <option>Sort By price</option>
                         <option value="lower">Lowest price</option>
                         <option value="higher">Highest price</option>
                       </select>
@@ -169,7 +205,7 @@ const All_tours_list = () => {
                         <div className="ribbon_3 popular">
                           <span>Popular</span>
                         </div>
-                       
+
                         <div className="img_list">
                           <a href="single_tour.html">
                             <img
@@ -342,26 +378,18 @@ const All_tours_list = () => {
               <nav aria-label="Page navigation">
                 <ul className="pagination justify-content-center">
                   <li className="page-item">
-                    <a className="page-link" href="#" aria-label="Previous">
+                    <a className="page-link" aria-label="Previous">
                       <span aria-hidden="true">«</span>
                       <span className="sr-only">Previous</span>
                     </a>
                   </li>
-                  <li className="page-item active">
-                    <span className="page-link">
-                      1<span className="sr-only">(current)</span>
-                    </span>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
+                  {pageNumbers.map((number) => (
+                    <li className="page-item">
+                      <a onClick={() => paginate(number)} className="page-link">
+                        {number}
+                      </a>
+                    </li>
+                  ))}
                   <li className="page-item">
                     <a className="page-link" href="#" aria-label="Next">
                       <span aria-hidden="true">»</span>

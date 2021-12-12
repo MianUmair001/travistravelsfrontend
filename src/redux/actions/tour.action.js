@@ -39,6 +39,7 @@ export const createTour =
       });
       if (response.data.statusCode === 201) {
         dispatch({ type: CREATE_TOUR_SUCCESS, payload: response.data });
+        dispatch(getTours());
         toast.success("Tour has been successfully created");
       }
     } catch (error) {

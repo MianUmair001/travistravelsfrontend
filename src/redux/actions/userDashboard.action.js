@@ -46,3 +46,13 @@ export const getBookings = (user) => async (dispatch) => {
     console.log({ error });
   }
 };
+
+export const getAllBookings = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`http://localhost:3000/api/booking`);
+    console.log(data, "I am all bookings");
+    return data.data;
+  } catch (error) {
+    console.log({ error });
+  }
+};

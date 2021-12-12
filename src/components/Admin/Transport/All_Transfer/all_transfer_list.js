@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
 
@@ -11,10 +11,16 @@ import {
   updateTransport,
 } from "../../../../redux/actions/transport.action";
 
-const All_transfer_list = ({ history }) => {
+const All_transfer_list = ({
+  indexOfFirstPage,
+  indexOfLastPage,
+  postsPerPage,
+  setCurrentPage,
+}) => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const [transportsListShow, setTransportsListShow] = useState([]);
+  const [selectedOption, setSelectedOption] = useState();
   const role = useSelector((state) => state.auth.role);
 
   const statetransports = useSelector((state) => state.transports);
@@ -23,13 +29,35 @@ const All_transfer_list = ({ history }) => {
     if (statetransports.transports.length === 0) {
       const { data } = await dispatch(getALlTransport());
       console.log(data);
+      const currentTransports = data?.slice(indexOfFirstPage, indexOfLastPage);
+      setTransportsListShow(currentTransports);
       setTransportsListShow(data);
       console.log("I am in store value check if");
     } else {
-      setTransportsListShow(statetransports.transports);
+      const stateCurrentTransports = statetransports.transports?.slice(
+        indexOfFirstPage,
+        indexOfLastPage
+      );
+      setTransportsListShow(stateCurrentTransports);
     }
   }, [statetransports.transports, transportsListShow]);
-
+  const pageNumbers = [];
+  for (
+    let i = 1;
+    i <= Math.ceil(statetransports.transports?.length / postsPerPage);
+    i++
+  ) {
+    pageNumbers.push(i);
+  }
+  const handleChange = (value, selectOptionSetter) => {
+    selectOptionSetter(value);
+    if (value === "lower") {
+      transportsListShow?.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+    } else {
+      transportsListShow?.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+    }
+  };
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleDeleteTransport = async (e, props) => {
     e.preventDefault();
 
@@ -141,27 +169,25 @@ const All_transfer_list = ({ history }) => {
                   <div className="row">
                     <div className="col-md-3 col-sm-4 col-6">
                       <div className="styled-select-filters">
-                        <select name="sort_price" id="sort_price">
-                          <option value selected>
-                            Sort by price
-                          </option>
+                        <select
+                          value={selectedOption}
+                          name="sort_price"
+                          id="sort_price"
+                          onChange={(e) =>
+                            handleChange(e.target.value, setSelectedOption)
+                          }
+                        >
+                          <option>Sort By price</option>
                           <option value="lower">Lowest price</option>
                           <option value="higher">Highest price</option>
                         </select>
                       </div>
                     </div>
-                    <div className="col-md-3 col-sm-4 col-6">
-                      <div className="styled-select-filters">
-                        <select name="sort_rating" id="sort_rating">
-                          <option value selected>
-                            Sort by ranking
-                          </option>
-                          <option value="lower">Lowest ranking</option>
-                          <option value="higher">Highest ranking</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-md-6 col-sm-4 d-none d-sm-block text-right">
+
+                    <div
+                      className="col-md-6 col-sm-4 d-none d-sm-block text-right"
+                      style={{ marginLeft: "25%" }}
+                    >
                       <Link to="/all_transfer_grid" className="bt_filters">
                         <i className="icon-th" />
                       </Link>{" "}
@@ -337,26 +363,21 @@ const All_transfer_list = ({ history }) => {
                 <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center">
                     <li className="page-item">
-                      <a className="page-link" href="#" aria-label="Previous">
+                      <a className="page-link" aria-label="Previous">
                         <span aria-hidden="true">«</span>
                         <span className="sr-only">Previous</span>
                       </a>
                     </li>
-                    <li className="page-item active">
-                      <span className="page-link">
-                        1<span className="sr-only">(current)</span>
-                      </span>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
+                    {pageNumbers.map((number) => (
+                      <li className="page-item">
+                        <a
+                          onClick={() => paginate(number)}
+                          className="page-link"
+                        >
+                          {number}
+                        </a>
+                      </li>
+                    ))}
                     <li className="page-item">
                       <a className="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">»</span>

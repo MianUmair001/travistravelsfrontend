@@ -19,6 +19,7 @@ const CreateHotel = ({ history }) => {
   const hotelID = useSelector((state) => state.hotel.hotelID);
   const userID = useSelector((state) => state.auth.user);
   const [newHotelId, setnewHotelId] = useState("");
+  const [showRoomBtn, setshowRoomBtn] = useState(false);
   const [hotelName, setHotelName] = useState("Lahore Hotel");
   const [description, setDescription] = useState(
     "A Five Star Hotel Located In Naran"
@@ -28,12 +29,14 @@ const CreateHotel = ({ history }) => {
 
   const createHotelHandler = async (e) => {
     e.preventDefault();
-
-    const response = await dispatch(
+    const { data } = await dispatch(
       createHotel(hotelName, description, images, userID)
     );
-    if (response !== undefined) {
+    console.log("I am Response", data.data._id);
+    setnewHotelId(data.data._id);
+    if (data !== undefined) {
       setShowSuccessMessage(true);
+      setshowRoomBtn(true);
       const timer = setTimeout(() => {
         setShowSuccessMessage(false);
       }, 5000);
@@ -163,6 +166,25 @@ const CreateHotel = ({ history }) => {
                       </Link>
                     </h6>
                   ) : null}
+                  <br />
+                  <br />
+                  {showRoomBtn && (
+                    <Button
+                      style={{
+                        backgroundColor: "green",
+                        color: "white",
+                        textTransform: "unset",
+                      }}
+                      className="btn btn_full_outline py-2 px-5"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        history.push(`/create_room/${newHotelId}`);
+                      }}
+                      startIcon={<HotelOutlined />}
+                    >
+                      Create Room
+                    </Button>
+                  )}
                 </section>
                 {/* End section 4 */}
               </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import {
   BrowserRouter,
@@ -114,6 +114,15 @@ import UserDashboard from "./components/Admin/Dashboard/UserDashboard";
 import { useSelector } from "react-redux";
 
 function App() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
+
+  // Get current posts
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+
+  console.log("indexOfLastPage", indexOfLastPage, indexOfFirstPage);
+
   const history = useHistory();
   return (
     <div className="App">
@@ -128,7 +137,6 @@ function App() {
           <Route exact path="/forget_password" component={Forget_password} />
           <Route exact path="/verifyEmail" component={VerifyEmail} />
           <Route exact path="/reset_password" component={Reset_password} />
-
           {/* Tours Routes */}
           <Route exact path="/create_tour" component={CreateTour} />
           <Route
@@ -137,8 +145,30 @@ function App() {
             component={UpdateTour}
             history={history}
           />
-          <Route exact path="/all_tours_grid" component={All_tours_grid} />
-          <Route exact path="/all_tours_list" component={All_tours_list} />
+          <Route
+            exact
+            path="/all_tours_grid"
+            component={() => (
+              <All_tours_grid
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/all_tours_list"
+            component={() => (
+              <All_tours_list
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          />
           <Route
             exact
             path="/all_tours_map_listing"
@@ -191,7 +221,6 @@ function App() {
             path="/confirmation_fixed_sidebar"
             component={Confirmation_fixed_sidebar}
           />
-
           {/* Restaurants Routes */}
           <Route exact path="/create_restaurant" component={CreateRestaurant} />
           <Route
@@ -199,16 +228,29 @@ function App() {
             path="/update_restaurant/:id"
             component={UpdateRestaurant}
           />
-
           <Route
             exact
             path="/all_restaurants_grid"
-            component={All_restaurants_grid}
+            component={() => (
+              <All_restaurants_grid
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
           />
           <Route
             exact
             path="/all_restaurants_list"
-            component={All_restaurants_list}
+            component={() => (
+              <All_restaurants_list
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
           />
           <Route
             exact
@@ -225,20 +267,39 @@ function App() {
             path="/single_restaurant_datepicker_v2"
             component={Single_restaurant_datepicker_v2}
           />
-
           <Route exact path="/finishBooking" component={FinishBooking} />
           <Route exact path="/bookingForm" component={BookingForm} />
-
           <Route
             exact
             path="/booking_restaurant"
             component={Booking_restaurant}
           />
           <Route exact path="/confirm_transfer" component={Confirm_transfer} />
-
           {/* Hotel Routes */}
-          <Route exact path="/all_hotels_grid" component={All_hotels_grid} />
-          <Route exact path="/all_hotels_list" component={All_hotels_list} />
+          <Route
+            exact
+            path="/all_hotels_grid"
+            component={() => (
+              <All_hotels_grid
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/all_hotels_list"
+            component={() => (
+              <All_hotels_list
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
+          />
           <Route
             exact
             path="/all_hotels_map_listing"
@@ -272,7 +333,6 @@ function App() {
             path="/single_hotel_datepicker_v2"
             component={Single_hotel_datepicker_v2}
           />
-
           {/* Transfer Routes */}
           <Route exact path="/create_transport" component={CreateTransport} />
           <Route
@@ -283,12 +343,26 @@ function App() {
           <Route
             exact
             path="/all_transfer_grid"
-            component={All_transfer_grid}
+            component={() => (
+              <All_transfer_grid
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
           />
           <Route
             exact
             path="/all_transfer_list"
-            component={All_transfer_list}
+            component={() => (
+              <All_transfer_list
+                indexOfLastPage={indexOfLastPage}
+                indexOfFirstPage={indexOfFirstPage}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
           />
           <Route
             exact
@@ -307,7 +381,6 @@ function App() {
             component={Confirmation_transfer}
           />
           <Route exact path="/payment_transfer" component={Payment_transfer} />
-
           {/* Plan Routes */}
           <Route exact path="/create_plan" component={CreatePlan} />
           <Route exact path="/get_all_plans" component={GetPlans} />
@@ -315,11 +388,9 @@ function App() {
           <Route exact path="/get_plan_by_name" component={Get_plan_by_name} />
           <Route exact path="/all_plans_grid" component={All_plans_grid} />
           <Route exact path="/update_plan/:id" component={UpdatePlan} />
-
           {/* Admin Routes */}
           <Route exact path="/admin_dashboard" component={AdminDashBoard} />
           <Route exact path="/user_dashboard" component={UserDashboard} />
-
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_profile" component={CreateProfile} />
           <Route exact path="/bookings" component={Bookings} />
@@ -328,20 +399,16 @@ function App() {
           {/* Hotel Routes */}
           <Route exact path="/create_hotel" component={CreateHotel} />
           <Route exact path="/update_hotel/:id" component={UpdateHotel} />
-
           {/* Place Routes */}
           <Route exact path="/create_place" component={CreatePlace} />
           <Route exact path="/update_place" component={UpdatePlace} />
-
           {/* Rooms Routes */}
           <Route exact path="/create_room/:id" component={CreateRooms} />
           <Route exact path="/update_room/:id" component={UpdateRooms} />
-
           {/* Dishes Routes */}
           <Route exact path="/create_dishes" component={CreateDishes} />
           <Route exact path="/update_dishes" component={UpdateDishes} />
           <Route exact path="/payment" component={Checkout} />
-
           {/* 404 Page */}
           <Route exact path="*" component={Page_404} />
         </Switch>

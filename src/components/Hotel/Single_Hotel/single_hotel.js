@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -7,17 +7,25 @@ import {
   updateHotel,
 } from "../../../redux/actions/hotels.action";
 import { Link } from "react-router-dom";
+import { getRooms } from "../../../redux/actions/rooms.action";
 
 const Single_hotel = ({ history }) => {
   const dispatch = useDispatch();
+  const [rooms, setRooms] = useState([]);
 
   const { hotelID, hotelName, price, description, images } = useSelector(
     (state) => state.hotel
   );
+  useEffect(async () => {
+    console.log(hotelID);
+    const { data } = await dispatch(getRooms(hotelID));
+    console.log("I am Room Data", data);
+    setRooms(data);
+  }, []);
   const id = hotelID;
   const name = hotelName;
 
-  dispatch(getHotelByID(hotelID));
+  //dispatch(getHotelByID(hotelID));
 
   const handleUpdateHotelPush = (e) => {
     e.preventDefault();
@@ -27,7 +35,6 @@ const Single_hotel = ({ history }) => {
 
   const handleDeleteHotel = (e) => {
     e.preventDefault();
-
     dispatch(deleteHotel(hotelID));
     history.push("/create_hotel");
   };
@@ -123,7 +130,7 @@ const Single_hotel = ({ history }) => {
                     </li>
                   </ul>
                 </div>
-                <p className="d-none d-md-block d-block d-lg-none">
+                {/* <p className="d-none d-md-block d-block d-lg-none">
                   <Button
                     className="btn_map"
                     data-toggle="collapse"
@@ -135,7 +142,7 @@ const Single_hotel = ({ history }) => {
                   >
                     View on map
                   </Button>
-                </p>
+                </p> */}
 
                 <p className="d-none d-md-block d-block d-lg-none">
                   <Button
@@ -210,6 +217,53 @@ const Single_hotel = ({ history }) => {
                   <div className="col-lg-3">
                     <h3>Rooms Types</h3>
                   </div>
+
+                  {
+                    <div class="row">
+                      {rooms?.map((room) => (
+                        <div
+                          class="col-md-6 wow zoomIn"
+                          data-wow-delay="0.3s"
+                          key={room._id}
+                        >
+                          <div class="tour_container">
+                            <div class="ribbon_3 popular">
+                              <span>Popular</span>
+                            </div>
+                            <div class="img_container">
+                              <a href="single_tour.html">
+                                {console.log("I am Menu Item", room)}
+                                <img
+                                  src={
+                                    room?.images[0]?.name
+                                      ? `http://localhost:3000/api/upload/file/${room.images[0].folderName}/fileName/${room.images[0].name}`
+                                      : "img/restaurant_box_1.jpg"
+                                  }
+                                  key={room?.images[0]?._id}
+                                  alt=""
+                                  width="800"
+                                  height="533"
+                                  class="img-fluid"
+                                  alt="Image"
+                                />
+                                <div class="short_info">
+                                  <span class="price">PKR :{room?.price}</span>
+                                </div>
+                              </a>
+                            </div>
+                            <div class="tour_title">
+                              <h3>
+                                <strong>Room</strong>
+                              </h3>
+                              {/* end rating */}
+                            </div>
+                          </div>
+                          {/* End box tour */}
+                        </div>
+                      ))}
+                    </div>
+                  }
+
                   <div className="col-lg-9">
                     <h4>Single Room</h4>
                     <p>

@@ -7,7 +7,12 @@ import { MultiSelect } from "react-multi-select-component";
 import { uploadImage } from "../../../redux/actions/upload.action";
 import axios from "axios";
 import PlaceSuggestions from "../Place/PlaceSuggestions";
-import { Button } from "@material-ui/core";
+import { Button, Grid, List } from "@material-ui/core";
+import { PlacesAutocomplete } from "./PlacesAutoComplete";
+import DatePicker from "react-date-picker";
+import { getPlacesData } from "../api";
+import { ScrollView } from "./ScrollView";
+
 const CreateTour = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("NaranKaghan");
@@ -15,20 +20,21 @@ const CreateTour = () => {
     "A Tour from Lahore to Naran Kaghan"
   );
   const role = useSelector((state) => state.auth.role);
+  const userName = useSelector((state) => state.auth.userEmail);
   console.log("Role", role);
 
   const [startLocation, setStartLocation] = useState("Lahore");
   const [endLocation, setEndLocation] = useState("Naran Valley");
   const [price, setPrice] = useState(3000);
-  const [startDate, setStartDate] = useState("7/29/2021");
-  const [endDate, setEndDate] = useState("8/5/2021");
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [places, setPlaces] = useState([]);
   const [options, setOptions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedPlaces, setSelectedPlaces] = useState([]);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("initialized");
   const [tourType, setTourType] = useState("");
   const optionsData = [];
   const [images, setImages] = useState([]);
@@ -36,7 +42,12 @@ const CreateTour = () => {
   const [lanLongEndlocation, setLanLongEndlocation] = useState("");
   const [distances, setDistances] = useState(0);
   const [durations, setDurations] = useState(0);
-
+  const [startLocationCoords, setStartLocationCoords] = useState({});
+  const [endLocationCoords, setEndLocationCoords] = useState({});
+  const [startLocationBounds, setStartLocationBounds] = useState();
+  const [endLocationBounds, setEndLocationBounds] = useState();
+  const [attractionsData, setAttractionsData] = useState([]);
+  const [selectedAttraction, setselectedAttraction] = useState([]);
   // useEffect(() => {
   //   findlatlngLocations();
   // }, [startLocation, endLocation]);
@@ -92,31 +103,40 @@ const CreateTour = () => {
     }
   }, [statePlaces.place, selectedOptions]);
 
-  const findlatlngLocations = async (startLocation, endLocation) => {
+  const calculatePrice = async (startLocation, endLocation) => {
     try {
       console.log(startLocation, endLocation);
-
+      console.log(startLocationCoords, endLocationCoords);
       const {
         data: { results },
       } = await axios.get(`
     https://maps.googleapis.com/maps/api/geocode/json?address=${startLocation}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`);
       console.log(results);
-      setLanLongStartlocation(results[0].geometry?.location);
-
+      setLanLongStartlocation(results[0].geometry);
+      setStartLocationBounds(results[0].geometry.bounds);
+      console.log("StartLocation Bounds", results[0].geometry.bounds);
       const data2 = await axios.get(`
     https://maps.googleapis.com/maps/api/geocode/json?address=${endLocation}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`);
       console.log(data2);
       setLanLongEndlocation(data2?.data?.results[0]?.geometry?.location);
+      const startBounds = results[0].geometry.bounds;
+      const endBounds = data2?.data?.results[0]?.geometry?.bounds;
+      setEndLocationBounds(data2?.data?.results[0]?.geometry?.bounds);
+      console.log(
+        "EndLocation Bounds",
+        data2?.data?.results[0]?.geometry?.bounds
+      );
 
       console.log(
         results[0].geometry?.location,
         data2?.data?.results[0]?.geometry?.location
       );
+
       const distancedata = await axios.get(
         `https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix`,
         {
           params: {
-            origins: `${results[0].geometry?.location.lat},${results[0].geometry?.location.lng}`,
+            origins: `${startLocationCoords.lat},${startLocationCoords.lng}`,
             destinations: `${data2?.data?.results[0]?.geometry?.location.lat},${data2?.data?.results[0]?.geometry?.location.lng}`,
           },
           headers: {
@@ -128,15 +148,39 @@ const CreateTour = () => {
       );
       console.log("I am duration cal", distancedata?.data?.durations[0]);
       console.log("I am Distance cal", distancedata?.data?.distances[0]);
+      const NoofDays = Math.ceil(
+        (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+          (1000 * 3600 * 24)
+      );
       setDistances(distancedata?.data?.distances[0] / 1000);
       setDurations(distancedata?.data?.durations[0]);
       console.log(
         "I am Distance from State",
         distancedata?.data?.distances[0] / 1000
       );
-      const calculatedprice = (distancedata?.data?.distances[0] / 100) * 145;
+      const DistanceKm = distancedata?.data?.distances[0] / 1000;
+      console.log(DistanceKm);
+      const calculatedprice = (DistanceKm / 14) * 145 * 2;
+      const foodPrice = NoofDays * 2975;
+      const entertainmentPrice = NoofDays * 1242;
+      const accommodationPrice = NoofDays * 5309;
+      console.log("Cost on Food is ", foodPrice);
+      console.log("Cost on Entertainment is ", entertainmentPrice);
+      console.log("Cost on Accommodation is ", accommodationPrice);
       console.log("I am Calculated", calculatedprice);
-      setPrice(calculatedprice);
+      setPrice(
+        parseInt(
+          calculatedprice + foodPrice + entertainmentPrice + accommodationPrice
+        )
+      );
+      console.log("We are Bounds", startBounds, endBounds);
+      const attractions = await getPlacesData(
+        "attractions",
+        startBounds.southwest,
+        endBounds.northeast
+      );
+      console.log(attractions);
+      setAttractionsData(attractions);
     } catch (error) {
       console.log({ error });
     }
@@ -146,6 +190,12 @@ const CreateTour = () => {
     e.preventDefault();
     const places = selectedOptions;
     console.log("I amImages Data before Dispatch", images);
+    console.log(typeof startDate.toString());
+    const stringStartDate = startDate.toString().split("00")[0];
+    console.log(typeof endDate.toString());
+    const stringEndDate = endDate.toString().split("00")[0];
+    console.log(stringStartDate, stringEndDate);
+
     if (role === "user") {
       await dispatch(
         createTour(
@@ -155,8 +205,8 @@ const CreateTour = () => {
           startLocation,
           endLocation,
           Number(price),
-          startDate,
-          endDate,
+          stringStartDate,
+          stringEndDate,
           "initialized",
           places,
           images
@@ -171,9 +221,9 @@ const CreateTour = () => {
           startLocation,
           endLocation,
           Number(price),
-          startDate,
-          endDate,
-          "initialized",
+          stringStartDate,
+          stringEndDate,
+          status,
           places,
           images
         )
@@ -194,17 +244,16 @@ const CreateTour = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userName.split("@")[0]}</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Here You can Create your
+              {role === "admin" ? " Public and Private Tour" : " Public Tour"}
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>
@@ -265,37 +314,25 @@ const CreateTour = () => {
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Start Location</label>
-                      <input
-                        className="form-control"
-                        name="startLocation"
-                        id="startLocation"
-                        type="text"
-                        value={startLocation}
-                        onChange={(e) => setStartLocation(e.target.value)}
+                      <PlacesAutocomplete
+                        startLocation={true}
+                        setStartLocation={setStartLocation}
+                        setstartLocationCoords={setStartLocationCoords}
                       />
                     </div>
                   </div>
+
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>End Location</label>
-                      <input
-                        className="form-control"
-                        name="endLocation"
-                        id="endLocation"
-                        type="text"
-                        value={endLocation}
-                        onChange={(e) => setEndLocation(e.target.value)}
+                      <PlacesAutocomplete
+                        startLocation={false}
+                        setEndLocation={setEndLocation}
+                        setEndLocationCoords={setEndLocationCoords}
                       />
                     </div>
                   </div>
-                  <Button
-                    className="btn_1 green"
-                    onClick={() =>
-                      findlatlngLocations(startLocation, endLocation)
-                    }
-                  >
-                    Calculate Price{" "}
-                  </Button>
+
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Price</label>
@@ -312,34 +349,31 @@ const CreateTour = () => {
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>StartDate</label>
-                      <input
+
+                      <DatePicker
                         className="form-control"
-                        name="startDate"
-                        id="startDate"
-                        type="text"
                         value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        onChange={setStartDate}
+                        minDate={new Date()}
                       />
                     </div>
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>endDate</label>
-                      <input
+                      <DatePicker
                         className="form-control"
-                        name="endDate"
-                        id="endDate"
-                        type="text"
                         value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
+                        onChange={setEndDate}
+                        minDate={new Date()}
                       />
                     </div>
                   </div>
 
-                  {/* {role === "admin" && (
+                  {role === "admin" && (
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Tour Type</label>
+                        <label>Tour Status</label>
                         <select
                           id="tourType"
                           className="form-control"
@@ -356,7 +390,7 @@ const CreateTour = () => {
                         </select>
                       </div>
                     </div>
-                  )} */}
+                  )}
 
                   <div className="col-sm-6">
                     <label>Places</label>
@@ -392,11 +426,23 @@ const CreateTour = () => {
                 </div>
                 {/* End row */}
                 <hr />
+
+                {/* <ScrollView attractionsData={attractionsData} /> */}
+
+                <hr />
                 <PlaceSuggestions
                   lanLongStartlocation={lanLongStartlocation}
                   lanLongEndlocation={lanLongEndlocation}
                   handlePlaceCreateSubmit={handlePlaceCreateSubmit}
                 />
+                <Button
+                  className="btn_1 green"
+                  onClick={() => calculatePrice(startLocation, endLocation)}
+                >
+                  Calculate Price{" "}
+                </Button>
+                <br />
+                <br />
                 <button
                   type="submit"
                   className="btn_1 green"

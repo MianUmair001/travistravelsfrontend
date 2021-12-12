@@ -16,9 +16,10 @@ const CreateRooms = () => {
   const [plans, setPlans] = useState([]);
   const [type, setType] = useState("615c177e01eafd67e4a3580a");
   const [images, setImages] = useState([]);
-  const [addRoom, setAddRoom] = useState(true);
+  const [addRoom, setAddRoom] = useState(false);
   const history = useHistory();
   const options = [];
+  const [price, setPrice] = useState(0);
   useEffect(async () => {
     const data = await dispatch(getPlans());
     console.log("I am plans", data);
@@ -40,11 +41,19 @@ const CreateRooms = () => {
     console.log(type, noOfBathroom, noOfBeds);
 
     const data = await dispatch(
-      createRoom(hotelId.id, noOfBathroom, noOfBeds, type, planName, images)
+      createRoom(
+        hotelId.id,
+        noOfBathroom,
+        noOfBeds,
+        type,
+        planName,
+        images,
+        price
+      )
     );
     console.log("I am data", data);
-    if (data.statusCode === 200) {
-      setAddRoom(false);
+    if (data.statusCode === 201) {
+      setAddRoom(true);
     }
   };
   const handlePlanClick = (e, data) => {
@@ -74,104 +83,112 @@ const CreateRooms = () => {
       </section>
       {/* End section */}
       <main>
-       
         <div className="margin_60 container">
           <div>
             <div className="content1">
               <section id="section-4">
                 {/* End row */}
                 <div className="divider" />
-                <Button onClick={(e) => setAddRoom(true)}>Add Room</Button>
 
-                {addRoom && (
-                  <>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <h4>Create Room</h4>
-                      </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <h4>Create {addRoom && "Another"} Room</h4>
+                  </div>
 
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>No Of Beds</label>
-                          <input
-                            className="form-control"
-                            name="first_name"
-                            id="first_name"
-                            type="text"
-                            value={noOfBeds}
-                            onChange={(e) => setNoOfBeds(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>No Of Bathrooms</label>
-                          <input
-                            className="form-control"
-                            name="description"
-                            id="description"
-                            type="text"
-                            value={noOfBathroom}
-                            onChange={(e) => setNoOfBathroom(e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>Plan Name</label>
-                          <select
-                            id="planName"
-                            className="form-control"
-                            name="planName"
-                            defaultValue="Basic"
-                            onChange={(e) => {
-                              handlePlanClick(e, e.target.value);
-                            }}
-                          >
-                            {plans?.map((plan) => (
-                              <option
-                                value={[plan._id, plan.name]}
-                                name={plan.name}
-                                key={plan._id}
-                              >
-                                {plan.name}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>Upload Images</label>
-                          <input
-                            type="file"
-                            className="form-control-file"
-                            onChange={async (e) => {
-                              let formData = new FormData();
-                              formData.append("file", e.target.files[0]);
-                              formData.append("isRoomImage", true);
-                              const { data } = await dispatch(
-                                uploadImage(formData)
-                              );
-                              console.log("I am data", data);
-                              setImages(data);
-                            }}
-                          />
-                        </div>
-                      </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>No Of Beds</label>
+                      <input
+                        className="form-control"
+                        name="first_name"
+                        id="first_name"
+                        type="text"
+                        value={noOfBeds}
+                        onChange={(e) => setNoOfBeds(e.target.value)}
+                      />
                     </div>
-                    <hr />
-                    <button
-                      type="submit"
-                      className="btn_1 green"
-                      onClick={handleSubmit}
-                    >
-                      Create Room
-                    </button>
-                  </>
-                )}
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>No Of Bathrooms</label>
+                      <input
+                        className="form-control"
+                        name="description"
+                        id="description"
+                        type="text"
+                        value={noOfBathroom}
+                        onChange={(e) => setNoOfBathroom(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Price</label>
+                      <input
+                        className="form-control"
+                        name="description"
+                        id="description"
+                        type="text"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Plan Name</label>
+                      <select
+                        id="planName"
+                        className="form-control"
+                        name="planName"
+                        defaultValue="Basic"
+                        onChange={(e) => {
+                          handlePlanClick(e, e.target.value);
+                        }}
+                      >
+                        {plans?.map((plan) => (
+                          <option
+                            value={[plan._id, plan.name]}
+                            name={plan.name}
+                            key={plan._id}
+                          >
+                            {plan.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Upload Images</label>
+                      <input
+                        type="file"
+                        className="form-control-file"
+                        onChange={async (e) => {
+                          let formData = new FormData();
+                          formData.append("file", e.target.files[0]);
+                          formData.append("isRoomImage", true);
+                          const { data } = await dispatch(
+                            uploadImage(formData)
+                          );
+                          console.log("I am data", data);
+                          setImages(data);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <button
+                  type="submit"
+                  className="btn_1 green"
+                  onClick={handleSubmit}
+                >
+                  Create Room
+                </button>
+
                 <Button
                   onClick={(e) => {
                     history.push("/");

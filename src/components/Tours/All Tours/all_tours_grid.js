@@ -14,7 +14,12 @@ import { getImage } from "../../../redux/actions/upload.action";
 import { getAllHotels } from "../../../redux/actions/hotels.action";
 import axios from "axios";
 import TourGrid from "./TourGrid";
-const All_tours_grid = () => {
+const All_tours_grid = ({
+  indexOfFirstPage,
+  indexOfLastPage,
+  postsPerPage,
+  setCurrentPage,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tours, setTours] = useState([]);
@@ -23,28 +28,50 @@ const All_tours_grid = () => {
   const role = useSelector((state) => state.auth.user.role);
   const user = useSelector((state) => state.auth.user);
   console.log(statetours.tours, "ia ma");
+  const [selectedOption, setSelectedOption] = useState();
 
   useEffect(async () => {
     if (statetours.tours.length === 0) {
       const { data } = await dispatch(getTours());
       console.log(data);
-      setTours(data);
+      const stateCurrentTours = data?.slice(indexOfFirstPage, indexOfLastPage);
+      setTours(stateCurrentTours);
       console.log("I am in store value check if");
     } else {
-      setTours(statetours.tours);
+      const stateCurrentTours = statetours.tours?.slice(
+        indexOfFirstPage,
+        indexOfLastPage
+      );
+      setTours(stateCurrentTours);
     }
-  }, [statetours.tours, tours]);
-
-   const handleDetailTour = async (e, id) => {
+  }, [statetours.tours]);
+  const pageNumbers = [];
+  for (
+    let i = 1;
+    i <= Math.ceil(statetours.tours?.length / postsPerPage);
+    i++
+  ) {
+    pageNumbers.push(i);
+  }
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handleChange = (value, selectOptionSetter) => {
+    selectOptionSetter(value);
+    if (value === "lower") {
+      tours?.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+    } else {
+      tours?.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+    }
+  };
+  const handleDetailTour = async (e, id) => {
     e.preventDefault();
     history.push(`/single_tour/${id}`);
   };
-   const handleDeleteTour = async (e, id) => {
+  const handleDeleteTour = async (e, id) => {
     e.preventDefault();
     await dispatch(deleteTour(id));
     await dispatch(getTours());
   };
-   const handleUpdateTour = async (e, id) => {
+  const handleUpdateTour = async (e, id) => {
     e.preventDefault();
     history.push(`/update_tour/${id}`);
     await dispatch(getTours());
@@ -86,8 +113,6 @@ const All_tours_grid = () => {
             </ul>
           </div>
         </div>
-
-       
 
         <div class="container margin_60">
           <div class="row">
@@ -135,10 +160,15 @@ const All_tours_grid = () => {
                 <div class="row">
                   <div class="col-md-3 col-sm-4 col-6">
                     <div class="styled-select-filters">
-                      <select name="sort_price" id="sort_price">
-                        <option value="" selected>
-                          Sort by price
-                        </option>
+                      <select
+                        value={selectedOption}
+                        name="sort_price"
+                        id="sort_price"
+                        onChange={(e) =>
+                          handleChange(e.target.value, setSelectedOption)
+                        }
+                      >
+                        <option>Sort By price</option>
                         <option value="lower">Lowest price</option>
                         <option value="higher">Highest price</option>
                       </select>
@@ -169,34 +199,25 @@ const All_tours_grid = () => {
               />
 
               <hr />
-
               <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                      <span class="sr-only">Previous</span>
+                <ul className="pagination justify-content-center">
+                  <li className="page-item">
+                    <a className="page-link" aria-label="Previous">
+                      <span aria-hidden="true">«</span>
+                      <span className="sr-only">Previous</span>
                     </a>
                   </li>
-                  <li class="page-item active">
-                    <span class="page-link">
-                      1<span class="sr-only">(current)</span>
-                    </span>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                      <span class="sr-only">Next</span>
+                  {pageNumbers.map((number) => (
+                    <li className="page-item">
+                      <a onClick={() => paginate(number)} className="page-link">
+                        {number}
+                      </a>
+                    </li>
+                  ))}
+                  <li className="page-item">
+                    <a className="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">»</span>
+                      <span className="sr-only">Next</span>
                     </a>
                   </li>
                 </ul>

@@ -113,7 +113,7 @@ const Single_restuarant = ({ history }) => {
             <div class="row">
               <div class="col-md-8">
                 <h1>{name}</h1>
-                <span>{description.split(".")[0]}</span>
+                <span>{description?.split(".")[0] && description}</span>
               </div>
               <div class="col-md-4">
                 <div id="price_single_main">
@@ -230,7 +230,6 @@ const Single_restuarant = ({ history }) => {
                             </h3>
 
                             {/* end rating */}
-
                           </div>
                         </div>
                         {/* End box tour */}

@@ -125,7 +125,13 @@ const UserDashboard = () => {
               <ul>
                 <li>
                   <Button
-                    onClick={() => setshowBookings(!showBookings)}
+                    onClick={() => {
+                      setshowBookings(true);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-booking"
                   >
                     <span>Bookings</span>
@@ -133,7 +139,13 @@ const UserDashboard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowTours(!showTours)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(true);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-wishlist"
                   >
                     <span>Tour</span>
@@ -141,7 +153,13 @@ const UserDashboard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowHotels(!showHotels)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(true);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-settings"
                   >
                     <span>Hotels</span>
@@ -149,7 +167,13 @@ const UserDashboard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowTransports(!showTransports)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(true);
+                      setshowRestaurants(false);
+                    }}
                     className="icon-profile"
                   >
                     <span>Transfers</span>
@@ -157,7 +181,13 @@ const UserDashboard = () => {
                 </li>
                 <li>
                   <Button
-                    onClick={() => setshowRestaurants(true)}
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(true);
+                    }}
                     className="icon-profile"
                   >
                     <span>Restaurant</span>
@@ -165,11 +195,11 @@ const UserDashboard = () => {
                 </li>
               </ul>
             </nav>
-            <div className="content">
-              <section id="section-1">
-                Bookings
+            <div className="">
+              <section id="">
                 {showBookings && (
                   <>
+                    <h1 style={{ textAlign: "center" }}>Bookings</h1>
                     {bookings?.length === 0 ? (
                       <h1>You have Not booked any thing</h1>
                     ) : (
@@ -240,10 +270,10 @@ const UserDashboard = () => {
                   </>
                 )}
               </section>
-              <section id="section-2">
-                Tours
+              <section id="">
                 {showTours && (
                   <>
+                    <h1 style={{ textAlign: "center" }}>Booked Tours</h1>
                     {tours?.length === 0 ? (
                       <h1>You have Not booked any Tour</h1>
                     ) : (
@@ -264,10 +294,10 @@ const UserDashboard = () => {
                 )}
               </section>
 
-              <section id="section-3">
-                Hotels
+              <section id="">
                 {showHotels && (
                   <>
+                    <h1 style={{ textAlign: "center" }}>Booked Hotels</h1>
                     {hotels?.length === 0 ? (
                       <h1>You have Not booked any Hotel</h1>
                     ) : (
@@ -280,10 +310,11 @@ const UserDashboard = () => {
                   </>
                 )}
               </section>
-              <section id="section-4">
-                Hotels
+              <section id="">
                 {showTransports && (
                   <>
+                    <h1 style={{ textAlign: "center" }}>Booked Transports</h1>
+
                     {transportsListShow?.length === 0 ? (
                       <h1>You have Not booked any Transport</h1>
                     ) : (
@@ -297,9 +328,9 @@ const UserDashboard = () => {
                 )}
               </section>
               <section id="">
-                Booked Restaurants
                 {showRestaurants && (
                   <>
+                    <h1 style={{ textAlign: "center" }}>Booked Restaurants</h1>
                     {restaurants?.length === 0 ? (
                       <h1>You have Not booked any Restaurant</h1>
                     ) : (

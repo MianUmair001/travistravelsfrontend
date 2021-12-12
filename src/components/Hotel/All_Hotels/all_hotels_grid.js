@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Edit, DeleteOutlined, Info } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import {
   deleteHotel,
@@ -12,23 +12,53 @@ import {
 } from "../../../redux/actions/hotels.action";
 import HotelGrid from "./HotelGrid";
 
-const All_hotels_grid = ({ history }) => {
+const All_hotels_grid = ({
+  indexOfFirstPage,
+  indexOfLastPage,
+  postsPerPage,
+  setCurrentPage,
+}) => {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
-
+  const history = useHistory();
   const [hotels, setHotels] = useState([]);
 
   const statehotels = useSelector((state) => state.hotels);
+  const [selectedOption, setSelectedOption] = useState();
   useEffect(async () => {
     if (statehotels.hotels.length === 0) {
       const data = await dispatch(getAllHotels());
       const hotelList = data.data;
-      setHotels(hotelList);
+      console.log(hotelList);
+      const currentHotels = hotelList?.slice(indexOfFirstPage, indexOfLastPage);
+      setHotels(currentHotels);
     } else {
-      setHotels(statehotels.hotels);
+      const stateCurrentHotels = statehotels.hotels?.slice(
+        indexOfFirstPage,
+        indexOfLastPage
+      );
+      setHotels(stateCurrentHotels);
     }
-  }, [statehotels.hotels, hotels]);
+  }, [statehotels.hotels]);
 
+  const pageNumbers = [];
+  for (
+    let i = 1;
+    i <= Math.ceil(statehotels.hotels?.length / postsPerPage);
+    i++
+  ) {
+    pageNumbers.push(i);
+  }
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const handleChange = (value, selectOptionSetter) => {
+    selectOptionSetter(value);
+    if (value === "lower") {
+      hotels?.sort((a, b) => parseInt(a.price) - parseInt(b.price));
+    } else {
+      hotels?.sort((a, b) => parseInt(b.price) - parseInt(a.price));
+    }
+  };
   const handleDeleteHotel = async (e, props) => {
     e.preventDefault();
     let id = props;
@@ -98,7 +128,7 @@ const All_hotels_grid = ({ history }) => {
             </div>
           </div>
           {/* Position */}
-         
+
           {/* End Map */}
           <div className="container margin_60">
             <div className="row">
@@ -136,10 +166,15 @@ const All_hotels_grid = ({ history }) => {
                   <div className="row">
                     <div className="col-md-3 col-sm-4 col-6">
                       <div className="styled-select-filters">
-                        <select name="sort_price" id="sort_price">
-                          <option value selected>
-                            Sort by price
-                          </option>
+                        <select
+                          value={selectedOption}
+                          name="sort_price"
+                          id="sort_price"
+                          onChange={(e) =>
+                            handleChange(e.target.value, setSelectedOption)
+                          }
+                        >
+                          <option>Sort By price</option>
                           <option value="lower">Lowest price</option>
                           <option value="higher">Highest price</option>
                         </select>
@@ -186,26 +221,21 @@ const All_hotels_grid = ({ history }) => {
                 <nav aria-label="Page navigation">
                   <ul className="pagination justify-content-center">
                     <li className="page-item">
-                      <a className="page-link" href="#" aria-label="Previous">
+                      <a className="page-link" aria-label="Previous">
                         <span aria-hidden="true">«</span>
                         <span className="sr-only">Previous</span>
                       </a>
                     </li>
-                    <li className="page-item active">
-                      <span className="page-link">
-                        1<span className="sr-only">(current)</span>
-                      </span>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
+                    {pageNumbers.map((number) => (
+                      <li className="page-item">
+                        <a
+                          onClick={() => paginate(number)}
+                          className="page-link"
+                        >
+                          {number}
+                        </a>
+                      </li>
+                    ))}
                     <li className="page-item">
                       <a className="page-link" href="#" aria-label="Next">
                         <span aria-hidden="true">»</span>

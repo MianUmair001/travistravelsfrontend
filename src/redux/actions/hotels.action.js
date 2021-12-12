@@ -34,7 +34,7 @@ export const createHotel =
           images,
         },
       });
-
+      await dispatch(getAllHotels());
       return response;
     } catch (error) {
       console.error({ error });
@@ -75,11 +75,9 @@ export const updateHotel =
 
 export const getAllHotels = () => async (dispatch) => {
   try {
-    // console.log(URL.concat(endpoints.GET_HOTEL));
     const { data } = await axios.get(URL + endpoints.GET_HOTEL);
-    // console.log("I'm in get all hotels", response.data.data)
+    console.log("I am Data in Action", data);
     dispatch({ type: "GET_ALL_HOTELS_SUCCESS", payload: data });
-    // console.log('data', data)
     return data;
   } catch (error) {
     console.log({ error });

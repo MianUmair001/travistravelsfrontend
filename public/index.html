@@ -145,6 +145,8 @@
     <div id="root"></div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCArbwKi4RVL8mraPLfacaJMHfLWDRqjwk&libraries=places"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCArbwKi4RVL8mraPLfacaJMHfLWDRqjwk&libraries=places"></script> -->
+
     <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
     <!-- Common scripts -->
     <script src="./js/jquery-2.2.4.min.js"></script>
@@ -171,19 +173,6 @@
 
     <!-- Specific scripts -->
     <script src="./js/tabs.js"></script>
-    <script>
-      $(document).ready(function () {
-        console.log("I am Tabs Element", document.getElementById("tabs"));
-        new CBPFWTabs(document.getElementById("tabs"));
-        $(".wishlist_close_admin").on("click", function (c) {
-          $(this)
-            .parent()
-            .parent()
-            .parent()
-            .fadeOut("slow", function (c) {});
-        });
-      });
-    </script>
 
     <script>
       $(document).ready(function () {
