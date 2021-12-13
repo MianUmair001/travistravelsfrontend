@@ -10,6 +10,7 @@ import { plan_reducer } from "../plan.reducer";
 import { tourReducer, toursReducer } from "../tour.reducer";
 import { restaurantReducer, restaurantsReducer } from "../restaurant.reducer";
 import { placeReducer, placesReducer, place_reducer } from "../places.reducer";
+import { dishesReducer, dishReducer } from "../dishes.reducer";
 
 const persistConfig = {
   key: "root",
@@ -43,6 +44,8 @@ const rootReducer = combineReducers({
   restaurants: restaurantsReducer,
   place: placeReducer,
   places: placesReducer,
+  dishes: dishesReducer,
+  dish: dishReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

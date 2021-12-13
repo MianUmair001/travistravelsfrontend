@@ -12,6 +12,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("IamUmair@005");
   const [name, setName] = useState("MuhammadUmair");
   const [afterSubmit, setAfterSubmit] = useState(true);
+  const [selectedOption, setSelectedOption] = useState();
   const [modelIsOpen, setModelIsOpen] = useState(false);
   const [showError, setShowError] = useState(false);
   const [checkBox, setCheckBox] = useState(false);
@@ -26,11 +27,11 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      const success = await dispatch(signUp(email, password));
+      const success = await dispatch(signUp(email, password, selectedOption));
       console.log("succuss, failed", success.success);
       const result = success.success;
       setAfterSubmit(false);
-      const UserEmail = localStorage.setItem('UserEmail', email);
+      const UserEmail = localStorage.setItem("UserEmail", email);
       if (result === false) {
         setShowError(true);
       } else {
@@ -40,7 +41,7 @@ const Register = () => {
       toast.error("Passwords are not same");
     }
   };
-  
+
   return (
     <>
       <main>
@@ -58,6 +59,29 @@ const Register = () => {
                     <h1>Travis Travels</h1>
                   </div>
                   <hr />
+                  <div className="col-md-12 col-sm-12 col-12">
+                    <label>
+                      <b>Register yourself as</b>
+                    </label>
+                    <div className="styled-select-filters mb-5">
+                      <select
+                        value={selectedOption}
+                        name="sort_price"
+                        id="sort_price"
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                      >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="hotelManager">Hotel Manager</option>
+                        <option value="transportManager">
+                          Transport Manager
+                        </option>
+                        <option value="restaurantManager">
+                          Restuarant Manager
+                        </option>
+                      </select>
+                    </div>
+                  </div>
                   <form>
                     {showError ? (
                       <div

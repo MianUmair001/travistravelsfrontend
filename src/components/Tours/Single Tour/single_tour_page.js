@@ -127,7 +127,6 @@ const Single_tour = ({ history }) => {
         <div className="container margin_60">
           <div className="row">
             <div className="col-lg-8" id="single_tour_desc">
-              
               {role === "admin" && (
                 <div>
                   <Button
@@ -186,7 +185,48 @@ const Single_tour = ({ history }) => {
                 </div>
               </div>
               <hr />
-              <div className="row">
+              {console.log(tour.places, "I am the places")}
+              <div class="row">
+                {tour?.places?.map((placeOne) => (
+                  <div
+                    class="col-md-6 wow zoomIn"
+                    data-wow-delay="0.3s"
+                    key={placeOne._id}
+                  >
+                    <div class="tour_container">
+                      <div class="ribbon_3 popular">
+                        <span>Popular</span>
+                      </div>
+                      <div class="img_container">
+                        <a href="single_tour.html">
+                          <img
+                            src={
+                              placeOne?.images[0]?.name
+                                ? `http://localhost:3000/api/upload/file/${placeOne.images[0].folderName}/fileName/${placeOne.images[0].name}`
+                                : "img/restaurant_box_1.jpg"
+                            }
+                            key={placeOne?.images[0]?._id}
+                            alt={placeOne?.name}
+                            width="800"
+                            height="533"
+                            class="img-fluid"
+                            alt="Image"
+                          />
+                          <div class="short_info">
+                            <span class="price">PKR :{placeOne?.price}</span>
+                          </div>
+                        </a>
+                      </div>
+                      <div class="tour_title">
+                        <h3>
+                          <strong>{placeOne.name}</strong>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* <div className="row">
                 <div className="col-lg-3">
                   <h3>Schedule</h3>
                 </div>
@@ -294,7 +334,7 @@ const Single_tour = ({ history }) => {
                     </table>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <hr />
               <div className="row">
                 <div className="col-lg-3">

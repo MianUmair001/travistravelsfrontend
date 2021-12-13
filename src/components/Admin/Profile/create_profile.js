@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import { PersonOutline } from "@material-ui/icons";
 
 import { createProfile } from "../../../redux/actions/profile.action";
+import { uploadImage } from "../../../redux/actions/upload.action";
 
 const CreateProfile = ({ history }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const CreateProfile = ({ history }) => {
   const [coordinates, setCoordinates] = useState("31.473186,74.2650702");
   const [showCreateProfile, setShowCreateProfile] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-
+  const [images, setImages] = useState();
   const email = localStorage.getItem("UserEmail");
   const username = email.split("@")[0];
   // console.log("Create Profile Username", username);
@@ -77,10 +78,7 @@ const CreateProfile = ({ history }) => {
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
               <h1 style={{ textTransform: "uppercase" }}>Hello {username}!</h1>
-              <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
-              </p>
+              <p>Create Profile</p>
             </div>
           </div>
         </section>
@@ -286,22 +284,23 @@ const CreateProfile = ({ history }) => {
                     {/* End row */}
                     <hr />
                     <h4>Upload profile photo</h4>
-                    <div className="form-inline upload_1">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="file"
-                          name="files[]"
-                          id="js-upload-files"
+                          className="form-control-file"
                           multiple
+                          onChange={async (e) => {
+                            let formData = new FormData();
+                            formData.append("file", e.target.files[0]);
+                            formData.append("isPlaceImage", true);
+                            const { data } = await dispatch(
+                              uploadImage(formData)
+                            );
+                            setImages(data);
+                          }}
                         />
                       </div>
-                      <button
-                        type="submit"
-                        className="btn_1 green"
-                        id="js-upload-submit"
-                      >
-                        Upload file
-                      </button>
                     </div>
                     {/* Drop Zone */}
                     <hr />

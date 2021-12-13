@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { deleteTour, getTours } from "../../redux/actions/tour.action";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteHotel, getAllHotels, getHotelByID, updateHotel } from "../../redux/actions/hotels.action";
-import { Button } from "@material-ui/core";
+import {
+  deleteHotel,
+  getAllHotels,
+  getHotelByID,
+  updateHotel,
+} from "../../redux/actions/hotels.action";
+import { Button, Link } from "@material-ui/core";
 import TourGrid from "../Tours/All Tours/TourGrid";
 import { handleDetailTour } from "../Tours/All Tours/all_tours_grid";
 import HotelGrid from "../Hotel/All_Hotels/HotelGrid";
+import { LinkedCameraOutlined } from "@material-ui/icons";
 const Home_SingleImage = ({ history }) => {
   const dispatch = useDispatch();
   const [tours, setTours] = useState([]);
@@ -103,14 +109,18 @@ const Home_SingleImage = ({ history }) => {
         <div class="intro_title">
           <h3 class="animated fadeInDown">Affordable Pakistan tours</h3>
           <p class="animated fadeInDown">
-            City Tours / Tour Tickets / Tour Guides
+            Tours / Restaurants / Hotels / Transport
           </p>
-          <a href="#" class="animated fadeInUp button_intro">
+          <Link to="/all_tours_list" class="animated fadeInUp button_intro">
             View Tours
-          </a>
-          <a href="#" class="animated fadeInUp button_intro outline">
-            View Tickets
-          </a>
+          </Link>
+          <Link
+            to="/all_hotels_list"
+            class="animated fadeInUp button_intro outline"
+            style={{ marginLeft: "10px" }}
+          >
+            View Hotels
+          </Link>
         </div>
       </section>
       <main>
@@ -119,10 +129,7 @@ const Home_SingleImage = ({ history }) => {
             <h2>
               Pakistan <span>Top</span> Tours
             </h2>
-            <p>
-              Quisque at tortor a libero posuere laoreet vitae sed arcu.
-              Curabitur consequat.
-            </p>
+            <p>Get Top paksitan Tours in Aforadable Prices</p>
           </div>
           {tours?.length === 0 ? (
             <h3 style={{ display: "flex", justifyContent: "center" }}>
@@ -157,10 +164,7 @@ const Home_SingleImage = ({ history }) => {
             <h2>
               Pakistan <span>Top</span> Hotels
             </h2>
-            <p>
-              Quisque at tortor a libero posuere laoreet vitae sed arcu.
-              Curabitur consequat.
-            </p>
+            <p>Get Affordable Hotels In Pakistan in Aforadable Prices</p>
           </div>
           {hotels?.length === 0 ? (
             <h3 style={{ display: "flex", justifyContent: "center" }}>
@@ -168,7 +172,6 @@ const Home_SingleImage = ({ history }) => {
             </h3>
           ) : (
             <div className="row">
-            
               <HotelGrid
                 hotels={sliceHotel}
                 handleDeleteHotel={handleDeleteHotel}

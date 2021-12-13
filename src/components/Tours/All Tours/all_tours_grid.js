@@ -7,6 +7,7 @@ import { Button } from "@material-ui/core";
 import {
   deleteTour,
   getTours,
+  getToursByType,
   updateTour,
 } from "../../../redux/actions/tour.action";
 import { useHistory } from "react-router-dom";
@@ -32,11 +33,25 @@ const All_tours_grid = ({
 
   useEffect(async () => {
     if (statetours.tours.length === 0) {
-      const { data } = await dispatch(getTours());
-      console.log(data);
-      const stateCurrentTours = data?.slice(indexOfFirstPage, indexOfLastPage);
-      setTours(stateCurrentTours);
-      console.log("I am in store value check if");
+      if (role === "admin") {
+        const { data } = await dispatch(getToursByType("withtravistravels"));
+        console.log(data);
+        const stateCurrentTours = data?.slice(
+          indexOfFirstPage,
+          indexOfLastPage
+        );
+        setTours(stateCurrentTours);
+        console.log("I am in store value check if");
+      } else {
+        const { data } = await dispatch(getToursByType("self"));
+        console.log(data);
+        const stateCurrentTours = data?.slice(
+          indexOfFirstPage,
+          indexOfLastPage
+        );
+        setTours(stateCurrentTours);
+        console.log("I am in store value check if");
+      }
     } else {
       const stateCurrentTours = statetours.tours?.slice(
         indexOfFirstPage,

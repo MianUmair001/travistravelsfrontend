@@ -5,7 +5,10 @@ import { createTour } from "../../../redux/actions/tour.action";
 import { getPlaces } from "../../../redux/actions/places.action";
 import { MultiSelect } from "react-multi-select-component";
 import { uploadImage } from "../../../redux/actions/upload.action";
-import { createDishes } from "../../../redux/actions/dishes.action";
+import {
+  createDishes,
+  getAllDishes,
+} from "../../../redux/actions/dishes.action";
 
 const CreateDishes = () => {
   const dispatch = useDispatch();
@@ -18,31 +21,13 @@ const CreateDishes = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(createDishes(name, description, Number(price), images));
+    await dispatch(createDishes(name, description, Number(price), images));
+    await dispatch(getAllDishes());
   };
 
   return (
     <>
-      <section
-        className="parallax-window"
-        data-parallax="scroll"
-        data-image-src="img/admin_top.jpg"
-        data-natural-width={1400}
-        data-natural-height={470}
-      >
-        <div className="parallax-content-1">
-          <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
-            <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
-            </p>
-          </div>
-        </div>
-      </section>
-      {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>
@@ -52,7 +37,7 @@ const CreateDishes = () => {
                 <div className="divider" />
                 <div className="row">
                   <div className="col-md-12">
-                    <h4>Create Restaurant</h4>
+                    <h4>Create Dishes</h4>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
@@ -124,7 +109,7 @@ const CreateDishes = () => {
                   className="btn_1 green"
                   onClick={handleSubmit}
                 >
-                  Create Restaurant
+                  Create Dish
                 </button>
               </section>
               {/* End section 4 */}

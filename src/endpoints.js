@@ -47,6 +47,7 @@ export const endpoints = {
   CREATE_TOUR: "/api/tours",
   GET_TOUR: "/api/tours",
   GET_TOUR_BY_ID: "/api/tours/",
+  GET_TOUR_BY_TYPE: "/api/tours/",
   UPDATE_TOUR: "/api/tours/",
   DELETE_TOUR: "/api/tours/",
   GET_TOUR_BY_NAME: "/api/tours/name/",
@@ -111,5 +112,4 @@ export const endpoints = {
   GET_RESTAURANT_BY_ID: "/api/restaurants/restaurant/",
   UPDATE_RESTAURANTS: "/api/restaurants",
   DELETE_RESTAURANTS: "/api/restaurants",
-
 };

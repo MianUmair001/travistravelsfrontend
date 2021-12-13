@@ -88,6 +88,21 @@ export const getTours = () => async (dispatch) => {
     console.log({ error });
   }
 };
+export const getToursByType = (tourType) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      URL + endpoints.GET_TOUR_BY_TYPE + tourType
+    );
+    dispatch({
+      type: "GET_ALL_TOURS_SUCCESS",
+      payload: data,
+    });
+    console.log("I am in Get Tours", data);
+    return data;
+  } catch (error) {
+    console.log({ error });
+  }
+};
 
 export const updateTour =
   (

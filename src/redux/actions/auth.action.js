@@ -36,26 +36,45 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const signUp = (email, password, role) => async (dispatch) => {
-  try {
-    if (role === "admin") {
-      const response = await axios.post(URL + endpoints.SIGNUP + "admin", {
-        email: email,
-        password: password,
-      });
+// export const signUp = (email, password, role) => async (dispatch) => {
+//   try {
+//     if (role === "admin") {
+//       const response = await axios.post(URL + endpoints.SIGNUP + "admin", {
+//         email: email,
+//         password: password,
+//       });
 
-      toast.success(response.data.message);
-      const success = response.data.message;
-      return success;
-    } else {
-      const response = await axios.post(URL + endpoints.SIGNUP + "user", {
-        email: email,
-        password: password,
-      });
-      toast.success(response.data.message);
-      const success = response.data.message;
-      return success;
-    }
+//       toast.success(response.data.message);
+//       const success = response.data.message;
+//       return success;
+//     } else {
+//       const response = await axios.post(URL + endpoints.SIGNUP + "user", {
+//         email: email,
+//         password: password,
+//       });
+//       toast.success(response.data.message);
+//       const success = response.data.message;
+//       return success;
+//     }
+//   } catch (error) {
+//     toast.error(error.response.data.message);
+//     console.log("Signup error response", error.response.data);
+//     const failed = error.response.data;
+//     return failed;
+//   }
+// };
+
+export const signUp = (email, password, role) => async (dispatch) => {
+  console.log(email, password, role);
+  try {
+    const response = await axios.post(URL + endpoints.SIGNUP + role, {
+      email: email,
+      password: password,
+    });
+
+    toast.success(response.data.message);
+    const success = response.data.message;
+    return success;
   } catch (error) {
     toast.error(error.response.data.message);
     console.log("Signup error response", error.response.data);

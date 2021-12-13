@@ -8,10 +8,12 @@ import {
 } from "../../../redux/actions/hotels.action";
 import { Link } from "react-router-dom";
 import { getRooms } from "../../../redux/actions/rooms.action";
+import BookingForm from "../../Restaurants/Booking/BookingForm";
 
 const Single_hotel = ({ history }) => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
+  const [selectedRoom, setselectedRoom] = useState();
 
   const { hotelID, hotelName, price, description, images } = useSelector(
     (state) => state.hotel
@@ -60,16 +62,7 @@ const Single_hotel = ({ history }) => {
                     <i className=" icon-star-empty" />
                   </span>
                   <h1>{hotelName}</h1>
-                  <span>Champ de Mars, 5 Avenue Anatole, 75007 Paris.</span>
-                </div>
-                <div className="col-md-4">
-                  <div id="price_single_main" className="hotel">
-                    from/per night{" "}
-                    <span>
-                      <sup>$</sup>
-                      {price}
-                    </span>
-                  </div>
+                  <span>{description}</span>
                 </div>
               </div>
             </div>
@@ -98,52 +91,6 @@ const Single_hotel = ({ history }) => {
           <div className="container margin_60">
             <div className="row">
               <div className="col-lg-8" id="single_tour_desc">
-                <div id="single_tour_feat">
-                  <ul>
-                    <li>
-                      <i className="icon_set_2_icon-116" />
-                      Plasma TV
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-86" />
-                      Free Wifi
-                    </li>
-                    <li>
-                      <i className="icon_set_2_icon-110" />
-                      Poll
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-59" />
-                      Breakfast
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-22" />
-                      Pet allowed
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-13" />
-                      Accessibiliy
-                    </li>
-                    <li>
-                      <i className="icon_set_1_icon-27" />
-                      Parking
-                    </li>
-                  </ul>
-                </div>
-                {/* <p className="d-none d-md-block d-block d-lg-none">
-                  <Button
-                    className="btn_map"
-                    data-toggle="collapse"
-                    href="#collapseMap"
-                    aria-expanded="false"
-                    aria-controls="collapseMap"
-                    data-text-swap="Hide map"
-                    data-text-original="View on map"
-                  >
-                    View on map
-                  </Button>
-                </p> */}
-
                 <p className="d-none d-md-block d-block d-lg-none">
                   <Button
                     className="btn_map"
@@ -181,32 +128,7 @@ const Single_hotel = ({ history }) => {
                   </div>
                   <div className="col-lg-9">
                     <p>{description}</p>
-                    <h4>Hotel facilities</h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, at omnes deseruisse pri. Quo
-                      aeterno legimus insolens ad. Sit cu detraxit constituam,
-                      an mel iudico constituto efficiendi.
-                    </p>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <ul className="list_ok">
-                          <li>Lorem ipsum dolor sit amet</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                          <li>Ut est saepe munere ceteros</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul className="list_ok">
-                          <li>Lorem ipsum dolor sit amet</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                        </ul>
-                      </div>
-                    </div>
+
                     {/* End row  */}
                   </div>
                   {/* End col-md-9  */}
@@ -257,6 +179,13 @@ const Single_hotel = ({ history }) => {
                               </h3>
                               {/* end rating */}
                             </div>
+                            <Button onClick={() => setselectedRoom(room)}>
+                              Buy Room
+                            </Button>
+                            {console.log(
+                              "I am selected Room",
+                              selectedRoom?.price
+                            )}
                           </div>
                           {/* End box tour */}
                         </div>
@@ -264,92 +193,6 @@ const Single_hotel = ({ history }) => {
                     </div>
                   }
 
-                  <div className="col-lg-9">
-                    <h4>Single Room</h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, at omnes deseruisse pri. Quo
-                      aeterno legimus insolens ad. Sit cu detraxit constituam,
-                      an mel iudico constituto efficiendi.
-                    </p>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <ul className="list_icons">
-                          <li>
-                            <i className="icon_set_1_icon-86" /> Free wifi
-                          </li>
-                          <li>
-                            <i className="icon_set_2_icon-116" /> Plasma Tv
-                          </li>
-                          <li>
-                            <i className="icon_set_2_icon-106" /> Safety box
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul className="list_ok">
-                          <li>Lorem ipsum dolor sit amet</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                        </ul>
-                      </div>
-                    </div>
-                    {/* End row  */}
-
-                    {/* End photo carousel  */}
-                    <hr />
-                    <h4>Double Room</h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, at omnes deseruisse pri. Quo
-                      aeterno legimus insolens ad. Sit cu detraxit constituam,
-                      an mel iudico constituto efficiendi.
-                    </p>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <ul className="list_icons">
-                          <li>
-                            <i className="icon_set_1_icon-86" /> Free wifi
-                          </li>
-                          <li>
-                            <i className="icon_set_2_icon-116" /> Plasma Tv
-                          </li>
-                          <li>
-                            <i className="icon_set_2_icon-106" /> Safety box
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul className="list_ok">
-                          <li>Lorem ipsum dolor sit amet</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                        </ul>
-                      </div>
-                    </div>
-                    {/* End row  */}
-                    <div className="owl-carousel owl-theme carousel-thumbs-2 magnific-gallery">
-                      <div className="item">
-                        <a href="img/carousel/1.jpg" data-effect="mfp-zoom-in">
-                          <img src="img/carousel/1.jpg" alt="Image" />
-                        </a>
-                      </div>
-                      <div className="item">
-                        <a href="img/carousel/2.jpg" data-effect="mfp-zoom-in">
-                          <img src="img/carousel/2.jpg" alt="Image" />
-                        </a>
-                      </div>
-                      <div className="item">
-                        <a href="img/carousel/3.jpg" data-effect="mfp-zoom-in">
-                          <img src="img/carousel/3.jpg" alt="Image" />
-                        </a>
-                      </div>
-                      <div className="item">
-                        <a href="img/carousel/4.jpg" data-effect="mfp-zoom-in">
-                          <img src="img/carousel/4.jpg" alt="Image" />
-                        </a>
-                      </div>
-                    </div>
-                    {/* End photo carousel  */}
-                  </div>
                   {/* End col-md-9  */}
                 </div>
                 {/* End row  */}
@@ -525,72 +368,13 @@ const Single_hotel = ({ history }) => {
                     Delete Hotel
                   </Button>
                 </p>
-                <div className="box_style_1 expose">
-                  <h3 className="inner">Check Availability</h3>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          <i className="icon-calendar-7" /> Check in
-                        </label>
-                        <input
-                          className="date-pick form-control"
-                          data-date-format="M d, D"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          <i className="icon-calendar-7" /> Check out
-                        </label>
-                        <input
-                          className="date-pick form-control"
-                          data-date-format="M d, D"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Adults</label>
-                        <div className="numbers-row">
-                          <input
-                            type="text"
-                            defaultValue={1}
-                            id="adults"
-                            className="qty2 form-control"
-                            name="quantity"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-6">
-                      <div className="form-group">
-                        <label>Children</label>
-                        <div className="numbers-row">
-                          <input
-                            type="text"
-                            defaultValue={0}
-                            id="children"
-                            className="qty2 form-control"
-                            name="quantity"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <br />
-                  <a className="btn_full" href="cart_hotel.html">
-                    Check now
-                  </a>
-                  <a className="btn_full_outline" href="#">
-                    <i className=" icon-heart" /> Add to whislist
-                  </a>
-                </div>
+
+                <BookingForm
+                  serviceName={hotelName}
+                  bookedServiceId={hotelID}
+                  bookedServiceType={"Hotel"}
+                  price={selectedRoom?.price}
+                />
                 {/*/box_style_1 */}
                 <div className="box_style_4">
                   <i className="icon_set_1_icon-90" />

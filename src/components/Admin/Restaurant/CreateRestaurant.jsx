@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllDishes } from "../../../redux/actions/dishes.action";
 import {
   createRestaurant,
   getAllRestaurants,
 } from "../../../redux/actions/restaurant.action";
 import { getImage, uploadImage } from "../../../redux/actions/upload.action";
+import CreateDishes from "../Dishes/CreateDishes";
 import "../Styles/admin.css";
+import { PlacesAutocomplete } from "../Tours/PlacesAutoComplete";
 
 const CreateRestaurant = () => {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ const CreateRestaurant = () => {
   const [addressName, setAddressName] = useState("Lahore Pakistan");
   const [noOfTables, setNoOfTables] = useState("30");
   const [country, setCountry] = useState("Pakistan");
-  const [streetAddress, setStreetAddress] = useState("221B Baker Street");
+  const [streetAddress, setStreetAddress] = useState("");
   const [openingTime, setOpeningTime] = useState([]);
   const [menu, setMenu] = useState([]);
   const [images, setImages] = useState([]);
@@ -37,7 +39,8 @@ const CreateRestaurant = () => {
   const [imagedata, setImagedata] = useState("");
   const optionsData = [];
   const [price, setPrice] = useState(0);
-
+  const [streetAddressCoords, setStreetAddressCoords] = useState();
+  const userEmail = useSelector((state) => state.auth.userEmail);
   const setScheduleArray = (e) => {
     e.preventDefault();
     schedule.push({
@@ -56,26 +59,41 @@ const CreateRestaurant = () => {
     setDateOfDay("");
     setCreateSchedule(false);
   };
-
+  const dishesData = useSelector((state) => state.dishes);
   useEffect(async () => {
     const imageData = await dispatch(getImage());
     setImagedata(imageData);
-    const data = await dispatch(getAllDishes());
-    setDishes(data);
-    console.log("Data comming back from getAllDishes", data);
-    data?.map((dish) => {
-      optionsData.push({
-        label: dish.name,
-        value: dish.name,
-        _id: dish._id,
-        name: dish.name,
-        description: dish.description,
-        price: dish.price,
-        images: dish.images,
+    if (dishesData?.dishes?.length === 0) {
+      const { data } = await dispatch(getAllDishes());
+      setDishes(data);
+      console.log("Data comming back from getAllDishes", data);
+      data?.map((dish) => {
+        optionsData.push({
+          label: dish.name,
+          value: dish.name,
+          _id: dish._id,
+          name: dish.name,
+          description: dish.description,
+          price: dish.price,
+          images: dish.images,
+        });
       });
-    });
-    setOptions(optionsData);
-  }, [selectedOptions]);
+      setOptions(optionsData);
+    } else {
+      setDishes(dishesData.dishes);
+      dishesData.dishes?.map((dish) => {
+        optionsData.push({
+          label: dish.name,
+          value: dish.name,
+          _id: dish._id,
+          name: dish.name,
+          description: dish.description,
+          price: dish.price,
+          images: dish.images,
+        });
+      });
+    }
+  }, [selectedOptions, dishesData.dishes]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,23 +101,24 @@ const CreateRestaurant = () => {
     setMenu(selectedOptions);
     console.log(schedule);
     console.log(menu, "I am Menu");
-    await dispatch(
-      createRestaurant(
-        name,
-        description,
-        {
-          addressName,
-          country,
-          streetAddress,
-          coordinates,
-        },
-        noOfTables,
-        selectedOptions,
-        images,
-        schedule,
-        price
-      )
-    );
+    console.log("I am StreetAddress", streetAddress);
+    // await dispatch(
+    //   createRestaurant(
+    //     name,
+    //     description,
+    //     {
+    //       addressName,
+    //       country,
+    //       streetAddress,
+    //       coordinates,
+    //     },
+    //     noOfTables,
+    //     selectedOptions,
+    //     images,
+    //     schedule,
+    //     price
+    //   )
+    // );
     await dispatch(getAllRestaurants());
   };
 
@@ -114,11 +133,8 @@ const CreateRestaurant = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
-            <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
-            </p>
+            <h1>Hello {userEmail.split("@")[0]}</h1>
+            <p>Here You can Create Your Restaurants</p>
           </div>
         </div>
       </section>
@@ -200,6 +216,11 @@ const CreateRestaurant = () => {
                         value={streetAddress}
                         onChange={(e) => setStreetAddress(e.target.value)}
                       />
+                      {/* <PlacesAutocomplete
+                        startLocation={false}
+                        setStreetAddress={setStreetAddress}
+                        setStreetAddressCoords={setStreetAddressCoords}
+                      /> */}
                     </div>
                   </div>
 
@@ -264,6 +285,10 @@ const CreateRestaurant = () => {
                       />
                     </div>
                   </div>
+
+                  <hr />
+                  <CreateDishes />
+                  <hr />
 
                   <div className="col-sm-6">
                     <label>Menu</label>

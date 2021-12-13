@@ -11,7 +11,8 @@ import { Button, Grid, List } from "@material-ui/core";
 import { PlacesAutocomplete } from "./PlacesAutoComplete";
 import DatePicker from "react-date-picker";
 import { getPlacesData } from "../api";
-import { ScrollView } from "./ScrollView";
+import ScrollView from "./ScrollView";
+import directions from "google-maps-direction";
 
 const CreateTour = () => {
   const dispatch = useDispatch();
@@ -23,8 +24,8 @@ const CreateTour = () => {
   const userName = useSelector((state) => state.auth.userEmail);
   console.log("Role", role);
 
-  const [startLocation, setStartLocation] = useState("Lahore");
-  const [endLocation, setEndLocation] = useState("Naran Valley");
+  const [startLocation, setStartLocation] = useState("");
+  const [endLocation, setEndLocation] = useState("");
   const [price, setPrice] = useState(3000);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -48,6 +49,8 @@ const CreateTour = () => {
   const [endLocationBounds, setEndLocationBounds] = useState();
   const [attractionsData, setAttractionsData] = useState([]);
   const [selectedAttraction, setselectedAttraction] = useState([]);
+  const [boundsArray, setBoundsArray] = useState([]);
+  const [count, setCount] = useState(0);
   // useEffect(() => {
   //   findlatlngLocations();
   // }, [startLocation, endLocation]);
@@ -57,6 +60,7 @@ const CreateTour = () => {
     console.log(name, description, images);
     if (name && description && images) {
       dispatch(createPlaces(name, description, [images]));
+      dispatch(getPlaces());
     } else {
       if (!name) {
         dispatch(createPlaces("", description, [images]));
@@ -174,16 +178,71 @@ const CreateTour = () => {
         )
       );
       console.log("We are Bounds", startBounds, endBounds);
-      const attractions = await getPlacesData(
-        "attractions",
-        startBounds.southwest,
-        endBounds.northeast
-      );
-      console.log(attractions);
-      setAttractionsData(attractions);
+      // const attractions = await getPlacesData(
+      //   "attractions",
+      //   startBounds.southwest,
+      //   endBounds.northeast
+      // );
+      // console.log(attractions);
+      // setAttractionsData(attractions);
+      getDirections();
     } catch (error) {
       console.log({ error });
     }
+  };
+  const getAttractions = async () => {
+    // e.preventDefault();
+    try {
+      let totalAttractions = [];
+      for (let counter = 0; counter < boundsArray.length; counter++) {
+        totalAttractions.push(
+          await getPlacesData(
+            "attractions",
+            boundsArray[counter].sw,
+            boundsArray[counter].ne
+          )
+        );
+      }
+      return totalAttractions;
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+  const check = async () => {
+    const saiData = await getAttractions();
+    console.log("I am Sai Data", saiData);
+    var merged = [].concat.apply([], saiData);
+    console.log("MergedDta ", merged);
+    setAttractionsData(merged);
+  };
+
+  const getDirections = async () => {
+    console.log(startLocationCoords, endLocationCoords);
+
+    var options = {
+      method: "GET",
+      url: "https://trueway-directions2.p.rapidapi.com/FindDrivingPath",
+      params: {
+        origin: `${startLocationCoords.lat},${startLocationCoords.lng}`,
+        destination: `${endLocationCoords.lat},${endLocationCoords.lng}`,
+      },
+      headers: {
+        "x-rapidapi-host": "trueway-directions2.p.rapidapi.com",
+        "x-rapidapi-key": "0f2d353845mshbcc6321a9e9eca1p17f084jsnad0808357c3b",
+      },
+    };
+
+    const { data } = await axios.request(options);
+    console.log("I am Directions Data", data.route.steps);
+    const dataArray = [];
+    data.route.steps.map((routeOne) =>
+      dataArray.push({
+        sw: { lat: routeOne.bounds.south, lng: routeOne.bounds.west },
+        ne: { lat: routeOne.bounds.north, lng: routeOne.bounds.east },
+      })
+    );
+    console.log(dataArray);
+    setBoundsArray(dataArray);
   };
 
   const handleSubmit = async (e) => {
@@ -426,8 +485,23 @@ const CreateTour = () => {
                 </div>
                 {/* End row */}
                 <hr />
+                <Button
+                  className="btn_1 green"
+                  onClick={() => calculatePrice(startLocation, endLocation)}
+                >
+                  Calculate Price{" "}
+                </Button>
+                <hr />
 
-                {/* <ScrollView attractionsData={attractionsData} /> */}
+                <Button className="btn_1 green" onClick={(e) => check(e)}>
+                  Get Attractions
+                </Button>
+
+                <hr />
+                {console.log(attractionsData)}
+                {attractionsData?.length > 0 && (
+                  <ScrollView attractionsData={attractionsData} />
+                )}
 
                 <hr />
                 <PlaceSuggestions
@@ -435,12 +509,7 @@ const CreateTour = () => {
                   lanLongEndlocation={lanLongEndlocation}
                   handlePlaceCreateSubmit={handlePlaceCreateSubmit}
                 />
-                <Button
-                  className="btn_1 green"
-                  onClick={() => calculatePrice(startLocation, endLocation)}
-                >
-                  Calculate Price{" "}
-                </Button>
+
                 <br />
                 <br />
                 <button

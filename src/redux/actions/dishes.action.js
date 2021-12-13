@@ -12,7 +12,11 @@ export const createDishes =
         price,
         images,
       });
-      console.log('Create Dishes', data)
+      dispatch({
+        type: "CREATE_DISHES_SUCCESS",
+        payload: data.data,
+      });
+      console.log("Create Dishes", data);
       toast.success("Dishes has been Created");
     } catch (error) {
       console.log({ error });
@@ -29,6 +33,7 @@ export const updateDishes =
         images,
       });
       console.log(data);
+
       toast.success("Dishes has been Updated");
     } catch (error) {
       console.log({ error });
@@ -37,11 +42,13 @@ export const updateDishes =
 
 export const getAllDishes = () => async (dispatch) => {
   try {
-    const {
-      data: { data },
-    } = await axios.get(URL + endpoints.GET_ALL_DISHES);
+    const { data } = await axios.get(URL + endpoints.GET_ALL_DISHES);
     console.log(URL + endpoints.GET_ALL_DISHES);
     console.log("dishes data in action", data);
+    dispatch({
+      type: "GET_ALL_DISHES_SUCCESS",
+      payload: data,
+    });
     return data;
   } catch (error) {
     console.log({ error });
