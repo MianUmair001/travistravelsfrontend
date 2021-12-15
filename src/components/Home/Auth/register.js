@@ -7,39 +7,46 @@ import { signUp } from "../../../redux/actions/auth.action";
 import { useHistory } from "react-router-dom";
 
 const Register = () => {
-  const [email, setEmail] = useState("amianumair@gmail.com");
-  const [password, setPassword] = useState("IamUmair@005");
-  const [confirmPassword, setConfirmPassword] = useState("IamUmair@005");
-  const [name, setName] = useState("MuhammadUmair");
-  const [afterSubmit, setAfterSubmit] = useState(true);
-  const [selectedOption, setSelectedOption] = useState();
-  const [modelIsOpen, setModelIsOpen] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [checkBox, setCheckBox] = useState(false);
-
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const modelHandler = () => {
-    setModelIsOpen(false);
-  };
+  const [email, setEmail] = useState("sp18-bse-179@cuilahore.edu.pk");
+  const [password, setPassword] = useState("BabuIbrar@0344");
+  const [confirmPassword, setConfirmPassword] = useState("BabuIbrar@0344");
+  const [name, setName] = useState("Muhammad Ibrar");
+  const [afterSubmit, setAfterSubmit] = useState(true);
+  const [selectedOption, setSelectedOption] = useState();
+  const [showError, setShowError] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState("");
+  const [showLoading, setshowLoading] = useState(false);
+
+  console.log("selectedOption", selectedOption, showError, showErrorMessage);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setshowLoading(true);
     if (password === confirmPassword) {
       const success = await dispatch(signUp(email, password, selectedOption));
-      console.log("succuss, failed", success.success);
-      const result = success.success;
+      const message = success.message;
       setAfterSubmit(false);
-      const UserEmail = localStorage.setItem("UserEmail", email);
-      if (result === false) {
+      localStorage.setItem("UserEmail", email);
+      console.log("result", message);
+      if (success.success === false) {
         setShowError(true);
+        setShowErrorMessage(message);
       } else {
         history.push("/verifyEmail");
       }
     } else {
       toast.error("Passwords are not same");
     }
+    const timer = setTimeout(() => {
+      setshowLoading(false);
+    }, 500);
+    const timerError = setTimeout(() => {
+      setShowError(false);
+    }, 5000);
+    return () => clearTimeout(timer, timerError);
   };
 
   return (
@@ -60,9 +67,6 @@ const Register = () => {
                   </div>
                   <hr />
                   <div className="col-md-12 col-sm-12 col-12">
-                    <label>
-                      <b>Register yourself as</b>
-                    </label>
                     <div className="styled-select-filters mb-5">
                       <select
                         value={selectedOption}
@@ -70,6 +74,7 @@ const Register = () => {
                         id="sort_price"
                         onChange={(e) => setSelectedOption(e.target.value)}
                       >
+                        <option value="">Register yourself as</option>
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                         <option value="hotelManager">Hotel Manager</option>
@@ -92,7 +97,7 @@ const Register = () => {
                           marginBottom: "5px",
                         }}
                       >
-                        Email already exists
+                        {showErrorMessage}
                       </div>
                     ) : null}
 
@@ -139,22 +144,47 @@ const Register = () => {
                       />
                     </div>
                     <div id="pass-info" className="clearfix" />
-                    <Button
-                      type="submit"
-                      style={{
-                        backgroundColor: "green",
-                        color: "white",
-                        textTransform: "unset",
-                      }}
-                      className="btn btn_full_outline btn-block py-2 mb-3"
-                      value="Create An Account"
-                      onClick={handleSubmit}
-                    >
-                      Create An Account
-                    </Button>
-                    <Link to="/login" className="account">
-                      Already Have An Account? Login Here!
-                    </Link>
+                    {showLoading === true ? (
+                      <div>
+                        <Button
+                          class="btn btn_full btn-block py-2 mt-5 mb-2"
+                          style={{
+                            backgroundColor: "green",
+                            color: "white",
+                            textTransform: "unset",
+                          }}
+                        >
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            style={{ marginRight: "5px" }}
+                          ></span>
+                          loading...
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        type="submit"
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                          textTransform: "unset",
+                        }}
+                        className="btn btn_full_outline btn-block py-2 mb-3"
+                        value="Create An Account"
+                        onClick={handleSubmit}
+                      >
+                        Create An Account
+                      </Button>
+                    )}
+                    <div>
+                      Already Have An Account?
+                      <Link
+                        to="/login"
+                        style={{ marginLeft: "2px", color: "black" }}
+                      >
+                        Login Here!
+                      </Link>
+                    </div>
                   </form>
                 </div>
               </div>

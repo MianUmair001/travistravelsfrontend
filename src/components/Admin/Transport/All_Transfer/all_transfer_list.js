@@ -40,7 +40,7 @@ const All_transfer_list = ({
       );
       setTransportsListShow(stateCurrentTransports);
     }
-  }, [statetransports.transports, transportsListShow]);
+  }, [statetransports.transports]);
   const pageNumbers = [];
   for (
     let i = 1;

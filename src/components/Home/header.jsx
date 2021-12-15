@@ -21,6 +21,19 @@ const Header = () => {
     localStorage.clear();
     history.push("/");
   };
+  const handleDashboard = (e) => {
+    e.preventDefault();
+
+    if (role === "admin") {
+      history.push("/admin_dashboard");
+    } else if (role === "hotelManager") {
+      history.push("/hotel_manager_dashboard");
+    } else if (role === "user") {
+      history.push("/user_dashboard");
+    } else {
+      history.push("/dashboard");
+    }
+  };
 
   const profileHandler = (e) => {
     e.preventDefault();
@@ -58,15 +71,13 @@ const Header = () => {
                 <ul id="top_links">
                   {userId !== null && (
                     <li>
-                      {role === "admin" ? (
-                        <Link to="/admin_dashboard" id="wishlist_link">
-                          Dashboard
-                        </Link>
-                      ) : (
-                        <Link to="/user_dashboard" id="wishlist_link">
-                          Dashboard
-                        </Link>
-                      )}
+                      <Link
+                        to="/dashboard"
+                        id="wishlist_link"
+                        onClick={handleDashboard}
+                      >
+                        Dashboard
+                      </Link>
                     </li>
                   )}
                   {userId === null && (
@@ -107,7 +118,13 @@ const Header = () => {
           <div className="row">
             <div className="col-3">
               <div id="logo_home" style={{ fontFamily: "Lobster" }}>
-                <h3 style={{ marginTop: "-4px", color: "black " }}>
+                <h3
+                  style={{
+                    marginTop: "10px",
+                    color: "orange ",
+                    fontWeight: "20px",
+                  }}
+                >
                   <img
                     src="img/logo.png"
                     style={{ width: "30px", marginRight: "5px" }}
@@ -143,12 +160,13 @@ const Header = () => {
                 <ul>
                   <li className="submenu">
                     <Link to="/" className="show-submenu">
-                      Home
+                      <strong>Home</strong>
                     </Link>
                   </li>
                   <li className="submenu">
                     <a href="" className="show-submenu">
-                      Tours <i className="icon-down-open-mini"></i>
+                      <strong>Tours</strong>{" "}
+                      <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -161,7 +179,8 @@ const Header = () => {
                   </li>
                   <li className="submenu">
                     <a href="" className="show-submenu">
-                      Hotels <i className="icon-down-open-mini"></i>
+                      <strong>Hotels</strong>
+                      <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -174,7 +193,8 @@ const Header = () => {
                   </li>
                   <li className="submenu">
                     <a href="" className="show-submenu">
-                      Transfers <i className="icon-down-open-mini"></i>
+                      <strong>Transfers</strong>{" "}
+                      <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -187,7 +207,8 @@ const Header = () => {
                   </li>
                   <li className="submenu">
                     <a href="" className="show-submenu">
-                      Restaurants <i className="icon-down-open-mini"></i>
+                      <strong>Restaurants</strong>{" "}
+                      <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
@@ -204,67 +225,6 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <ul id="top_tools">
-                <li>
-                  <a href="" className="search-overlay-menu-btn">
-                    <i className="icon_search"></i>
-                  </a>
-                </li>
-                <li>
-                  <div className="dropdown dropdown-cart">
-                    <a href="#" data-toggle="dropdown" className="cart_bt">
-                      <i className="icon_bag_alt"></i>
-                      <strong>3</strong>
-                    </a>
-                    <ul className="dropdown-menu" id="cart_items">
-                      <li>
-                        <div className="image">
-                          <img src="img/thumb_cart_1.jpg" alt="image" />
-                        </div>
-                        <strong>
-                          <a href="#">Louvre museum</a>1x $36.00{" "}
-                        </strong>
-                        <a href="#" className="action">
-                          <i className="icon-trash"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <div className="image">
-                          <img src="img/thumb_cart_2.jpg" alt="image" />
-                        </div>
-                        <strong>
-                          <a href="#">Versailles tour</a>2x $36.00{" "}
-                        </strong>
-                        <a href="#" className="action">
-                          <i className="icon-trash"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <div className="image">
-                          <img src="img/thumb_cart_3.jpg" alt="image" />
-                        </div>
-                        <strong>
-                          <a href="#">Versailles tour</a>1x $36.00{" "}
-                        </strong>
-                        <a href="#" className="action">
-                          <i className="icon-trash"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <div>
-                          Total: <span>$120.00</span>
-                        </div>
-                        <a href="cart.html" className="button_drop">
-                          Go to cart
-                        </a>
-                        <a href="payment.html" className="button_drop outline">
-                          Check out
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
             </nav>
           </div>
         </div>

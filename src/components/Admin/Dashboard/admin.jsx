@@ -301,7 +301,7 @@ const AdminDashBoard = () => {
                     }}
                     className="icon-profile"
                   >
-                    <span>Transfers</span>
+                    <span>Transports</span>
                   </Button>
                 </li>
                 <li>

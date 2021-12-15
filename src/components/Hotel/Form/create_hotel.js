@@ -26,7 +26,7 @@ const CreateHotel = ({ history }) => {
   );
   const [images, setImages] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
+  const auth = useSelector((state) => state.auth.user);
   const createHotelHandler = async (e) => {
     e.preventDefault();
     const { data } = await dispatch(

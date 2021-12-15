@@ -8,7 +8,17 @@ import {
 } from "../actionTypes";
 
 export const createRestaurant =
-  (name, description, address, noOfTables, menu, images, schedule, price) =>
+  (
+    name,
+    description,
+    address,
+    noOfTables,
+    menu,
+    images,
+    schedule,
+    price,
+    auth
+  ) =>
   async (dispatch) => {
     try {
       dispatch({ type: CREATE_RESTAURANT_REQUEST });
@@ -20,7 +30,8 @@ export const createRestaurant =
         menu,
         images,
         schedule,
-        price
+        price,
+        auth
       );
       const response = await axios.post(URL + endpoints.CREATE_RESTAURANT, {
         name,
@@ -31,6 +42,7 @@ export const createRestaurant =
         images,
         schedule,
         price: Number(price),
+        auth,
       });
       if (response.data.statusCode === 201) {
         dispatch({
@@ -132,4 +144,30 @@ export const getRestaurantById = (id) => async (dispatch) => {
   } catch (error) {
     console.log({ error });
   }
+};
+
+export const updateRestaurantNoOfTables = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.patch(
+      URL + endpoints.UPDATE_RESTAURANTS_NO_OF_TABLES + "/" + id
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log({ error });
+  }
+};
+
+export const findAllRestaurantWithUserId = (userId) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      URL + endpoints.GET_RESTAURANT_WITH_USER_ID + userId
+    );
+    console.log(data);
+    dispatch({
+      type: "GET_ALL_RESTAURANT_SUCCESS",
+      payload: data,
+    });
+    return data;
+  } catch (error) {}
 };

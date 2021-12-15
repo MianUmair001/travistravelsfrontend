@@ -68,7 +68,8 @@ export const updateTransport =
     pricePerKillomter,
     airConditioner,
     availability,
-    images
+    images,
+    auth
   ) =>
   async (dispatch) => {
     try {
@@ -88,6 +89,7 @@ export const updateTransport =
           AC: airConditioner,
           Availability: availability,
           images,
+          auth,
         }
       );
       console.log("I'm in update transport response", response.data.data);
@@ -155,4 +157,18 @@ export const deleteTransportByID = (id) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const findAllTransportsWithUserId = (userId) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      URL + endpoints.GET_TRANSPORTS_WITH_USER_ID + userId
+    );
+    console.log(data);
+    dispatch({
+      type: "GET_ALL_TRANSPORT_SUCCESS",
+      payload: data,
+    });
+    return data;
+  } catch (error) {}
 };

@@ -202,14 +202,10 @@ const Home_SingleImage = ({ history }) => {
         <section className="promo_full">
           <div className="promo_full_wp magnific">
             <div>
-              <h3>BELONG ANYWHERE</h3>
-              <p>
-                Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus
-                civibus efficiantur in. Nec id tempor imperdiet deterruisset,
-                doctus volumus explicari qui ex.
-              </p>
+              <h3>FIND AMAZING PLACES IN PAKISTAN</h3>
+              <p>Find Very Beautiful and stunning places in Pakistan.</p>
               <a
-                href="https://www.youtube.com/watch?v=Zz5cu72Gv5Y"
+                href="https://www.youtube.com/watch?v=3HIAO2Fs9i8"
                 className="video"
               >
                 <i className="icon-play-circled2-1" />
@@ -233,30 +229,26 @@ const Home_SingleImage = ({ history }) => {
               <div className="feature_home">
                 <i className="icon_set_1_icon-41" />
                 <h3>
-                  <span>+120</span> Premium tours
+                  <span>+120</span> Pakistan Tours
                 </h3>
                 <p>
-                  Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus
-                  civibus efficiantur in. Nec id tempor imperdiet deterruisset.
+                  A Beautiful and eyecatching tour in Pakistan.This is not just
+                  limited to Winter Tours, see the beauty of Pakistan in all the
+                  seasons.
                 </p>
-                <a href="about.html" className="btn_1 outline">
-                  Read more
-                </a>
               </div>
             </div>
             <div className="col-lg-4 wow zoomIn" data-wow-delay="0.4s">
               <div className="feature_home">
                 <i className="icon_set_1_icon-30" />
                 <h3>
-                  <span>+1000</span> Customers
+                  <span>+1000</span> Hotels
                 </h3>
                 <p>
-                  Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus
-                  civibus efficiantur in. Nec id tempor imperdiet deterruisset.
+                  A Attractive and camfortable hotel in Pakistan.This is not
+                  just limited to Winter Hotels, see the beauty of Pakistan in
+                  all the seasons.
                 </p>
-                <a href="about.html" className="btn_1 outline">
-                  Read more
-                </a>
               </div>
             </div>
             <div className="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
@@ -266,12 +258,9 @@ const Home_SingleImage = ({ history }) => {
                   <span>H24 </span> Support
                 </h3>
                 <p>
-                  Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus
-                  civibus efficiantur in. Nec id tempor imperdiet deterruisset.
+                  Our elegant and Professional Team will always be there for you
+                  24/7. As help will always be given to theose who ask for it.
                 </p>
-                <a href="about.html" className="btn_1 outline">
-                  Read more
-                </a>
               </div>
             </div>
           </div>

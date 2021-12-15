@@ -10,8 +10,14 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { updateRestaurantNoOfTables } from "../../../redux/actions/restaurant.action";
+import {
+  updateNumberOfPeople,
+  updateTour,
+  updateTourNumberOfPeople,
+} from "../../../redux/actions/tour.action";
 import FinishBooking from "./FinishBooking";
 const CheckoutForm = ({
   serviceName,
@@ -32,6 +38,7 @@ const CheckoutForm = ({
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -74,6 +81,12 @@ const CheckoutForm = ({
         setSuccess(true);
         if (response.status === 201 && bookingresponse.status === 201) {
           console.log("I am in If Check O Yeah");
+          if (bookedServiceType === "Tour") {
+            await dispatch(updateTourNumberOfPeople(bookedServiceId));
+          } else if (bookedServiceType === "Restaurant") {
+            await dispatch(updateRestaurantNoOfTables(bookedServiceId));
+          }
+
           history.push({
             pathname: "/finishBooking",
             state: {

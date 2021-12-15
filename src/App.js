@@ -112,6 +112,8 @@ import FinishBooking from "./components/Admin/Bookings/FinishBooking";
 import BookingForm from "./components/Restaurants/Booking/BookingForm";
 import UserDashboard from "./components/Admin/Dashboard/UserDashboard";
 import { useSelector } from "react-redux";
+import HotelManagerDashboard from "./components/Admin/Dashboard/HotelManagerDashboard";
+import Dashboard from "./components/Admin/Dashboard/Dashboard";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -145,6 +147,7 @@ function App() {
             component={UpdateTour}
             history={history}
           />
+
           <Route
             exact
             path="/all_tours_grid"
@@ -391,6 +394,13 @@ function App() {
           {/* Admin Routes */}
           <Route exact path="/admin_dashboard" component={AdminDashBoard} />
           <Route exact path="/user_dashboard" component={UserDashboard} />
+          <Route
+            exact
+            path="/hotel_manager_dashboard"
+            component={HotelManagerDashboard}
+          />
+          <Route exact path="/dashboard" component={Dashboard} />
+
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_profile" component={CreateProfile} />
           <Route exact path="/bookings" component={Bookings} />

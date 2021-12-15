@@ -28,6 +28,9 @@ export const endpoints = {
   UPDATE_HOTEL_BY_ID: "/api/hotel/",
   DELETE_HOTEL: "/api/hotel/",
   GET_HOTEL_BY_NAME: "/api/hotel/name​/",
+  GET_HOTEL_BY_USERID: "/api/hotel/hotels/hotel/",
+  GET_HOTELS_WITH_USER_ID: "/api/hotels/hotels/user/",
+
   /* HOTEL ROOMS */
   CREATE_ROOM: "/api/hotel/",
   GET_HOTEL_ROOMS: "/api/hotel/",
@@ -51,6 +54,8 @@ export const endpoints = {
   UPDATE_TOUR: "/api/tours/",
   DELETE_TOUR: "/api/tours/",
   GET_TOUR_BY_NAME: "/api/tours/name/",
+  UPDATE_TOUR_NO_OF_PEOPLE: "/api/tours/updateNoOfPeople/",
+  GET_TOURS_WITH_USER_ID: "/api/tours/tours/user/",
   /* POST */
   CREATE_POST: "/api​/posts",
   GET_ALL_POSTS: "/api/posts",
@@ -96,7 +101,7 @@ export const endpoints = {
   GET_TRANSPORT_BY_ID: "/api/transport/",
   GET_TRANSPORT_BY_NAME: "/api/transport/name",
   DELETE_TRANSPORT: "/api/transport/delete/",
-
+  GET_TRANSPORTS_WITH_USER_ID: "/api/transport/transports/user/",
   /* DISHES */
   CREATE_DISHES: "/api/dishes",
   GET_ALL_DISHES: "/api/dishes",
@@ -112,4 +117,6 @@ export const endpoints = {
   GET_RESTAURANT_BY_ID: "/api/restaurants/restaurant/",
   UPDATE_RESTAURANTS: "/api/restaurants",
   DELETE_RESTAURANTS: "/api/restaurants",
+  UPDATE_RESTAURANTS_NO_OF_TABLES: "/api/restaurants/updateNoofTables/",
+  GET_RESTAURANT_WITH_USER_ID: "/api/restaurants/restaurants/user/",
 };

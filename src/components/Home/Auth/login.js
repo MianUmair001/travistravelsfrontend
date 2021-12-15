@@ -1,31 +1,35 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { login } from "../../../redux/actions/auth.action";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const Login = ({ history }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("saabm6546@gmail.com");
   const [password, setPassword] = useState("Babuibrar@007");
   const [dataError, setDataError] = useState(false);
-  const dispatch = useDispatch();
+  const [showLoading, setshowLoading] = useState(false);
 
   const user = useSelector((state) => state.auth);
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email is ", email, "Password is ", password);
+    setshowLoading(true);
     const data = await dispatch(login(email, password));
-    console.log("data", data);
-    console.log(user);
     localStorage.setItem("UserEmail", email);
     if (data === undefined) {
-      // toast.error('Wrong Email Or Password')
       setDataError(true);
     } else {
       history.push("/");
     }
+    const timer = setTimeout(() => {
+      setshowLoading(false);
+    }, 500);
+    const timerError = setTimeout(() => {
+      setDataError(false);
+    }, 5000);
+    return () => clearTimeout(timer, timerError);
   };
 
   const handleRegisterSubmit = (e) => {
@@ -34,14 +38,6 @@ const Login = ({ history }) => {
     history.push("/register");
   };
 
-  const handleChange = (e) => {
-    let isChecked = e.target.checked;
-    if (isChecked !== false) {
-      console.log("Admin");
-    } else {
-      console.log("User");
-    }
-  };
   return (
     <>
       <main>
@@ -83,17 +79,11 @@ const Login = ({ history }) => {
                         Wrong Email or Password
                       </div>
                     ) : null}
-                    <div>
-                      <FormControlLabel
-                        control={<Checkbox defaultChecked />}
-                        label="Admin"
-                        onChange={(e) => handleChange(e)}
-                      />
-                    </div>
+
                     <div className="form-group">
-                      <label>Username</label>
+                      <label>Email</label>
                       <input
-                        type="text"
+                        type="email"
                         className=" form-control "
                         placeholder="Username"
                         value={email}
@@ -113,20 +103,43 @@ const Login = ({ history }) => {
                     <Link to="/forget_password" className="ForgetPassword">
                       Forget Password?
                     </Link>
-                    <Button
-                      type="submit"
-                      style={{
-                        backgroundColor: "green",
-                        color: "white",
-                        textTransform: "unset",
-                      }}
-                      className="btn btn_full btn-block py-2 mt-3 mb-2"
-                      value="Log In"
-                      onClick={handleLoginSubmit}
-                      disabled={!email || !password}
-                    >
-                      Login
-                    </Button>
+
+                    {showLoading === true ? (
+                      <div>
+                        <Button
+                          class="btn btn_full btn-block py-2 mt-5 mb-2"
+                          style={{
+                            backgroundColor: "green",
+                            color: "white",
+                            textTransform: "unset",
+                          }}
+                        >
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            style={{ marginRight: "5px" }}
+                          ></span>
+                          loading...
+                        </Button>
+                      </div>
+                    ) : (
+                      <div>
+                        <Button
+                          type="submit"
+                          style={{
+                            backgroundColor: "green",
+                            color: "white",
+                            textTransform: "unset",
+                          }}
+                          className="btn btn_full btn-block py-2 mt-3 mb-2"
+                          value="Log In"
+                          onClick={handleLoginSubmit}
+                          disabled={!email || !password}
+                        >
+                          Login
+                        </Button>
+                      </div>
+                    )}
+
                     <Button
                       type="submit"
                       style={{

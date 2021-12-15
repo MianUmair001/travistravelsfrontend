@@ -19,7 +19,9 @@ export const createTour =
     endDate,
     status,
     places,
-    images
+    images,
+    noOfPeople,
+    auth
   ) =>
   async (dispatch) => {
     try {
@@ -36,6 +38,8 @@ export const createTour =
         status,
         places,
         images,
+        noOfPeople,
+        auth,
       });
       if (response.data.statusCode === 201) {
         dispatch({ type: CREATE_TOUR_SUCCESS, payload: response.data });
@@ -148,4 +152,30 @@ export const deleteTour = (id) => async (dispatch) => {
   } catch (error) {
     console.error({ error });
   }
+};
+
+export const updateTourNumberOfPeople = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.patch(
+      URL + endpoints.UPDATE_TOUR_NO_OF_PEOPLE + id
+    );
+    console.log(data);
+    toast.success("Tour has been successfully booked");
+  } catch (error) {
+    console.log({ error });
+  }
+};
+
+export const findAllTourWithUserId = (userId) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      URL + endpoints.GET_TOURS_WITH_USER_ID + userId
+    );
+    console.log(data);
+    dispatch({
+      type: "GET_ALL_TOURS_SUCCESS",
+      payload: data,
+    });
+    return data;
+  } catch (error) {}
 };

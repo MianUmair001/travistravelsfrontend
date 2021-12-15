@@ -75,10 +75,13 @@ const All_hotels_list = ({
     await dispatch(getHotelByID(props._id));
     history.push(`/update_hotel/${props._id}`);
   };
+  const handleAddRoom = (e, id) => {
+    e.preventDefault();
+    history.push(`/create_room/${id}`);
+  };
 
   const addHotelHandler = (e) => {
     e.preventDefault();
-
     history.push("/create_hotel");
   };
 
@@ -242,56 +245,16 @@ const All_hotels_list = ({
                                 <strong>{hotel.name}</strong>
                               </h3>
                               <p>{hotel.description}</p>
-                              <ul className="add_info">
-                                <li>
-                                  <a
-                                    className="tooltip-1"
-                                    data-placement="top"
-                                    title="Free Wifi"
-                                  >
-                                    <i className="icon_set_1_icon-86" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    className="tooltip-1"
-                                    data-placement="top"
-                                    title="Plasma TV with cable channels"
-                                  >
-                                    <i className="icon_set_2_icon-116" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    className="tooltip-1"
-                                    data-placement="top"
-                                    title="Swimming pool"
-                                  >
-                                    <i className="icon_set_2_icon-110" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    className="tooltip-1"
-                                    data-placement="top"
-                                    title="Fitness Center"
-                                  >
-                                    <i className="icon_set_2_icon-117" />
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    className="tooltip-1"
-                                    data-placement="top"
-                                    title="Restaurant"
-                                  >
-                                    <i className="icon_set_1_icon-58" />
-                                  </a>
-                                </li>
-                              </ul>
+
                               {role === "admin" && (
-                                <div className="row">
-                                  <div class="col-sm-6">
+                                <div
+                                  className="row"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <div>
                                     <Button
                                       variant="contained"
                                       size="small"
@@ -308,7 +271,24 @@ const All_hotels_list = ({
                                       Update
                                     </Button>
                                   </div>
-                                  <div class="col-sm-6">
+                                  <div>
+                                    <Button
+                                      variant="contained"
+                                      size="small"
+                                      className="btn mt-4"
+                                      startIcon={<Edit />}
+                                      style={{
+                                        backgroundColor: "green",
+                                        color: "white",
+                                      }}
+                                      onClick={(e) =>
+                                        handleAddRoom(e, hotel._id)
+                                      }
+                                    >
+                                      Add Room
+                                    </Button>
+                                  </div>
+                                  <div>
                                     <Button
                                       variant="outlined"
                                       size="small"
@@ -329,9 +309,9 @@ const All_hotels_list = ({
                           <div className="col-lg-2 col-md-2">
                             <div className="price_list">
                               <div>
-                                PKR:
+                                {/* PKR:
                                 {hotel.price}
-                                <small>*From/Per night</small>
+                                <small>*From/Per night</small> */}
                                 <p>
                                   <Button
                                     type="submit"

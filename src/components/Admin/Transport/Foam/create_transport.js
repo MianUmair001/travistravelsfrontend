@@ -4,12 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Commute } from "@material-ui/icons";
 
-import { createTransport } from "../../../../redux/actions/transport.action";
+import {
+  createTransport,
+  getALlTransport,
+} from "../../../../redux/actions/transport.action";
+import { uploadImage } from "../../../../redux/actions/upload.action";
 
 const CreateTransport = ({ history }) => {
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth.role);
 
-  const transportID = useSelector(state => state.transport.transportID)
+  const transportID = useSelector((state) => state.transport.transportID);
 
   const [name, setName] = useState("Toyota Corolla");
   const [modelName, setModelName] = useState("Corolla XSE");
@@ -37,9 +42,11 @@ const CreateTransport = ({ history }) => {
         pricePerKillomter,
         airConditioner,
         availability,
-        images
+        images,
+        auth
       )
     );
+    await dispatch(getALlTransport());
     if (response !== undefined) {
       setShowSuccessMessage(true);
       const timer = setTimeout(() => {
@@ -136,7 +143,7 @@ const CreateTransport = ({ history }) => {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Price Per Killomter</label>
+                        <label>Price Per Day</label>
                         <input
                           className="form-control"
                           name="pricePerKillomter"

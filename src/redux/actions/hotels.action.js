@@ -83,6 +83,19 @@ export const getAllHotels = () => async (dispatch) => {
     console.log({ error });
   }
 };
+export const findByUserId = (userId) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      URL + endpoints.GET_HOTEL_BY_USERID + userId
+    );
+
+    console.log("I am Data in Action", data);
+    dispatch({ type: "GET_ALL_HOTELS_SUCCESS", payload: data });
+    return data;
+  } catch (error) {
+    console.log({ error });
+  }
+};
 
 export const getHotelByID = (id) => async (dispatch) => {
   try {
@@ -137,4 +150,18 @@ export const getHotelByName = (name) => async (dispatch) => {
     toast.error(error.response.data.message);
     console.log({ error });
   }
+};
+
+export const findAllHotelsWithUserId = (userId) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      URL + endpoints.GET_HOTELS_WITH_USER_ID + userId
+    );
+    console.log(data);
+    dispatch({
+      type: "GET_ALL_HOTELS_SUCCESS",
+      payload: data,
+    });
+    return data;
+  } catch (error) {}
 };

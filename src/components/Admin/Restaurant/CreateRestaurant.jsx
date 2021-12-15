@@ -41,6 +41,9 @@ const CreateRestaurant = () => {
   const [price, setPrice] = useState(0);
   const [streetAddressCoords, setStreetAddressCoords] = useState();
   const userEmail = useSelector((state) => state.auth.userEmail);
+  const auth = useSelector((state) => state.auth.user);
+  console.log("I am Auth", auth);
+
   const setScheduleArray = (e) => {
     e.preventDefault();
     schedule.push({
@@ -102,23 +105,24 @@ const CreateRestaurant = () => {
     console.log(schedule);
     console.log(menu, "I am Menu");
     console.log("I am StreetAddress", streetAddress);
-    // await dispatch(
-    //   createRestaurant(
-    //     name,
-    //     description,
-    //     {
-    //       addressName,
-    //       country,
-    //       streetAddress,
-    //       coordinates,
-    //     },
-    //     noOfTables,
-    //     selectedOptions,
-    //     images,
-    //     schedule,
-    //     price
-    //   )
-    // );
+    await dispatch(
+      createRestaurant(
+        name,
+        description,
+        {
+          addressName,
+          country,
+          streetAddress,
+          coordinates,
+        },
+        noOfTables,
+        selectedOptions,
+        images,
+        schedule,
+        price,
+        auth
+      )
+    );
     await dispatch(getAllRestaurants());
   };
 

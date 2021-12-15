@@ -40,12 +40,12 @@ const HotelGrid = ({
                     alt="Image"
                   />
 
-                  <div className="short_info hotel">
+                  {/* <div className="short_info hotel">
                     From/Per night
                     <span className="price" style={{ fontSize: "20px" }}>
                       PKR: {hotel.price}
                     </span>
-                  </div>
+                  </div> */}
                 </a>
               </div>
               <div className="hotel_title">

@@ -14,6 +14,8 @@ import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PhoneIcon from "@material-ui/icons/Phone";
 import useStyles from "./styles";
+import { uploadImage } from "../../../redux/actions/upload.action";
+import { useDispatch } from "react-redux";
 
 const LeftArrow = () => {
   const { isFirstItemVisible, scrollPrev } =
@@ -61,12 +63,35 @@ const RightArrow = () => {
 //   );
 // }
 
-const ScrollView = ({ attractionsData }) => {
+const ScrollView = ({ handlePlaceCreateSubmit, attractionsData }) => {
   const [items, setItems] = useState();
   const [selected, setSelected] = useState([]);
   const [position, setPosition] = useState(0);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [images, setImages] = useState([]);
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  const handlePlaceClick = async (e, attraction) => {
+    setName(attraction.name);
+    setDescription(attraction?.description);
+
+    let formData = new FormData();
+    const photo = attraction?.photo
+      ? attraction?.photo?.images?.large?.url
+      : "https://images.unsplash.com/photo-1610303785445-41db41838e3e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
+    const response = await fetch(photo);
+    const blob = await response.blob();
+    const file = new File([blob], "image.jpeg", { type: blob.type });
+
+    formData.append("file", file);
+    formData.append("isPlaceImage", true);
+    const { data } = await dispatch(uploadImage(formData));
+    setImages(data);
+    /** setImages(place.photo.images); */
+    handlePlaceCreateSubmit(e, attraction.name, attraction.description, data);
+  };
   const isItemSelected = (id) => !!selected.find((el) => el === id);
   const handleClick =
     (id) =>
@@ -87,7 +112,7 @@ const ScrollView = ({ attractionsData }) => {
           <CardMedia
             style={{ height: 350 }}
             image={
-              attraction.photo
+              attraction?.photo
                 ? attraction.photo.images.large.url
                 : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
             }
@@ -182,7 +207,7 @@ const ScrollView = ({ attractionsData }) => {
               <Button
                 size="small"
                 color="primary"
-                onClick={(e) => handleClick(e)}
+                onClick={(e) => handlePlaceClick(e, attraction)}
               >
                 Add Place
               </Button>

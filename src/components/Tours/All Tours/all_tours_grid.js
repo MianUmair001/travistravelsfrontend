@@ -26,14 +26,14 @@ const All_tours_grid = ({
   const [tours, setTours] = useState([]);
   const [hotels, setHotels] = useState([]);
   const statetours = useSelector((state) => state.tours);
-  const role = useSelector((state) => state.auth.user.role);
+  const role = useSelector((state) => state.auth.role);
   const user = useSelector((state) => state.auth.user);
   console.log(statetours.tours, "ia ma");
   const [selectedOption, setSelectedOption] = useState();
 
   useEffect(async () => {
     if (statetours.tours.length === 0) {
-      if (role === "admin") {
+      if (role != null && role === "admin") {
         const { data } = await dispatch(getToursByType("withtravistravels"));
         console.log(data);
         const stateCurrentTours = data?.slice(

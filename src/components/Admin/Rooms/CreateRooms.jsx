@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPlans } from "../../../redux/actions/plan.action";
 import { createRoom } from "../../../redux/actions/rooms.action";
 import { useHistory, useParams } from "react-router";
@@ -17,6 +17,7 @@ const CreateRooms = () => {
   const [type, setType] = useState("615c177e01eafd67e4a3580a");
   const [images, setImages] = useState([]);
   const [addRoom, setAddRoom] = useState(false);
+  const userEmail = useSelector((state) => state.auth.userEmail);
   const history = useHistory();
   const options = [];
   const [price, setPrice] = useState(0);
@@ -52,7 +53,7 @@ const CreateRooms = () => {
       )
     );
     console.log("I am data", data);
-    if (data.statusCode === 201) {
+    if (data?.statusCode === 201) {
       setAddRoom(true);
     }
   };
@@ -73,11 +74,8 @@ const CreateRooms = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
-            <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
-            </p>
+            <h1>Hello {userEmail.split("@")[0]}</h1>
+            <p>Here You can Create the rooms for your hotel.</p>
           </div>
         </div>
       </section>

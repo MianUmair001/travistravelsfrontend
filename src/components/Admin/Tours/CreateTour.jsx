@@ -21,12 +21,13 @@ const CreateTour = () => {
     "A Tour from Lahore to Naran Kaghan"
   );
   const role = useSelector((state) => state.auth.role);
+  const auth = useSelector((state) => state.auth.user);
   const userName = useSelector((state) => state.auth.userEmail);
   console.log("Role", role);
 
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
-  const [price, setPrice] = useState(3000);
+  const [price, setPrice] = useState(0);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [image, setImage] = useState("");
@@ -49,18 +50,26 @@ const CreateTour = () => {
   const [endLocationBounds, setEndLocationBounds] = useState();
   const [attractionsData, setAttractionsData] = useState([]);
   const [selectedAttraction, setselectedAttraction] = useState([]);
+  const [gettingAttractions, setGettingAttractions] = useState(false);
   const [boundsArray, setBoundsArray] = useState([]);
   const [count, setCount] = useState(0);
+  const [noOfPeople, setNoOfPeople] = useState(0);
+  const [DistanceKm, setDistanceKm] = useState(0);
+  const [petrolPrice, setPetrolPrice] = useState(0);
+  const [foodPrice, setFoodPrice] = useState(0);
+  const [entertainmentPrice, setEntertainmentPrice] = useState(0);
+  const [accommodationPrice, setAccommodationPrice] = useState(0);
+  const [NoOfDays, setNoOfDays] = useState(0);
   // useEffect(() => {
   //   findlatlngLocations();
   // }, [startLocation, endLocation]);
 
-  const handlePlaceCreateSubmit = (e, name, description, images) => {
+  const handlePlaceCreateSubmit = async (e, name, description, images) => {
     e.preventDefault();
     console.log(name, description, images);
     if (name && description && images) {
-      dispatch(createPlaces(name, description, [images]));
-      dispatch(getPlaces());
+      await dispatch(createPlaces(name, description, [images]));
+      await dispatch(getPlaces());
     } else {
       if (!name) {
         dispatch(createPlaces("", description, [images]));
@@ -152,39 +161,41 @@ const CreateTour = () => {
       );
       console.log("I am duration cal", distancedata?.data?.durations[0]);
       console.log("I am Distance cal", distancedata?.data?.distances[0]);
-      const NoofDays = Math.ceil(
+      const noofDays = Math.ceil(
         (new Date(endDate).getTime() - new Date(startDate).getTime()) /
           (1000 * 3600 * 24)
       );
+      setNoOfDays(noofDays);
       setDistances(distancedata?.data?.distances[0] / 1000);
       setDurations(distancedata?.data?.durations[0]);
       console.log(
         "I am Distance from State",
         distancedata?.data?.distances[0] / 1000
       );
-      const DistanceKm = distancedata?.data?.distances[0] / 1000;
-      console.log(DistanceKm);
-      const calculatedprice = (DistanceKm / 14) * 145 * 2;
-      const foodPrice = NoofDays * 2975;
-      const entertainmentPrice = NoofDays * 1242;
-      const accommodationPrice = NoofDays * 5309;
+      const distancekm = distancedata?.data?.distances[0] / 1000;
+      setDistanceKm(parseInt(distancekm));
+      const petrolprice = parseInt((distancekm / 14) * 145 * 2);
+      setPetrolPrice(petrolprice);
+      const foodprice = parseInt(noofDays * 2975);
+      setFoodPrice(foodprice);
+      const entertainmentprice = parseInt(noofDays * 1242);
+      setEntertainmentPrice(entertainmentprice);
+      const accommodationprice = parseInt(noofDays * 5309);
+      setAccommodationPrice(accommodationprice);
+
       console.log("Cost on Food is ", foodPrice);
       console.log("Cost on Entertainment is ", entertainmentPrice);
       console.log("Cost on Accommodation is ", accommodationPrice);
-      console.log("I am Calculated", calculatedprice);
-      setPrice(
-        parseInt(
-          calculatedprice + foodPrice + entertainmentPrice + accommodationPrice
-        )
+      console.log("I am Calculated", petrolPrice);
+      const perPersonPrice = parseInt(
+        (petrolprice + foodprice + entertainmentprice + accommodationPrice) / 4
       );
+      console.log(perPersonPrice);
+      const profitedPrice = (perPersonPrice * 50) / 100;
+      console.log(profitedPrice);
+      const totalPrice = parseInt(perPersonPrice + profitedPrice);
+      setPrice(totalPrice);
       console.log("We are Bounds", startBounds, endBounds);
-      // const attractions = await getPlacesData(
-      //   "attractions",
-      //   startBounds.southwest,
-      //   endBounds.northeast
-      // );
-      // console.log(attractions);
-      // setAttractionsData(attractions);
       getDirections();
     } catch (error) {
       console.log({ error });
@@ -209,6 +220,7 @@ const CreateTour = () => {
     }
   };
   const check = async () => {
+    setGettingAttractions(true);
     const saiData = await getAttractions();
     console.log("I am Sai Data", saiData);
     var merged = [].concat.apply([], saiData);
@@ -268,7 +280,9 @@ const CreateTour = () => {
           stringEndDate,
           "initialized",
           places,
-          images
+          images,
+          noOfPeople,
+          auth
         )
       );
     } else {
@@ -284,7 +298,9 @@ const CreateTour = () => {
           stringEndDate,
           status,
           places,
-          images
+          images,
+          noOfPeople,
+          auth
         )
       );
     }
@@ -374,9 +390,9 @@ const CreateTour = () => {
                     <div className="form-group">
                       <label>Start Location</label>
                       <PlacesAutocomplete
-                        startLocation={true}
-                        setStartLocation={setStartLocation}
-                        setstartLocationCoords={setStartLocationCoords}
+                        placeholder={"From Where are you going?"}
+                        setLocation={setStartLocation}
+                        LocationCoords={setStartLocationCoords}
                       />
                     </div>
                   </div>
@@ -385,9 +401,9 @@ const CreateTour = () => {
                     <div className="form-group">
                       <label>End Location</label>
                       <PlacesAutocomplete
-                        startLocation={false}
-                        setEndLocation={setEndLocation}
-                        setEndLocationCoords={setEndLocationCoords}
+                        placeholder={"Where are you going?"}
+                        setLocation={setEndLocation}
+                        LocationCoords={setEndLocationCoords}
                       />
                     </div>
                   </div>
@@ -425,6 +441,19 @@ const CreateTour = () => {
                         value={endDate}
                         onChange={setEndDate}
                         minDate={new Date()}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <label>No of People</label>
+                      <input
+                        className="form-control"
+                        name="people"
+                        id="people"
+                        type="text"
+                        value={noOfPeople}
+                        onChange={(e) => setNoOfPeople(e.target.value)}
                       />
                     </div>
                   </div>
@@ -484,7 +513,27 @@ const CreateTour = () => {
                   )}
                 </div>
                 {/* End row */}
+
                 <hr />
+
+                <ul className="list-inline">
+                  <li>Distance KiloMeters {DistanceKm}</li>
+                  <li>
+                    Petrol Price Average Petrol Price:145--- {petrolPrice}
+                  </li>
+                  <li>Food Price Average Food Price:2975---- {foodPrice}</li>
+                  <li>
+                    Accomodation Price Average Accomodation Price:5309----{" "}
+                    {accommodationPrice}
+                  </li>
+                  <li>
+                    Entertainment Price Average Entertainment Price:1242----{" "}
+                    {entertainmentPrice}
+                  </li>
+                  <li>Total Price Per Person {price}</li>
+                  <li>Total Price {price * noOfPeople}</li>
+                </ul>
+
                 <Button
                   className="btn_1 green"
                   onClick={() => calculatePrice(startLocation, endLocation)}
@@ -499,8 +548,13 @@ const CreateTour = () => {
 
                 <hr />
                 {console.log(attractionsData)}
-                {attractionsData?.length > 0 && (
-                  <ScrollView attractionsData={attractionsData} />
+                {gettingAttractions === true ? (
+                  <ScrollView
+                    handlePlaceCreateSubmit={handlePlaceCreateSubmit}
+                    attractionsData={attractionsData}
+                  />
+                ) : (
+                  <h2> Attractions </h2>
                 )}
 
                 <hr />

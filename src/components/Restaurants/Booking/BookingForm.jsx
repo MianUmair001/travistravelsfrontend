@@ -140,8 +140,7 @@ const BookingForm = ({
               <td>Total cost</td>
               <td className="text-right">
                 PKR{" "}
-                {bookedServiceType != "Transport" &&
-                bookedServiceType != "Hotel"
+                {bookedServiceType === "Tour"
                   ? Number(adultsQuantity) + Number(childrenQuantity) > 0 &&
                     (Number(adultsQuantity) + Number(childrenQuantity)) * price
                   : price}

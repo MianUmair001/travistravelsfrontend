@@ -94,7 +94,7 @@ const Single_tour = ({ history }) => {
                 <div id="price_single_main">
                   from/per person{" "}
                   <span>
-                    <sup>$</sup>
+                    <sup>PKR</sup>
                     {tour.price}
                   </span>
                 </div>
@@ -105,24 +105,9 @@ const Single_tour = ({ history }) => {
       </section>
       {/* End section */}
 
-      <main style={{ marginTop: "10%" }}>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
+      <main>
         {/* End Position */}
-        <div className="collapse" id="collapseMap">
-          <div id="map" className="map" />
-        </div>
+
         {/* End Map */}
         <div className="container margin_60">
           <div className="row">
@@ -158,20 +143,6 @@ const Single_tour = ({ history }) => {
                 </div>
               )}
 
-              <p className="d-none d-md-block d-block d-lg-none">
-                <a
-                  className="btn_map"
-                  data-toggle="collapse"
-                  href="#collapseMap"
-                  aria-expanded="false"
-                  aria-controls="collapseMap"
-                  data-text-swap="Hide map"
-                  data-text-original="View on map"
-                >
-                  View on map
-                </a>
-              </p>
-
               {/* Map button for tablets/mobiles */}
 
               <div className="row">
@@ -179,7 +150,15 @@ const Single_tour = ({ history }) => {
                   <h3>Description</h3>
                 </div>
                 <div className="col-lg-9">
-                  {tour.description}
+                  {tour?.description}
+
+                  {/* End row  */}
+                </div>
+                <div className="col-lg-3">
+                  <h3>No of Seats Available</h3>
+                </div>
+                <div className="col-lg-9">
+                  {tour?.numberOfPeople}
 
                   {/* End row  */}
                 </div>

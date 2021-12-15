@@ -2727,7 +2727,7 @@ ul#contact-info {
   display: block;
   text-transform: none;
   font-size: 12px;
-  background: url(../img/bg_login.jpg) no-repeat center center;
+  background: url(../img/Tour/mushkpuri.png) no-repeat center center;
   background-size: cover;
 }
 
@@ -4843,7 +4843,7 @@ ul.plan-features {
 /* Promo_full */
 .promo_full {
   height: auto;
-  background: url(../img/home_bg_2.jpg) no-repeat center center;
+  background: url(../img/Tour/khanspur.jpg) no-repeat center center;
   background-attachment: fixed;
   background-size: cover;
   -webkit-background-size: cover;
