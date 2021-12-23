@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="TravisTravels - Premium site template for city tours agencies, transfers and tickets."
+    />
+    <meta name="author" content="Ansonika" />
+    <title>Travis Travels</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      href="./img/apple-touch-icon-57x57-precomposed.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      sizes="72x72"
+      href="./img/apple-touch-icon-72x72-precomposed.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      sizes="114x114"
+      href="./img/apple-touch-icon-114x114-precomposed.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image/x-icon"
+      sizes="144x144"
+      href="./img/apple-touch-icon-144x144-precomposed.png"
+    />
+
+    <!-- COMMON CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/vendors.css" rel="stylesheet" />
+
+    <link href="./css/admin.css" rel="stylesheet" />
+
+    <!-- CUSTOM CSS -->
+    <link href="./css/custom.css" rel="stylesheet" />
+
+    <!-- REVOLUTION SLIDER CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./rev-slider-files/fonts/font-awesome/css/font-awesome.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./rev-slider-files/css/settings.css"
+    />
+
+    <!-- REVOLUTION LAYERS STYLES -->
+    <style>
+      .tp-caption.NotGeneric-Title,
+      .NotGeneric-Title {
+        color: rgba(255, 255, 255, 1);
+        font-size: 70px;
+        line-height: 70px;
+        font-weight: 800;
+        font-style: normal;
+        text-decoration: none;
+        background-color: transparent;
+        border-color: transparent;
+        border-style: none;
+        border-width: 0px;
+        border-radius: 0 0 0 0px;
+      }
+
+      .tp-caption.NotGeneric-SubTitle,
+      .NotGeneric-SubTitle {
+        color: rgba(255, 255, 255, 1);
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 500;
+        font-style: normal;
+        text-decoration: none;
+        background-color: transparent;
+        border-color: transparent;
+        border-style: none;
+        border-width: 0px;
+        border-radius: 0 0 0 0px;
+        letter-spacing: 4px;
+      }
+
+      .tp-caption.NotGeneric-Icon,
+      .NotGeneric-Icon {
+        color: rgba(255, 255, 255, 1);
+        font-size: 30px;
+        line-height: 30px;
+        font-weight: 400;
+        font-style: normal;
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0);
+        border-color: rgba(255, 255, 255, 0);
+        border-style: solid;
+        border-width: 0px;
+        border-radius: 0px 0px 0px 0px;
+        letter-spacing: 3px;
+      }
+
+      .tp-caption.NotGeneric-Button,
+      .NotGeneric-Button {
+        color: rgba(255, 255, 255, 1);
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 500;
+        font-style: normal;
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0);
+        border-color: rgba(255, 255, 255, 0.5);
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 0px 0px 0px 0px;
+        letter-spacing: 3px;
+      }
+
+      .tp-caption.NotGeneric-Button:hover,
+      .NotGeneric-Button:hover {
+        color: rgba(255, 255, 255, 1);
+        text-decoration: none;
+        background-color: transparent;
+        border-color: rgba(255, 255, 255, 1);
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 0px 0px 0px 0px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCArbwKi4RVL8mraPLfacaJMHfLWDRqjwk&libraries=places"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCArbwKi4RVL8mraPLfacaJMHfLWDRqjwk&libraries=places"></script> -->
+
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
+    <!-- Common scripts -->
+    <script src="./js/jquery-2.2.4.min.js"></script>
+    <script src="./js/common_scripts_min.js"></script>
+    <script src="./js/functions.js"></script>
+
+    <script src="./layerslider/js/greensock.js"></script>
+    <script src="./layerslider/js/layerslider.transitions.js"></script>
+    <script src="./layerslider/js/layerslider.kreaturamedia.jquery.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        "use strict";
+        $("#layerslider").layerSlider({
+          autoStart: true,
+          responsive: true,
+          responsiveUnder: 1280,
+          layersContainer: 1170,
+          skinsPath: "layerslider/skins/",
+          // Please make sure that you didn't forget to add a comma to the line endings
+          // except the last line!
+        });
+      });
+    </script>
+
+    <!-- Specific scripts -->
+    <script src="./js/tabs.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("input.date-pick").datepicker("setDate", "today");
+        $("input.time-pick").timepicker({
+          minuteStep: 15,
+          showInpunts: false,
+        });
+      });
+    </script>
+
+    <!--Review modal validation -->
+    <script src="assets/validate.js"></script>
+
+    <!-- NOTIFY BUBBLES  -->
+    <script src="./js/notify_func.js"></script>
+  </body>
+</html>
