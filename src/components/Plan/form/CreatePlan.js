@@ -15,9 +15,8 @@ const CreatePlan = ({ history }) => {
   const createPlanHandler = (e) => {
     e.preventDefault();
 
-    
-    dispatch(createPlan(name,description,price,rooms))
-};
+    dispatch(createPlan(name, description, price, rooms));
+  };
 
   return (
     <>
@@ -33,8 +32,8 @@ const CreatePlan = ({ history }) => {
             <div className="animated fadeInDown">
               <h1 style={{ textTransform: "uppercase" }}>Hello...!</h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
               </p>
             </div>
           </div>

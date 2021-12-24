@@ -12,11 +12,18 @@ const VerifyEmail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("handle submit");
-    dispatch(verifyEmail(email, code));
-    history.push("/login");
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      console.log("handle submit");
+      const data = await dispatch(verifyEmail(email, code));
+      console.log("Verify Email ", data);
+      if (data) {
+        history.push("/login");
+      }
+    } catch (error) {
+      console.log({ error });
+    }
   };
   return (
     <>

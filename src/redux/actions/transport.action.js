@@ -15,7 +15,8 @@ export const createTransport =
     pricePerKillomter,
     airConditioner,
     availability,
-    images
+    images,
+    auth
   ) =>
   async (dispatch) => {
     try {
@@ -30,9 +31,10 @@ export const createTransport =
         transportType,
         numberOfSeats: Number(numberOfSeats),
         pricePerKillomter: Number(pricePerKillomter),
-        AC: airConditioner,
+        AC: Boolean(airConditioner),
         Availability: availability,
         images,
+        auth,
       });
       console.log("I'm in create transport response", response.data.data);
       const result = response.data.data;
@@ -86,8 +88,8 @@ export const updateTransport =
           transportType,
           numberOfSeats: Number(numberOfSeats),
           pricePerKillomter: Number(pricePerKillomter),
-          AC: airConditioner,
-          Availability: availability,
+          AC: Boolean(airConditioner),
+          Availability: Boolean(availability),
           images,
           auth,
         }
@@ -161,14 +163,13 @@ export const deleteTransportByID = (id) => async (dispatch) => {
 
 export const findAllTransportsWithUserId = (userId) => async (dispatch) => {
   try {
+    console.log("I'm in find all transports with user id", userId);
     const { data } = await axios.get(
       URL + endpoints.GET_TRANSPORTS_WITH_USER_ID + userId
     );
-    console.log(data);
-    dispatch({
-      type: "GET_ALL_TRANSPORT_SUCCESS",
-      payload: data,
-    });
+    console.log("I am All Transport Data in action", data);
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.log({ error });
+  }
 };

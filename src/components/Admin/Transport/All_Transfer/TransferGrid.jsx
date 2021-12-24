@@ -16,7 +16,7 @@ const TransferGrid = ({
           <div
             className="col-md-6 wow zoomIn"
             data-wow-delay="0.1s"
-            key={transportGrid._id}
+            key={transportGrid?._id}
           >
             <div className="hotel_container">
               <div className="ribbon_3 popular">
@@ -35,21 +35,19 @@ const TransferGrid = ({
                     className="img-fluid"
                     alt="Image"
                   />
-                  <div className="score">
-                    <span>7.5</span>Good
-                  </div>
+
                   <div className="short_info hotel">
-                    price Per killometer
+                    price Per Day
                     <span className="price">
-                      <sup>$</sup>
-                      {transportGrid.pricePerKillomter}
+                      <sup>PKR</sup>
+                      {transportGrid?.pricePerKillomter}
                     </span>
                   </div>
                 </a>
               </div>
               <div className="hotel_title">
                 <h3>
-                  <strong>{transportGrid.name}</strong>
+                  <strong>{transportGrid?.name}</strong>
                 </h3>
                 <div className="rating">
                   <i className="icon-star voted" />
@@ -59,7 +57,6 @@ const TransferGrid = ({
                   <i className="icon-star-empty" />
                 </div>
                 {/* end rating */}
-
               </div>
               <div
                 style={{

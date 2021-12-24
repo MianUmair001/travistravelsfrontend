@@ -29,6 +29,8 @@ import { getAllBookings } from "../../../redux/actions/userDashboard.action";
 import { toast } from "react-toastify";
 import HotelGrid from "../../Hotel/All_Hotels/HotelGrid";
 import TransferGrid from "../Transport/All_Transfer/TransferGrid";
+import { deleteDish, getAllDishes } from "../../../redux/actions/dishes.action";
+import DishesGrid from "../Dishes/DishesGrid";
 
 // import "./Styles/admin.css";
 
@@ -51,7 +53,10 @@ const AdminDashBoard = () => {
   const [restaurants, setRestaurants] = useState([]);
   const staterestaurants = useSelector((state) => state.restaurants);
   const [bookings, setBookings] = useState([]);
-
+  const [showDishes, setShowDishes] = useState(false);
+  const [dishes, setDishes] = useState([]);
+  const statedishes = useSelector((state) => state.dishes);
+  console.log("I am Dishes from state", statedishes);
   useEffect(async () => {
     const data = await dispatch(getAllBookings());
     console.log("bookings", data);
@@ -75,7 +80,7 @@ const AdminDashBoard = () => {
     await dispatch(getAllRestaurants());
   };
   useEffect(async () => {
-    if (staterestaurants.restaurants.length === 0) {
+    if (staterestaurants?.restaurants?.length === 0) {
       const { data } = await dispatch(getAllRestaurants());
       console.log("I am data in File", data);
       setRestaurants(data);
@@ -85,7 +90,7 @@ const AdminDashBoard = () => {
   }, [staterestaurants.restaurants, restaurants]);
 
   useEffect(async () => {
-    if (statetours.tours.length === 0) {
+    if (statetours?.tours?.length === 0) {
       const { data } = await dispatch(getTours());
       console.log(data);
       setTours(data);
@@ -96,7 +101,7 @@ const AdminDashBoard = () => {
   }, [statetours.tours, tours]);
 
   useEffect(async () => {
-    if (statehotels.hotels.length === 0) {
+    if (statehotels?.hotels?.length === 0) {
       const { data } = await dispatch(getAllHotels());
       const hotelList = data;
       console.log("I am hotels Data Sai wala ", data);
@@ -105,6 +110,16 @@ const AdminDashBoard = () => {
       setHotels(statehotels.hotels);
     }
   }, [statehotels.hotels, hotels]);
+  useEffect(async () => {
+    if (statedishes?.dishes?.length === 0) {
+      const { data } = await dispatch(getAllDishes());
+      const dishesList = data;
+      console.log("I am Dishes Data Sai wala ", data);
+      setDishes(dishesList);
+    } else {
+      setDishes(statedishes.dishes);
+    }
+  }, []);
 
   const statetransports = useSelector((state) => state.transports);
   console.log(statetransports.transports, "ia ma");
@@ -146,6 +161,19 @@ const AdminDashBoard = () => {
   const handleDeleteTransport = async (e, props) => {
     e.preventDefault();
     await dispatch(deleteTransportByID(props._id));
+  };
+  const handleDeleteDishes = async (e, id) => {
+    e.preventDefault();
+    await dispatch(deleteDish(id));
+    await dispatch(getAllDishes());
+  };
+  const handleCreateDishes = async (e, props) => {
+    e.preventDefault();
+    history.push(`/create_dishes`);
+  };
+  const handleUpdateDishes = async (e, id) => {
+    e.preventDefault();
+    history.push(`/update_dishes/${id}`);
   };
 
   const handleDetailTransport = async (e, props) => {
@@ -232,7 +260,7 @@ const AdminDashBoard = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello {userEmail.split("@")[0]}!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}!</h1>
             <p>
               Welcome to Your Dashboard Here Your can manage
               Hotels,Bookings,Restaurants,Tours
@@ -270,6 +298,7 @@ const AdminDashBoard = () => {
                       setshowHotels(false);
                       setshowTransports(false);
                       setshowRestaurants(false);
+                      setShowDishes(false);
                     }}
                     className="icon-wishlist"
                   >
@@ -284,6 +313,7 @@ const AdminDashBoard = () => {
                       setshowHotels(true);
                       setshowTransports(false);
                       setshowRestaurants(false);
+                      setShowDishes(false);
                     }}
                     className="icon-settings"
                   >
@@ -298,6 +328,7 @@ const AdminDashBoard = () => {
                       setshowHotels(false);
                       setshowTransports(true);
                       setshowRestaurants(false);
+                      setShowDishes(false);
                     }}
                     className="icon-profile"
                   >
@@ -312,10 +343,26 @@ const AdminDashBoard = () => {
                       setshowHotels(false);
                       setshowTransports(false);
                       setshowRestaurants(true);
+                      setShowDishes(false);
                     }}
-                    className="icon-profile"
+                    className="icon-restaurant"
                   >
                     <span>Restaurant</span>
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    onClick={() => {
+                      setshowBookings(false);
+                      setshowTours(false);
+                      setshowHotels(false);
+                      setshowTransports(false);
+                      setshowRestaurants(false);
+                      setShowDishes(true);
+                    }}
+                    className="icon-restaurant"
+                  >
+                    <span>Dishes</span>
                   </Button>
                 </li>
               </ul>
@@ -467,6 +514,8 @@ const AdminDashBoard = () => {
                         <TransferGrid
                           transportsListShow={transportsListShow}
                           handleDetailTransport={handleDetailTransport}
+                          handleDeleteTransport={handleDeleteTransport}
+                          handleUpdateTransport={handleUpdateTransport}
                           role={role}
                         />
                         <Button
@@ -508,6 +557,39 @@ const AdminDashBoard = () => {
                           }}
                         >
                           Create Restuarant
+                        </Button>
+                      </>
+                    )}
+                  </>
+                )}
+              </section>
+
+              <section id="section-6">
+                {showDishes && (
+                  <>
+                    <h1 style={{ textAlign: "center" }}> Dishes</h1>
+                    {dishes?.length === 0 ? (
+                      <h1>There are not any Dishes in Database</h1>
+                    ) : (
+                      <>
+                        <DishesGrid
+                          dishes={dishes}
+                          handleDeleteDishes={handleDeleteDishes}
+                          handleUpdateDishes={handleUpdateDishes}
+                          handleUpdateDishes={handleUpdateDishes}
+                          role={role}
+                        />
+                        <Button
+                          type="submit"
+                          className="btn_1 green"
+                          onClick={(e) => handleCreateDishes(e)}
+                          style={{
+                            marginLeft: "15px",
+                            backgroundColor: "green",
+                            color: "white",
+                          }}
+                        >
+                          Create Dish
                         </Button>
                       </>
                     )}

@@ -20,6 +20,7 @@ export const createProfile =
       phone,
       username,
       auth,
+      images,
     },
     token
   ) =>
@@ -28,7 +29,8 @@ export const createProfile =
       dispatch({
         type: CREATE_PROFILE_REQUEST,
       });
-      console.log("I am Auth in CreateProfile", auth, token);
+      // console.log("I am Auth in CreateProfile", auth, token, images);
+      console.log("I am Images in Action file ", images);
       const {
         data: { data: data },
       } = await axios.post(
@@ -46,6 +48,7 @@ export const createProfile =
           phone,
           username,
           auth,
+          images,
         },
         {
           headers: {
@@ -72,6 +75,7 @@ export const createProfile =
           phone: phone,
           username: username,
           auth: auth,
+          images: images,
         },
       });
 

@@ -39,7 +39,15 @@ const CreateRooms = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(type, noOfBathroom, noOfBeds);
+    console.log(
+      hotelId.id,
+      noOfBathroom,
+      noOfBeds,
+      type,
+      planName,
+      images,
+      price
+    );
 
     const data = await dispatch(
       createRoom(
@@ -74,7 +82,7 @@ const CreateRooms = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello {userEmail.split("@")[0]}</h1>
+            <h1>Hello {userEmail?.split("@")[0]}</h1>
             <p>Here You can Create the rooms for your hotel.</p>
           </div>
         </div>

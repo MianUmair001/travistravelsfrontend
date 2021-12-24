@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../Styles/admin.css";
 import {
   createTour,
   getTour,
+  getTours,
   updateTour,
 } from "../../../redux/actions/tour.action";
 import { getPlaces } from "../../../redux/actions/places.action";
 import { MultiSelect } from "react-multi-select-component";
 import { useParams } from "react-router";
+import { uploadImage } from "../../../redux/actions/upload.action";
 
 const UpdateTour = ({ history }) => {
   const dispatch = useDispatch();
@@ -30,7 +32,9 @@ const UpdateTour = ({ history }) => {
   const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [status, setStatus] = useState("");
   const [tourType, setTourType] = useState("");
+  const [images, setImages] = useState();
   const optionsData = [];
+  const userEmail = useSelector((state) => state.auth.userEmail);
 
   useEffect(async () => {
     console.log("Id from the useparams", data.id);
@@ -46,6 +50,7 @@ const UpdateTour = ({ history }) => {
         endDate,
         status,
         places,
+        images,
       },
     } = await dispatch(getTour(data.id));
     console.log("I am in the updateTour's Use effect", places);
@@ -109,8 +114,10 @@ const UpdateTour = ({ history }) => {
         endDate,
         status,
         places,
+        images,
       })
     );
+    dispatch(getTours());
   };
 
   return (
@@ -124,17 +131,16 @@ const UpdateTour = ({ history }) => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}!</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>
@@ -282,6 +288,26 @@ const UpdateTour = ({ history }) => {
                       onChange={setSelectedOptions}
                       labelledBy="Select"
                     />
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Images</label>
+                      <input
+                        type="file"
+                        className="form-control-file"
+                        multiple
+                        onChange={async (e) => {
+                          let formData = new FormData();
+                          formData.append("file", e.target.files[0]);
+                          formData.append("isPlaceImage", true);
+                          const { data } = await dispatch(
+                            uploadImage(formData)
+                          );
+                          setImages(data);
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
                 {/* End row */}

@@ -8,6 +8,7 @@ import {
   updateTour,
 } from "../../../redux/actions/tour.action";
 import { getImage } from "../../../redux/actions/upload.action";
+import Feedback from "../../Others/Feedback";
 import BookingForm from "../../Restaurants/Booking/BookingForm";
 
 const Single_tour = ({ history }) => {
@@ -22,15 +23,17 @@ const Single_tour = ({ history }) => {
   console.log("I am Use params", tourId.id);
   const [childrenQuantity, setChildrenQuantity] = useState(0);
   const [url, setUrl] = useState("");
+  const userEmail = useSelector((state) => state.auth.userEmail);
+  const user = useSelector((state) => state.auth.user);
   useEffect(async () => {
     const { data } = await dispatch(getTour(tourId.id));
     console.log("I am the Data from getTour", data);
     setTour(data);
-    if (data.images.length != 0) {
+    if (data?.images?.length != 0) {
       const link = await dispatch(
         getImage(data?.images[0].name, data?.images[0].folderName)
       );
-      console.log(link);
+      console.log("ImageLink", link);
       setUrl(link);
     }
   }, []);
@@ -51,7 +54,7 @@ const Single_tour = ({ history }) => {
         time,
         price: (Number(adultsQuantity) + Number(childrenQuantity)) * tour.price,
         serviceName: tour.name,
-        serviceId: tour.id,
+        serviceId: tourId.id,
         bookedServiceType: "Tour",
         bookedServiceId: tour._id,
       },
@@ -79,8 +82,8 @@ const Single_tour = ({ history }) => {
           <div className="container">
             <div className="row">
               <div className="col-md-8">
-                <h1>{tour.name}</h1>
-                <span>{tour.description}</span>
+                <h1>{tour?.name}</h1>
+                <span>{tour?.description?.split(".")[0]}</span>
                 <span className="rating">
                   <i className="icon-smile voted" />
                   <i className="icon-smile voted" />
@@ -95,7 +98,7 @@ const Single_tour = ({ history }) => {
                   from/per person{" "}
                   <span>
                     <sup>PKR</sup>
-                    {tour.price}
+                    {tour?.price}
                   </span>
                 </div>
               </div>
@@ -192,7 +195,7 @@ const Single_tour = ({ history }) => {
                             alt="Image"
                           />
                           <div class="short_info">
-                            <span class="price">PKR :{placeOne?.price}</span>
+                            <span class="price">{placeOne?.price}</span>
                           </div>
                         </a>
                       </div>
@@ -205,263 +208,12 @@ const Single_tour = ({ history }) => {
                   </div>
                 ))}
               </div>
-              {/* <div className="row">
-                <div className="col-lg-3">
-                  <h3>Schedule</h3>
-                </div>
-                <div className="col-lg-9">
-                  <div className="table-responsive">
-                    <table className="table table-striped">
-                      <thead>
-                        <tr>
-                          <th colSpan={2}>1st March to 31st October</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Monday</td>
-                          <td>10.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Tuesday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Wednesday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Thursday</td>
-                          <td>
-                            <span className="label label-danger">Closed</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Friday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Saturday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Sunday</td>
-                          <td>10.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <strong>
-                              <em>Last Admission</em>
-                            </strong>
-                          </td>
-                          <td>
-                            <strong>17.00</strong>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="table-responsive">
-                    <table className="table table-striped">
-                      <thead>
-                        <tr>
-                          <th colSpan={2}>1st November to 28th February</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Monday</td>
-                          <td>10.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Tuesday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Wednesday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Thursday</td>
-                          <td>
-                            <span className="label label-danger">Closed</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Friday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Saturday</td>
-                          <td>09.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>Sunday</td>
-                          <td>10.00 - 17.30</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <strong>
-                              <em>Last Admission</em>
-                            </strong>
-                          </td>
-                          <td>
-                            <strong>17.00</strong>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div> */}
               <hr />
-              <div className="row">
-                <div className="col-lg-3">
-                  <h3>Reviews </h3>
-                  <a
-                    href="#"
-                    className="btn_1 add_bottom_30"
-                    data-toggle="modal"
-                    data-target="#myReview"
-                  >
-                    Leave a review
-                  </a>
-                </div>
-                <div className="col-lg-9">
-                  <div id="general_rating">
-                    11 Reviews
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End general_rating */}
-                  <div className="row" id="rating_summary">
-                    <div className="col-md-6">
-                      <ul>
-                        <li>
-                          Position
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </div>
-                        </li>
-                        <li>
-                          Tourist guide
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="col-md-6">
-                      <ul>
-                        <li>
-                          Price
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </div>
-                        </li>
-                        <li>
-                          Quality
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/* End row */}
-                  <hr />
-                  <div className="review_strip_single">
-                    <img
-                      src="img/avatar1.jpg"
-                      alt="Image"
-                      className="rounded-circle"
-                    />
-                    <small> - 10 March 2015 -</small>
-                    <h4>Jhon Doe</h4>
-                    <p>
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed a lorem quis neque interdum consequat ut sed sem. Duis
-                      quis tempor nunc. Interdum et malesuada fames ac ante
-                      ipsum primis in faucibus."
-                    </p>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End review strip */}
-                  <div className="review_strip_single">
-                    <img
-                      src="img/avatar3.jpg"
-                      alt="Image"
-                      className="rounded-circle"
-                    />
-                    <small> - 10 March 2015 -</small>
-                    <h4>Jhon Doe</h4>
-                    <p>
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed a lorem quis neque interdum consequat ut sed sem. Duis
-                      quis tempor nunc. Interdum et malesuada fames ac ante
-                      ipsum primis in faucibus."
-                    </p>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End review strip */}
-                  <div className="review_strip_single last">
-                    <img
-                      src="img/avatar2.jpg"
-                      alt="Image"
-                      className="rounded-circle"
-                    />
-                    <small> - 10 March 2015 -</small>
-                    <h4>Jhon Doe</h4>
-                    <p>
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed a lorem quis neque interdum consequat ut sed sem. Duis
-                      quis tempor nunc. Interdum et malesuada fames ac ante
-                      ipsum primis in faucibus."
-                    </p>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End review strip */}
-                </div>
-              </div>
+              <Feedback
+                serviceId={tourId.id}
+                user={user}
+                userName={userEmail?.split("@")[0]}
+              />
             </div>
             {/*End  single_tour_desc*/}
             <aside className="col-lg-4">

@@ -12,16 +12,17 @@ import { uploadImage } from "../../../../redux/actions/upload.action";
 
 const CreateTransport = ({ history }) => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth.role);
+  const auth = useSelector((state) => state.auth.user);
 
   const transportID = useSelector((state) => state.transport.transportID);
 
   const [name, setName] = useState("Toyota Corolla");
   const [modelName, setModelName] = useState("Corolla XSE");
   const [transportType, setTransportType] = useState("Car");
-  const [numberOfSeats, setNumberOfSeats] = useState(5);
+  const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [pricePerKillomter, setPricePerKillomter] = useState(2000);
   const [airConditioner, setAirConditioner] = useState(true);
+  const userEmail = useSelector((state) => state.auth.userEmail);
   const [availability, setAvailability] = useState(true);
   const [description, setDescription] = useState(
     "A Toyota Corolla car having capacity of 5 passengers"
@@ -38,7 +39,7 @@ const CreateTransport = ({ history }) => {
         modelName,
         description,
         transportType,
-        numberOfSeats,
+        numberOfPeople,
         pricePerKillomter,
         airConditioner,
         availability,
@@ -46,8 +47,8 @@ const CreateTransport = ({ history }) => {
         auth
       )
     );
-    await dispatch(getALlTransport());
     if (response !== undefined) {
+      await dispatch(getALlTransport());
       setShowSuccessMessage(true);
       const timer = setTimeout(() => {
         setShowSuccessMessage(false);
@@ -70,10 +71,12 @@ const CreateTransport = ({ history }) => {
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1 style={{ textTransform: "uppercase" }}>Hello Ibrar!</h1>
+              <h1 style={{ textTransform: "uppercase" }}>
+                Hello {userEmail?.split("@")[0]}!
+              </h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Here You can create Your Transports and to available to
+                customers
               </p>
             </div>
           </div>
@@ -163,21 +166,24 @@ const CreateTransport = ({ history }) => {
                           className="form-control"
                           name="numberOfSeats"
                           type="number"
-                          value={numberOfSeats}
-                          onChange={(e) => setNumberOfSeats(e.target.value)}
+                          value={numberOfPeople}
+                          onChange={(e) => setNumberOfPeople(e.target.value)}
                         />
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Air Conditioner</label>
-                        <input
+                        <select
                           className="form-control"
                           name="airConditioner"
                           type="boolean"
                           value={airConditioner}
                           onChange={(e) => setAirConditioner(e.target.value)}
-                        />
+                        >
+                          <option value={true}>True</option>
+                          <option value={false}>False</option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -186,13 +192,16 @@ const CreateTransport = ({ history }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Availability</label>
-                        <input
+                        <select
                           className="form-control"
                           name="availability"
                           type="boolean"
                           value={availability}
                           onChange={(e) => setAvailability(e.target.value)}
-                        />
+                        >
+                          <option value={true}>True</option>
+                          <option value={false}>False</option>
+                        </select>
                       </div>
                     </div>
                   </div>

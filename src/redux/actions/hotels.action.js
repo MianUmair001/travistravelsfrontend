@@ -89,8 +89,6 @@ export const findByUserId = (userId) => async (dispatch) => {
       URL + endpoints.GET_HOTEL_BY_USERID + userId
     );
 
-    console.log("I am Data in Action", data);
-    dispatch({ type: "GET_ALL_HOTELS_SUCCESS", payload: data });
     return data;
   } catch (error) {
     console.log({ error });
@@ -158,10 +156,7 @@ export const findAllHotelsWithUserId = (userId) => async (dispatch) => {
       URL + endpoints.GET_HOTELS_WITH_USER_ID + userId
     );
     console.log(data);
-    dispatch({
-      type: "GET_ALL_HOTELS_SUCCESS",
-      payload: data,
-    });
+
     return data;
   } catch (error) {}
 };

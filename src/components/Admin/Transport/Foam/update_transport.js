@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { Commute } from "@material-ui/icons";
 
-import { updateTransport } from "../../../../redux/actions/transport.action";
+import {
+  getALlTransport,
+  updateTransport,
+} from "../../../../redux/actions/transport.action";
 import { uploadImage } from "../../../../redux/actions/upload.action";
 
 const UpdateTransport = ({ history }) => {
@@ -53,6 +56,7 @@ const UpdateTransport = ({ history }) => {
       )
     );
     if (response !== undefined) {
+      await dispatch(getALlTransport());
       setShowSuccessMessage(true);
       const timer = setTimeout(() => {
         setShowSuccessMessage(false);
@@ -77,8 +81,8 @@ const UpdateTransport = ({ history }) => {
             <div className="animated fadeInDown">
               <h1 style={{ textTransform: "uppercase" }}>Hello Ibrar!</h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
               </p>
             </div>
           </div>
@@ -148,7 +152,7 @@ const UpdateTransport = ({ history }) => {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Price Per Killomter</label>
+                        <label>Price Per Day</label>
                         <input
                           className="form-control"
                           name="pricePerKillomter"
@@ -176,13 +180,16 @@ const UpdateTransport = ({ history }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Air Conditioner</label>
-                        <input
+                        <select
                           className="form-control"
                           name="airConditioner"
                           type="boolean"
-                          value={airConditioner_}
+                          value={airConditioner}
                           onChange={(e) => setAirConditioner(e.target.value)}
-                        />
+                        >
+                          <option value={true}>True</option>
+                          <option value={false}>False</option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -191,13 +198,16 @@ const UpdateTransport = ({ history }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Availability</label>
-                        <input
+                        <select
                           className="form-control"
                           name="availability"
                           type="boolean"
-                          value={availability_}
+                          value={availability}
                           onChange={(e) => setAvailability(e.target.value)}
-                        />
+                        >
+                          <option value={true}>True</option>
+                          <option value={false}>False</option>
+                        </select>
                       </div>
                     </div>
                   </div>

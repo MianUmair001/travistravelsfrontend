@@ -1,4 +1,5 @@
 import axios from "axios";
+import { endpoints, URL } from "../../endpoints";
 export const getUserData = (user, bookedServiceType) => async (dispatch) => {
   try {
     if (bookedServiceType === "Tour") {
@@ -20,10 +21,7 @@ export const getUserData = (user, bookedServiceType) => async (dispatch) => {
       const { data } = await axios.get(
         `http://localhost:3000/api/booking/booking/${user}/${bookedServiceType}`
       );
-      dispatch({
-        type: "GET_ALL_HOTELS_SUCCESS",
-        payload: data,
-      });
+
       return data.data;
     } else if (bookedServiceType === "Transport") {
       const { data } = await axios.get(
@@ -52,6 +50,24 @@ export const getAllBookings = () => async (dispatch) => {
     const { data } = await axios.get(`http://localhost:3000/api/booking`);
     console.log(data, "I am all bookings");
     return data.data;
+  } catch (error) {
+    console.log({ error });
+  }
+};
+
+export const findBookedServiceByAuth = (role, user) => async (dispatch) => {
+  try {
+    console.log("Data comming in action file", role, user);
+    console.log(
+      URL + endpoints.GET_BOOKED_SERVICES_BY_AUTH + `${role}/${user}`
+    );
+    const {
+      data: { data },
+    } = await axios.get(
+      URL + endpoints.GET_BOOKED_SERVICES_BY_AUTH + `${role}/${user}`
+    );
+    console.log(data, "I am data in action");
+    return data;
   } catch (error) {
     console.log({ error });
   }

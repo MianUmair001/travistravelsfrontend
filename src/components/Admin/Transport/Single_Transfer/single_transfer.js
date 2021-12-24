@@ -9,6 +9,7 @@ import {
   updateTransport,
 } from "../../../../redux/actions/transport.action";
 import { getImage } from "../../../../redux/actions/upload.action";
+import Feedback from "../../../Others/Feedback";
 import BookingForm from "../../../Restaurants/Booking/BookingForm";
 
 const Single_transfer = ({ history }) => {
@@ -25,6 +26,8 @@ const Single_transfer = ({ history }) => {
   const [availability, setavailability] = useState(0);
   const [images, setImages] = useState([]);
   const [url, setUrl] = useState();
+  const user = useSelector((state) => state.auth.user);
+  const userEmail = useSelector((state) => state.auth.userEmail);
 
   useEffect(async () => {
     const { data } = await dispatch(getTransportByid(id));
@@ -74,6 +77,7 @@ const Single_transfer = ({ history }) => {
     e.preventDefault();
 
     await dispatch(deleteTransportByID(id));
+    await dispatch(getALlTransport());
     history.push("/all_transfer_list");
   };
 
@@ -103,7 +107,7 @@ const Single_transfer = ({ history }) => {
                 </div>
                 <div className="col-md-4">
                   <div id="price_single_main">
-                    price per killometer
+                    price per Day
                     <span style={{ fontSize: "25px" }}>
                       PKR:
                       {pricePerKillomter}
@@ -182,183 +186,16 @@ const Single_transfer = ({ history }) => {
                   </div>
                   <div className="col-lg-9">
                     <p>{description}</p>
-                    <h4>What's include</h4>
-                    <p>
-                      Lorem ipsum dolor sit amet, at omnes deseruisse pri. Quo
-                      aeterno legimus insolens ad. Sit cu detraxit constituam,
-                      an mel iudico constituto efficiendi.
-                    </p>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <ul className="list_ok">
-                          <li>Lorem ipsum dolor sit amet</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                          <li>Ut est saepe munere ceteros</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul className="list_ok">
-                          <li>Lorem ipsum dolor sit amet</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                          <li>Quidam percipitur instructior an eum</li>
-                          <li>No scripta electram necessitatibus sit</li>
-                        </ul>
-                      </div>
-                    </div>
+
                     {/* End row  */}
                   </div>
                 </div>
                 <hr />
-                <div className="row">
-                  <div className="col-lg-3">
-                    <h3>Reviews </h3>
-                    <a
-                      href="#"
-                      className="btn_1 add_bottom_30"
-                      data-toggle="modal"
-                      data-target="#myReview"
-                    >
-                      Leave a review
-                    </a>
-                  </div>
-                  <div className="col-lg-9">
-                    <div id="general_rating">
-                      11 Reviews
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End general_rating */}
-                    <div className="row" id="rating_summary">
-                      <div className="col-md-6">
-                        <ul>
-                          <li>
-                            Comfort
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </div>
-                          </li>
-                          <li>
-                            Punctuality
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul>
-                          <li>
-                            Price
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </div>
-                          </li>
-                          <li>
-                            Kindness
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    {/* End row */}
-                    <hr />
-                    <div className="review_strip_single">
-                      <img
-                        src="img/avatar1.jpg"
-                        alt="Image"
-                        className="rounded-circle"
-                      />
-                      <small> - 10 March 2015 -</small>
-                      <h4>Jhon Doe</h4>
-                      <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Sed a lorem quis neque interdum consequat ut sed
-                        sem. Duis quis tempor nunc. Interdum et malesuada fames
-                        ac ante ipsum primis in faucibus."
-                      </p>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End review strip */}
-                    <div className="review_strip_single">
-                      <img
-                        src="img/avatar3.jpg"
-                        alt="Image"
-                        className="rounded-circle"
-                      />
-                      <small> - 10 March 2015 -</small>
-                      <h4>Jhon Doe</h4>
-                      <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Sed a lorem quis neque interdum consequat ut sed
-                        sem. Duis quis tempor nunc. Interdum et malesuada fames
-                        ac ante ipsum primis in faucibus."
-                      </p>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End review strip */}
-                    <div className="review_strip_single last">
-                      <img
-                        src="img/avatar2.jpg"
-                        alt="Image"
-                        className="rounded-circle"
-                      />
-                      <small> - 10 March 2015 -</small>
-                      <h4>Jhon Doe</h4>
-                      <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Sed a lorem quis neque interdum consequat ut sed
-                        sem. Duis quis tempor nunc. Interdum et malesuada fames
-                        ac ante ipsum primis in faucibus."
-                      </p>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End review strip */}
-                  </div>
-                </div>
+                <Feedback
+                  serviceId={id}
+                  user={user}
+                  userName={userEmail?.split("@")[0]}
+                />
               </div>
               {/*End  single_tour_desc*/}
               <aside className="col-lg-4">
@@ -408,7 +245,6 @@ const Single_transfer = ({ history }) => {
                   bookedServiceId={id}
                   bookedServiceType={"Transport"}
                   price={pricePerKillomter}
-                  
                 />
                 {/*/box_style_1 */}
                 <div className="box_style_4">

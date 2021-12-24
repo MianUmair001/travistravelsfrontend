@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../Styles/admin.css";
 import { createTour } from "../../../redux/actions/tour.action";
 import { getPlaces } from "../../../redux/actions/places.action";
@@ -10,7 +10,7 @@ import {
   getAllDishes,
 } from "../../../redux/actions/dishes.action";
 
-const CreateDishes = () => {
+const CreateDishes = ({ inRestaurant }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("Qorma");
   const [description, setDescription] = useState(
@@ -18,15 +18,37 @@ const CreateDishes = () => {
   );
   const [price, setPrice] = useState("1000");
   const [images, setImages] = useState([]);
+  const userEmail = useSelector((state) => state.auth.userEmail);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await dispatch(createDishes(name, description, Number(price), images));
     await dispatch(getAllDishes());
+    window.location.reload(true);
   };
 
   return (
     <>
+      {!inRestaurant && (
+        <section
+          className="parallax-window"
+          data-parallax="scroll"
+          data-image-src="img/admin_top.jpg"
+          data-natural-width={1400}
+          data-natural-height={470}
+        >
+          <div className="parallax-content-1">
+            <div className="animated fadeInDown">
+              <h1>Hello {userEmail?.split("@")[0]}</h1>
+              <p>
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
       <main>
         {/* End Position */}
         <div className="margin_60 container">

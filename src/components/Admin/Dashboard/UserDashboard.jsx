@@ -70,6 +70,7 @@ const UserDashboard = () => {
       console.log("I am BookingDelte data", data);
       toast.success("Booking Deleted Successfully");
       history.push("/user_dashboard");
+      window.location.reload();
     } catch (error) {
       console.log({ error });
       toast.error(error.response.data.message);
@@ -110,7 +111,7 @@ const UserDashboard = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello {userEmail.split("@")[0]}</h1>
+            <h1>Hello {userEmail?.split("@")[0]}</h1>
             <p>
               Welcome to your dashboard. Here you can manage your bookings etc
             </p>
@@ -234,28 +235,30 @@ const UserDashboard = () => {
                             </div>
                             <div className="col-lg-6 col-md-5">
                               <h3 className="hotel_booking">
-                                {booking.title}
+                                {booking?.title}
                                 <span>
-                                  {booking.noOfAdults} Adults /{" "}
-                                  {booking.noOfChildren} Children
+                                  {booking?.noOfAdults} Adults /{" "}
+                                  {booking?.noOfChildren} Children
                                 </span>
                               </h3>
                             </div>
                             <div className="col-lg-2 col-md-3">
                               <ul className="info_booking">
                                 <li>
-                                  <strong>Booking id</strong> {booking._id}
+                                  <strong>Booking id</strong> {booking?._id}
                                 </li>
                                 <li>
                                   <strong>Booked on</strong>
-                                  {booking.createdAt.split("T")[0]}
+                                  {booking?.createdAt?.split("T")[0]}
                                 </li>
                               </ul>
                             </div>
                             <div className="col-lg-2 col-md-2">
                               <div className="booking_buttons">
                                 <a
-                                  onClick={(e) => deleteBooking(e, booking._id)}
+                                  onClick={(e) =>
+                                    deleteBooking(e, booking?._id)
+                                  }
                                   className="btn_3"
                                 >
                                   Cancel

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getAllDishes } from "../../../redux/actions/dishes.action";
 import {
@@ -40,6 +40,7 @@ const UpdateRestaurant = () => {
   const [imagedata, setImagedata] = useState("");
   const optionsData = [];
   const [price, setPrice] = useState("");
+  const userEmail = useSelector((state) => state.auth.userEmail);
 
   const setScheduleArray = (e) => {
     e.preventDefault();
@@ -141,17 +142,17 @@ const UpdateRestaurant = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}!</h1>
+
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>

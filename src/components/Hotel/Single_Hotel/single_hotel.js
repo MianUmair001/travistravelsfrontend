@@ -9,21 +9,38 @@ import {
 import { Link } from "react-router-dom";
 import { getRooms } from "../../../redux/actions/rooms.action";
 import BookingForm from "../../Restaurants/Booking/BookingForm";
+import Feedback from "../../Others/Feedback";
+import { getImage } from "../../../redux/actions/upload.action";
 
 const Single_hotel = ({ history }) => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setselectedRoom] = useState();
-
+  const user = useSelector((state) => state.auth.user);
+  const [url, setUrl] = useState("");
+  const userEmail = useSelector((state) => state.auth.userEmail);
   const { hotelID, hotelName, price, description, images } = useSelector(
     (state) => state.hotel
   );
+  console.log("I am Images", images);
+  useEffect(async () => {
+    if (images?.length != 0) {
+      console.log("I am Images", images);
+      const link = await dispatch(
+        getImage(images[0]?.name, images[0]?.folderName)
+      );
+      console.log("ImageLink", link);
+      setUrl(link);
+    }
+  }, []);
+
   useEffect(async () => {
     console.log(hotelID);
     const { data } = await dispatch(getRooms(hotelID));
     console.log("I am Room Data", data);
     setRooms(data);
   }, []);
+
   const id = hotelID;
   const name = hotelName;
 
@@ -46,7 +63,9 @@ const Single_hotel = ({ history }) => {
         <section
           className="parallax-window"
           data-parallax="scroll"
-          data-image-src="img/Hotels/hotel-header.png"
+          data-image-src={url}
+          style={{ backgroundImage: `url(${url})` }}
+          // data-image-src="img/Hotels/hotel-header.png"
           data-natural-width={1400}
           data-natural-height={470}
         >
@@ -62,7 +81,7 @@ const Single_hotel = ({ history }) => {
                     <i className=" icon-star-empty" />
                   </span>
                   <h1>{hotelName}</h1>
-                  <span>{description}</span>
+                  <span>{description?.split(".")[0]}</span>
                 </div>
               </div>
             </div>
@@ -197,146 +216,11 @@ const Single_hotel = ({ history }) => {
                 </div>
                 {/* End row  */}
                 <hr />
-                <div className="row">
-                  <div className="col-lg-3">
-                    <h3>Reviews</h3>
-                    <a
-                      href="#"
-                      className="btn_1 add_bottom_30"
-                      data-toggle="modal"
-                      data-target="#myReview"
-                    >
-                      Leave a review
-                    </a>
-                  </div>
-                  <div className="col-lg-9">
-                    <div id="score_detail">
-                      <span>7.5</span>Good <small>(Based on 34 reviews)</small>
-                    </div>
-                    {/* End general_rating */}
-                    <div className="row" id="rating_summary">
-                      <div className="col-md-6">
-                        <ul>
-                          <li>
-                            Position
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </div>
-                          </li>
-                          <li>
-                            Comfort
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6">
-                        <ul>
-                          <li>
-                            Price
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile" />
-                              <i className="icon-smile" />
-                            </div>
-                          </li>
-                          <li>
-                            Quality
-                            <div className="rating">
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                              <i className="icon-smile voted" />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    {/* End row */}
-                    <hr />
-                    <div className="review_strip_single">
-                      <img
-                        src="img/avatar1.jpg"
-                        alt="Image"
-                        className="rounded-circle"
-                      />
-                      <small> - 10 March 2015 -</small>
-                      <h4>Jhon Doe</h4>
-                      <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Sed a lorem quis neque interdum consequat ut sed
-                        sem. Duis quis tempor nunc. Interdum et malesuada fames
-                        ac ante ipsum primis in faucibus."
-                      </p>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End review strip */}
-                    <div className="review_strip_single">
-                      <img
-                        src="img/avatar2.jpg"
-                        alt="Image"
-                        className="rounded-circle"
-                      />
-                      <small> - 10 March 2015 -</small>
-                      <h4>Jhon Doe</h4>
-                      <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Sed a lorem quis neque interdum consequat ut sed
-                        sem. Duis quis tempor nunc. Interdum et malesuada fames
-                        ac ante ipsum primis in faucibus."
-                      </p>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End review strip */}
-                    <div className="review_strip_single last">
-                      <img
-                        src="img/avatar3.jpg"
-                        alt="Image"
-                        className="rounded-circle"
-                      />
-                      <small> - 10 March 2015 -</small>
-                      <h4>Jhon Doe</h4>
-                      <p>
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Sed a lorem quis neque interdum consequat ut sed
-                        sem. Duis quis tempor nunc. Interdum et malesuada fames
-                        ac ante ipsum primis in faucibus."
-                      </p>
-                      <div className="rating">
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile voted" />
-                        <i className="icon-smile" />
-                        <i className="icon-smile" />
-                      </div>
-                    </div>
-                    {/* End review strip */}
-                  </div>
-                </div>
+                <Feedback
+                  serviceId={id}
+                  user={user}
+                  userName={userEmail?.split("@")[0]}
+                />
               </div>
               {/*End  single_tour_desc*/}
               <aside className="col-lg-4">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../Styles/admin.css";
 import { createTour } from "../../../redux/actions/tour.action";
 import { getPlaces } from "../../../redux/actions/places.action";
@@ -22,9 +22,10 @@ const UpdateDishes = () => {
   );
   const [price, setPrice] = useState("1000");
   const [images, setImages] = useState([]);
+  const userEmail = useSelector((state) => state.auth.userEmail);
 
   useEffect(() => {
-    const { name, description, price, images } = dispatch(getDishById());
+    const { name, description, price, images } = dispatch(getDishById(id));
     console.log(name, description, price, images);
     setName(name);
     setDescription(description);
@@ -48,17 +49,16 @@ const UpdateDishes = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>
@@ -68,7 +68,7 @@ const UpdateDishes = () => {
                 <div className="divider" />
                 <div className="row">
                   <div className="col-md-12">
-                    <h4>Update Restaurant</h4>
+                    <h4>Update Dishes</h4>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">

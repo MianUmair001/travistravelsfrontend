@@ -220,8 +220,7 @@ const Home_SingleImage = ({ history }) => {
               Some <span>good</span> reasons
             </h2>
             <p>
-              Quisque at tortor a libero posuere laoreet vitae sed arcu.
-              Curabitur consequat.
+              Pakistan's best places to visit, with some good reasons to visit
             </p>
           </div>
           <div className="row">

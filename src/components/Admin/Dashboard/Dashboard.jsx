@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  findBookedServiceByAuth,
   getBookings,
   getUserData,
 } from "../../../redux/actions/userDashboard.action";
 import { useHistory } from "react-router-dom";
 import {
+  deleteTransportByID,
   findAllTransportsWithUserId,
   getTransportByid,
+  updateTransport,
 } from "../../../redux/actions/transport.action";
 import axios from "axios";
 import TransferGrid from "../Transport/All_Transfer/TransferGrid";
@@ -27,11 +30,13 @@ const Dashboard = () => {
   const [transportsListShow, setTransportsListShow] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [statetransports, setStateTransports] = useState([]);
 
   console.log("transportsListShow", transportsListShow);
 
   useEffect(async () => {
-    const data = await dispatch(getBookings(userId));
+    const data = await dispatch(findBookedServiceByAuth(role, userId));
+    console.log("I am Bookings Data", { data });
     setBookings(data);
   }, []);
   const handleCreateRestuarant = (e) => {
@@ -39,12 +44,36 @@ const Dashboard = () => {
 
     history.push("/create_restaurant");
   };
+  const handleDeleteTransport = async (e, props) => {
+    e.preventDefault();
+    await dispatch(deleteTransportByID(props._id));
+  };
+
+  const handleUpdateTransport = async (e, props) => {
+    e.preventDefault();
+
+    await dispatch(
+      updateTransport(
+        props._id,
+        props.name,
+        props.modelName,
+        props.description,
+        props.transportType,
+        props.numberOfSeats,
+        props.pricePerKillomter,
+        props.AC,
+        props.Availability,
+        props.images
+      )
+    );
+    history.push(`/update_transport/${props._id}`);
+  };
 
   useEffect(async () => {
-    const data = await dispatch(findAllTransportsWithUserId(userId));
+    const { data } = await dispatch(findAllTransportsWithUserId(userId));
     console.log("data", data);
     setTransportsListShow(data);
-  }, []);
+  }, [statetransports.transports]);
   useEffect(async () => {
     const { data } = await dispatch(findAllRestaurantWithUserId(userId));
     setRestaurants(data);
@@ -244,6 +273,8 @@ const Dashboard = () => {
                         <TransferGrid
                           transportsListShow={transportsListShow}
                           handleDetailTransport={handleDetailTransport}
+                          handleDeleteTransport={handleDeleteTransport}
+                          handleUpdateTransport={handleUpdateTransport}
                           role={role}
                         />
                         <Button

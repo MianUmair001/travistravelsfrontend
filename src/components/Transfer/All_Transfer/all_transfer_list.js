@@ -14,10 +14,10 @@ const All_transfer_list = () => {
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1>Paris transfer</h1>
+              <h1>Pakistan transfer</h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
               </p>
             </div>
           </div>

@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const All_tours_list = () => {
-
   const addTourHandler = (e) => {
     e.preventDefault();
 
@@ -21,8 +20,8 @@ const All_tours_list = () => {
           <div className="animated fadeInDown">
             <h1>Paris tours</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
@@ -30,7 +29,6 @@ const All_tours_list = () => {
       {/* End section */}
 
       <main>
-        
         {/* Position */}
         <div className="collapse" id="collapseMap">
           <div id="map" className="map" />
@@ -53,19 +51,19 @@ const All_tours_list = () => {
                 </a>
               </p>
               <p>
-                  <Button
-                    className="btn_map"
-                    data-toggle="collapse"
-                    href="#collapseMap"
-                    aria-expanded="false"
-                    aria-controls="collapseMap"
-                    data-text-swap="Hide map"
-                    data-text-original="View on map"
-                    onClick={addTourHandler}
-                  >
-                    Add More Tours
-                  </Button>
-                </p>
+                <Button
+                  className="btn_map"
+                  data-toggle="collapse"
+                  href="#collapseMap"
+                  aria-expanded="false"
+                  aria-controls="collapseMap"
+                  data-text-swap="Hide map"
+                  data-text-original="View on map"
+                  onClick={addTourHandler}
+                >
+                  Add More Tours
+                </Button>
+              </p>
               <div className="box_style_cat">
                 <ul id="cat_nav">
                   <li>
@@ -238,7 +236,7 @@ const All_tours_list = () => {
                   Need <span>Help?</span>
                 </h4>
                 <a href="tel://004542344599" className="phone">
-                   03444850952
+                  03444850952
                 </a>
                 <small>Monday to Friday 9.00am - 7.30pm</small>
               </div>

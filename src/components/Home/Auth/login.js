@@ -56,17 +56,6 @@ const Login = ({ history }) => {
                   </div>
                   <hr />
                   <form>
-                    <a href="#0" className="social_bt facebook">
-                      Login with Facebook
-                    </a>
-                    <a href="#0" className="social_bt google">
-                      Login with Google
-                    </a>
-                    <div className="divider">
-                      <span>
-                        <b>Or</b>
-                      </span>
-                    </div>
                     {dataError ? (
                       <div
                         style={{

@@ -25,6 +25,7 @@ const initialState = {
     streetAddress: null,
     coordinates: null,
   },
+  images: null,
   error: false,
   loading: false,
 };
@@ -54,6 +55,7 @@ export const profileReducer = (prevState = initialState, action) => {
         username: payload.username,
         profileID: payload.profileID,
         auth: payload.auth,
+        images: payload.images,
         error: false,
         userEmail: payload.userEmail,
       };
@@ -61,6 +63,7 @@ export const profileReducer = (prevState = initialState, action) => {
     case CREATE_PROFILE_FAIL:
       return {
         auth: null,
+        images: [],
         userEmail: null,
         profileID: null,
         firstName: null,
@@ -98,6 +101,7 @@ export const profileReducer = (prevState = initialState, action) => {
         phone: payload.phone,
         username: payload.username,
         auth: payload.auth,
+        images: payload.images,
         error: false,
       };
 

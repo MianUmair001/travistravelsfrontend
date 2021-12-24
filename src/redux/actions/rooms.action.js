@@ -6,6 +6,7 @@ export const createRoom =
   (hotel, noOfBathroom, noOfBeds, type, planName, images, price) =>
   async (dispatch) => {
     try {
+      console.log(hotel);
       const { data } = await axios.post(
         URL + endpoints.CREATE_ROOM + hotel + "/rooms",
         {

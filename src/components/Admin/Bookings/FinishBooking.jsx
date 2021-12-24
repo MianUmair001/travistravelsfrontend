@@ -6,9 +6,9 @@ import { useHistory, useLocation } from "react-router";
 const FinishBooking = ({}) => {
   const location = useLocation();
   let userEmail = useSelector((state) => state.auth.userEmail);
-  userEmail = userEmail.split("@")[0];
+  userEmail = userEmail?.split("@")[0];
   const history = useHistory();
-  
+
   const params = location.state;
   return (
     <>
@@ -23,8 +23,8 @@ const FinishBooking = ({}) => {
           <div className="animated fadeInDown">
             <h1>Pakistan Hotels</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>

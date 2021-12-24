@@ -98,10 +98,7 @@ const All_hotels_list = ({
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
               <h1>Pakistan Hotels</h1>
-              <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
-              </p>
+              <p>Book Pakistan's Good and Great hotels</p>
             </div>
           </div>
         </section>
@@ -175,18 +172,11 @@ const All_hotels_list = ({
                         </select>
                       </div>
                     </div>
-                    <div className="col-md-3 col-sm-4 col-6">
-                      <div className="styled-select-filters">
-                        <select name="sort_rating" id="sort_rating">
-                          <option value selected>
-                            Sort by ranking
-                          </option>
-                          <option value="lower">Lowest ranking</option>
-                          <option value="higher">Highest ranking</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-md-6 col-sm-4 d-none d-sm-block text-right">
+
+                    <div
+                      className="col-md-6 col-sm-4 d-none d-sm-block text-right"
+                      style={{ marginLeft: "25%" }}
+                    >
                       <Link to="/all_hotels_grid" className="bt_filters">
                         <i className="icon-th" />
                       </Link>{" "}
@@ -231,20 +221,10 @@ const All_hotels_list = ({
                           </div>
                           <div className="col-lg-6 col-md-6">
                             <div className="tour_list_desc">
-                              <div className="score">
-                                Superb<span>9.0</span>
-                              </div>
-                              <div className="rating">
-                                <i className="icon-star voted" />
-                                <i className="icon-star  voted" />
-                                <i className="icon-star  voted" />
-                                <i className="icon-star  voted" />
-                                <i className="icon-star-empty" />
-                              </div>
                               <h3>
                                 <strong>{hotel.name}</strong>
                               </h3>
-                              <p>{hotel.description}</p>
+                              <p>{hotel.description.split(".")[0]}</p>
 
                               {role === "admin" && (
                                 <div

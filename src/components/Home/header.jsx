@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { LOG_OUT } from "../../redux/actionTypes";
 import { useHistory } from "react-router-dom";
 
@@ -8,7 +8,8 @@ const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const role = useSelector((state) => state.auth.role);
-
+  const param = useParams();
+  console.log("IamURL", window.location.href.includes("post"));
   const userId = useSelector((state) => state.auth.user);
   const profileState = useSelector((state) => state.profile);
 
@@ -60,12 +61,12 @@ const Header = () => {
       <div className="layer"></div>
 
       <header>
-        <div id="top_line">
+        <div id="top_line" className="" id="">
           <div className="container">
             <div className="row">
               <div className="col-6">
                 <i className="icon-phone"></i>
-                <strong>+923444850952</strong>
+                <strong>+923040660168</strong>
               </div>
               <div className="col-6">
                 <ul id="top_links">
@@ -74,6 +75,10 @@ const Header = () => {
                       <Link
                         to="/dashboard"
                         id="wishlist_link"
+                        style={{
+                          color:
+                            window.location.href.includes("post") && "black",
+                        }}
                         onClick={handleDashboard}
                       >
                         Dashboard
@@ -82,28 +87,58 @@ const Header = () => {
                   )}
                   {userId === null && (
                     <li>
-                      <Link to="/login" id="access_link">
+                      <Link
+                        to="/login"
+                        id="access_link"
+                        style={{
+                          color:
+                            window.location.href.includes("post") && "black",
+                        }}
+                      >
                         Log in
                       </Link>
                     </li>
                   )}
                   {userId === null && (
                     <li>
-                      <Link to="/register" id="access_link">
+                      <Link
+                        to="/register"
+                        id="access_link"
+                        style={{
+                          color:
+                            window.location.href.includes("post") && "black",
+                        }}
+                      >
                         Register
                       </Link>
                     </li>
                   )}
                   {userId !== null && (
                     <li>
-                      <Link to="" id="access_link" onClick={profileHandler}>
+                      <Link
+                        to=""
+                        id="access_link"
+                        onClick={profileHandler}
+                        style={{
+                          color:
+                            window.location.href.includes("post") && "black",
+                        }}
+                      >
                         Profile
                       </Link>
                     </li>
                   )}
                   {userId !== null && (
                     <li>
-                      <Link to="/" id="access_link" onClick={logoutHandler}>
+                      <Link
+                        to="/"
+                        id="access_link"
+                        onClick={logoutHandler}
+                        style={{
+                          color:
+                            window.location.href.includes("post") && "black",
+                        }}
+                      >
                         Logout
                       </Link>
                     </li>
@@ -133,7 +168,12 @@ const Header = () => {
                   {/* <a href="index.html" title="Travis Travels">
                   
                   </a> */}
-                  Travis Travels
+                  <Link
+                    to="/"
+                    style={{ color: "orange", textDecoration: "none" }}
+                  >
+                    Travis Travels
+                  </Link>
                 </h3>
               </div>
             </div>
@@ -157,67 +197,169 @@ const Header = () => {
                 <a href="#" className="open_close" id="close_in">
                   <i className="icon_set_1_icon-77"></i>
                 </a>
+
                 <ul>
                   <li className="submenu">
-                    <Link to="/" className="show-submenu">
+                    <Link
+                      to="/"
+                      className="show-submenu"
+                      style={{
+                        color: window.location.href.includes("post") && "black",
+                      }}
+                    >
                       <strong>Home</strong>
                     </Link>
                   </li>
                   <li className="submenu">
-                    <a href="" className="show-submenu">
+                    <Link
+                      to="/posts"
+                      className="show-submenu"
+                      style={{
+                        color: window.location.href.includes("post") && "black",
+                      }}
+                    >
+                      <strong>Posts</strong>
+                    </Link>
+                  </li>
+                  <li className="submenu">
+                    <a
+                      href=""
+                      className="show-submenu"
+                      style={{
+                        color: window.location.href.includes("post") && "black",
+                      }}
+                    >
                       <strong>Tours</strong>{" "}
                       <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
-                        <Link to="/all_tours_list">All tours list</Link>
+                        <Link
+                          to="/all_tours_list"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
+                          All tours list
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/all_tours_grid">All tours grid</Link>
+                        <Link
+                          to="/all_tours_grid"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
+                          All tours grid
+                        </Link>
                       </li>
                     </ul>
                   </li>
                   <li className="submenu">
-                    <a href="" className="show-submenu">
+                    <a
+                      href=""
+                      className="show-submenu"
+                      style={{
+                        color: window.location.href.includes("post") && "black",
+                      }}
+                    >
                       <strong>Hotels</strong>
                       <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
-                        <Link to="/all_hotels_list">All hotels list</Link>
+                        <Link
+                          to="/all_hotels_list"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
+                          All hotels list
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/all_hotels_grid">All hotels grid</Link>
+                        <Link
+                          to="/all_hotels_grid"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
+                          All hotels grid
+                        </Link>
                       </li>
                     </ul>
                   </li>
                   <li className="submenu">
-                    <a href="" className="show-submenu">
+                    <a
+                      href=""
+                      className="show-submenu"
+                      style={{
+                        color: window.location.href.includes("post") && "black",
+                      }}
+                    >
                       <strong>Transfers</strong>{" "}
                       <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
-                        <Link to="/all_transfer_list">All transfers list</Link>
+                        <Link
+                          to="/all_transfer_list"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
+                          All transfers list
+                        </Link>
                       </li>
                       <li>
-                        <Link to="/all_transfer_grid">All transfers grid</Link>
+                        <Link
+                          to="/all_transfer_grid"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
+                          All transfers grid
+                        </Link>
                       </li>
                     </ul>
                   </li>
                   <li className="submenu">
-                    <a href="" className="show-submenu">
+                    <a
+                      href=""
+                      className="show-submenu"
+                      style={{
+                        color: window.location.href.includes("post") && "black",
+                      }}
+                    >
                       <strong>Restaurants</strong>{" "}
                       <i className="icon-down-open-mini"></i>
                     </a>
                     <ul>
                       <li>
-                        <Link to="/all_restaurants_list">
+                        <Link
+                          to="/all_restaurants_list"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
                           All restaurants list
                         </Link>
                       </li>
                       <li>
-                        <Link to="/all_restaurants_grid">
+                        <Link
+                          to="/all_restaurants_grid"
+                          style={{
+                            color:
+                              window.location.href.includes("post") && "black",
+                          }}
+                        >
                           All restaurants grid
                         </Link>
                       </li>

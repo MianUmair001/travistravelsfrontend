@@ -42,7 +42,7 @@ const All_restaurants_list = ({
       );
       setRestaurants(stateCurrentRestaurants);
     }
-  }, [staterestaurants.restaurants, restaurants]);
+  }, [staterestaurants.restaurants]);
   const pageNumbers = [];
   for (
     let i = 1;
@@ -183,7 +183,7 @@ const All_restaurants_list = ({
                       </select>
                     </div>
                   </div>
-                  <div className="col-md-3 col-sm-4 col-6">
+                  {/* <div className="col-md-3 col-sm-4 col-6">
                     <div className="styled-select-filters">
                       <select name="sort_rating" id="sort_rating">
                         <option value selected>
@@ -193,14 +193,15 @@ const All_restaurants_list = ({
                         <option value="higher">Highest ranking</option>
                       </select>
                     </div>
-                  </div>
-                  <div className="col-md-6 col-sm-4 d-none d-sm-block text-right">
+                  </div> */}
+                  <div
+                    className="col-md-6 col-sm-4 d-none d-sm-block text-right"
+                    style={{ marginLeft: "25%" }}
+                  >
                     <Link to="/all_restaurants_grid" className="bt_filters">
                       <i className="icon-th" />
-                      <Link
-                        to="all_restaurants_list"
-                        className="bt_filters"
-                      ></Link>
+                    </Link>
+                    <Link to="all_restaurants_list" className="bt_filters">
                       <i className="icon-list" />
                     </Link>
                   </div>
@@ -218,19 +219,7 @@ const All_restaurants_list = ({
                       <div className="ribbon_3 popular">
                         <span>Popular</span>
                       </div>
-                      <div className="wishlist">
-                        <a
-                          className="tooltip_flip tooltip-effect-1"
-                          href="javascript:void(0);"
-                        >
-                          +
-                          <span className="tooltip-content-flip">
-                            <span className="tooltip-back">
-                              Add to wishlist
-                            </span>
-                          </span>
-                        </a>
-                      </div>
+
                       <div className="img_list">
                         <a href="single_restaurant.html">
                           <img
@@ -260,61 +249,12 @@ const All_restaurants_list = ({
                         <h3>
                           <strong> {restaurant.name} </strong> restaurant
                         </h3>
-                        <p>{restaurant.description}</p>
-                        <ul className="add_info">
-                          <li>
-                            <div className="tooltip_styled tooltip-effect-4">
-                              <span className="tooltip-item">
-                                <i className="icon_set_1_icon-13" />
-                              </span>
-                              <div className="tooltip-content">
-                                <h4>Disabled</h4> Usu in novum nostrud
-                                disputando, ei quo aperiri omittam vidit
-                                fastidii.
-                                <br />
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="tooltip_styled tooltip-effect-4">
-                              <span className="tooltip-item">
-                                <i className="icon_set_1_icon-47" />
-                              </span>
-                              <div className="tooltip-content">
-                                <h4>No smoking area</h4> Usu in novum nostrud
-                                disputando, ei quo aperiri omittam vidit
-                                fastidii.
-                                <br />
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="tooltip_styled tooltip-effect-4">
-                              <span className="tooltip-item">
-                                <i className="icon_set_1_icon-27" />
-                              </span>
-                              <div className="tooltip-content">
-                                <h4>Parking</h4> Usu in novum nostrud
-                                disputando, ei quo aperiri omittam vidit
-                                fastidii.
-                                <br />
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <div className="tooltip_styled tooltip-effect-4">
-                              <span className="tooltip-item">
-                                <i className="icon_set_1_icon-25" />
-                              </span>
-                              <div className="tooltip-content">
-                                <h4>Transport</h4> Usu in novum nostrud
-                                disputando, ei quo aperiri omittam vidit
-                                fastidii.
-                                <br />
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
+                        <p>
+                          {restaurant?.description.split(".")[0]
+                            ? restaurant?.description.split(".")[0]
+                            : restaurant?.description}
+                        </p>
+
                         <div
                           style={{
                             display: "flex",

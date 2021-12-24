@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPlans } from "../../../redux/actions/plan.action";
 import {
   createRoom,
@@ -24,6 +24,8 @@ const UpdateRooms = () => {
   const [plans, setPlans] = useState([]);
   const [type, setType] = useState("615c177e01eafd67e4a3580a");
   const [images, setImages] = useState([]);
+  const userEmail = useSelector((state) => state.auth.userEmail);
+
   useEffect(async () => {
     const {
       data: { noOfBathroom, noOfBeds, planName, type, images },
@@ -77,17 +79,16 @@ const UpdateRooms = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}!</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>

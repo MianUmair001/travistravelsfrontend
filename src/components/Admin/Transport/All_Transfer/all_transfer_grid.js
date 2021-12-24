@@ -56,6 +56,7 @@ const All_transfer_grid = ({
     e.preventDefault();
 
     await dispatch(deleteTransportByID(props._id));
+    await dispatch(getALlTransport());
   };
 
   const handleDetailTransport = async (e, props) => {
@@ -110,11 +111,8 @@ const All_transfer_grid = ({
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1>Paris Hotels</h1>
-              <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
-              </p>
+              <h1>Pakistan Transports</h1>
+              <p>Get the best Cars and Vehicle for your Tours</p>
             </div>
           </div>
         </section>
@@ -211,6 +209,9 @@ const All_transfer_grid = ({
                   <div>
                     <TransferGrid
                       transportsListShow={transportsListShow}
+                      handleDetailTransport={handleDetailTransport}
+                      handleDeleteTransport={handleDeleteTransport}
+                      handleUpdateTransport={handleUpdateTransport}
                       role={role}
                     />
                   </div>

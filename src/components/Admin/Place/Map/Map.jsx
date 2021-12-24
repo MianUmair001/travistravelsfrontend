@@ -82,7 +82,7 @@ const Map = ({
         }}
         onChange={(e) => {
           setCoordinates({ lat: e.center.lat, lng: e.center.lng });
-          setBounds({ ne: e.marginBounds.ne, sw:e.marginBounds.sw });
+          setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
         onChildClick={(child) => {
           setChildClicked(child);
@@ -90,8 +90,8 @@ const Map = ({
       >
         <div
           className={classes.markerContainer}
-          lat={lanLongStartlocation.lat}
-          lng={lanLongStartlocation.lng}
+          lat={lanLongStartlocation?.lat}
+          lng={lanLongStartlocation?.lng}
         >
           <Paper elevation={3} className={classes.paper}>
             <Typography
@@ -107,8 +107,8 @@ const Map = ({
 
         <div
           className={classes.markerContainer}
-          lat={lanLongEndlocation.lat}
-          lng={lanLongEndlocation.lng}
+          lat={lanLongEndlocation?.lat}
+          lng={lanLongEndlocation?.lng}
         >
           <Paper elevation={3} className={classes.paper}>
             <Typography

@@ -19,7 +19,7 @@ const TourGrid = ({
               isHome ? "col-lg-4 col-md-6 wow zoomIn" : "col-md-6 wow zoomIn"
             }
             data-wow-delay="0.3s"
-            key={tour._id}
+            key={tour?._id}
           >
             <div class="tour_container">
               <div class="ribbon_3 popular">
@@ -34,32 +34,24 @@ const TourGrid = ({
                         : "img/restaurant_box_1.jpg"
                     }
                     key={tour?.images[0]?._id}
-                    alt={tour.name}
+                    alt={tour?.name}
                     width="800"
                     height="533"
                     class="img-fluid"
                     alt="Image"
                   />
                   <div class="short_info">
-                    <i class="icon_set_1_icon-44"></i>Historic Buildings
                     <span class="price" style={{ fontSize: "20px" }}>
-                      PKR: {tour.price}
+                      PKR: {tour?.price}
                     </span>
                   </div>
                 </a>
               </div>
               <div class="tour_title">
                 <h3>
-                  <strong>{tour.name}</strong> tour
+                  <strong>{tour?.name}</strong> tour
                 </h3>
-                <div class="rating">
-                  <i class="icon-smile voted"></i>
-                  <i class="icon-smile voted"></i>
-                  <i class="icon-smile voted"></i>
-                  <i class="icon-smile voted"></i>
-                  <i class="icon-smile"></i>
-                  <small>(75)</small>
-                </div>
+                <div>{tour?.description.split(".")[0]}</div>
                 {/* end rating */}
 
                 <div
@@ -79,7 +71,7 @@ const TourGrid = ({
                           backgroundColor: "green",
                           color: "white",
                         }}
-                        onClick={(e) => handleUpdateTour(e, tour._id)}
+                        onClick={(e) => handleUpdateTour(e, tour?._id)}
                       >
                         Update
                       </Button>
@@ -90,7 +82,7 @@ const TourGrid = ({
                         style={{
                           color: "red",
                         }}
-                        onClick={(e) => handleDeleteTour(e, tour._id)}
+                        onClick={(e) => handleDeleteTour(e, tour?._id)}
                       >
                         Delete
                       </Button>
@@ -104,7 +96,7 @@ const TourGrid = ({
                       backgroundColor: "green",
                       color: "white",
                     }}
-                    onClick={(e) => handleDetailTour(e, tour._id)}
+                    onClick={(e) => handleDetailTour(e, tour?._id)}
                   >
                     Details
                   </Button>

@@ -12,12 +12,19 @@ import {
 const Profile = ({ history }) => {
   const dispatch = useDispatch();
 
-  const email = useSelector(state => state.auth.userEmail);
+  const email = useSelector((state) => state.auth.userEmail);
   const token = useSelector((state) => state.auth.accessToken);
 
-  const { address, firstName, lastName, DateOfBirth, phone, username, auth } =
-    useSelector((state) => state.profile);
-
+  const {
+    address,
+    firstName,
+    lastName,
+    DateOfBirth,
+    phone,
+    username,
+    auth,
+    images,
+  } = useSelector((state) => state.profile);
 
   const [firstNameUser, setFirstNameUser] = useState(firstName);
   const [lastNameUser, setLastNameUser] = useState(lastName);
@@ -28,6 +35,7 @@ const Profile = ({ history }) => {
   const [streetAddressUser, setStreetAddressUser] = useState(
     address.streetAddress
   );
+  const [image, setImage] = useState(images);
   const [coordinatesUser, setCoordinatesUser] = useState(address.coordinates);
   const [showUpdateProfile, setShowUpdateProfile] = useState(false);
 
@@ -37,23 +45,25 @@ const Profile = ({ history }) => {
     e.preventDefault();
 
     dispatch(
-      updateprofile({
-        address: {
-          addressNameUser,
-          countryUser,
-          streetAddressUser,
-          coordinatesUser,
+      updateprofile(
+        {
+          address: {
+            addressNameUser,
+            countryUser,
+            streetAddressUser,
+            coordinatesUser,
+          },
+          firstNameUser,
+          lastNameUser,
+          DateOfBirthUser,
+          phoneUser,
+          username,
+          auth,
         },
-        firstNameUser,
-        lastNameUser,
-        DateOfBirthUser,
-        phoneUser,
-        username,
-        auth,
-      }, 
-      token)
+        token
+      )
     );
-    setShowUpdateProfile(false)
+    setShowUpdateProfile(false);
   };
 
   const handleUpdateProfile = (e) => {
@@ -83,16 +93,11 @@ const Profile = ({ history }) => {
               <h1 style={{ textTransform: "uppercase" }}>
                 Hello {firstName} {lastName}!
               </h1>
-              <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
-              </p>
             </div>
           </div>
         </section>
         {/* End section */}
         <main>
-          
           {/* End Position */}
           <div className="margin_60 container">
             <div>
@@ -189,8 +194,9 @@ const Profile = ({ history }) => {
                     <div class="col-sm-4">
                       <div className="col-md-12">
                         <p>
+                          {console.log(image)}
                           <img
-                            src="img/tourist_guide_pic.jpg"
+                            src={`http://localhost:3000/api/upload/file/${image?.folderName}/fileName/${image?.name}`}
                             alt="Image"
                             className="img-fluid styled profile_pic"
                           />

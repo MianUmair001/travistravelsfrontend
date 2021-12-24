@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../Styles/admin.css";
 import { createPlaces, getPlaces } from "../../../redux/actions/places.action";
 import { uploadImage } from "../../../redux/actions/upload.action";
@@ -23,7 +23,7 @@ const CreatePlace = () => {
   const [type, setType] = useState("restaurants");
   const [rating, setRating] = useState("");
   const [filteredPlaces, setFilteredPlaces] = useState([]);
-
+  const userEmail = useSelector((state) => state.auth.userEmail);
   useEffect(async () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
@@ -40,7 +40,7 @@ const CreatePlace = () => {
   useEffect(() => {
     if (bounds.sw && bounds.ne) {
       setIsLoading(true);
-      getWeatherData(coordinates.lat, coordinates.lng).then((data) =>
+      getWeatherData(coordinates?.lat, coordinates?.lng).then((data) =>
         setWeatherData(data)
       );
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
@@ -68,17 +68,16 @@ const CreatePlace = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}!</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>

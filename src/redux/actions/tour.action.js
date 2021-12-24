@@ -20,7 +20,7 @@ export const createTour =
     status,
     places,
     images,
-    noOfPeople,
+    numberOfPeople,
     auth
   ) =>
   async (dispatch) => {
@@ -38,7 +38,7 @@ export const createTour =
         status,
         places,
         images,
-        noOfPeople,
+        numberOfPeople: Number(numberOfPeople),
         auth,
       });
       if (response.data.statusCode === 201) {
@@ -121,10 +121,13 @@ export const updateTour =
       startDate,
       endDate,
       status,
+      places,
+      images,
     }
   ) =>
   async (dispatch) => {
     try {
+      console.log("I am Images in Action file ", images);
       const { data } = await axios.put(URL + endpoints.UPDATE_TOUR + id, {
         name,
         description,
@@ -135,6 +138,8 @@ export const updateTour =
         startDate,
         endDate,
         status,
+        places,
+        images,
       });
       console.log("Update Tour", data);
       toast.success("Tour has been Updated");

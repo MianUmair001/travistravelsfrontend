@@ -32,7 +32,7 @@ const CreateProfile = ({ history }) => {
 
   const createProfileHandler = async (e) => {
     e.preventDefault();
-
+    console.log("I am Images", images);
     const data = await dispatch(
       createProfile(
         {
@@ -48,6 +48,7 @@ const CreateProfile = ({ history }) => {
           phone,
           username,
           auth,
+          images,
         },
         token
       )
@@ -140,6 +141,7 @@ const CreateProfile = ({ history }) => {
                         </Button>
                       </div>
                     </div>
+
                     <div class="col-sm-4">
                       <div className="col-md-12">
                         <p>

@@ -1,0 +1,71 @@
+body {
+  background-color: #eee;
+}
+.news-feed {
+  margin-top: 50px;
+}
+.create-post {
+  margin-top: 130px;
+}
+
+.time {
+  font-size: 9px !important;
+}
+
+.feed-image img {
+  width: 100%;
+  height: auto;
+}
+
+.MuiButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timeline-comment-box {
+  background: white;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 20px 25px;
+}
+
+.timeline-comment-box .user {
+  float: left;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+.timeline-comment-box .user img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.timeline-comment-box .inputFeild {
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.timeline-comment-box .user + .input {
+  margin-left: 44px;
+}
+
+.circleButton {
+  height: 60px;
+  line-height: 80px;  
+  width: 60px;  
+  font-size: 2em;
+  font-weight: bold;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+}
+.circleButton:hover {
+  background-color: unset !important;
+  color: unset !important;
+}
+
+.circleButton:in-range {
+  background-color: unset !important;
+  color: unset !important;
+}

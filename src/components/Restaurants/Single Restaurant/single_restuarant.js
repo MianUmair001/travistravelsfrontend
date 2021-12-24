@@ -4,11 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import {
+  createFeedback,
+  getFeedbacks,
+} from "../../../redux/actions/feedback.action";
+import {
   deleteRestaurant,
   getAllRestaurants,
   getRestaurantById,
 } from "../../../redux/actions/restaurant.action";
 import { getImage } from "../../../redux/actions/upload.action";
+import Feedback from "../../Others/Feedback";
 import BookingForm from "../Booking/BookingForm";
 
 const Single_restuarant = ({ history }) => {
@@ -29,42 +34,61 @@ const Single_restuarant = ({ history }) => {
   const [adultsQuantity, setAdultsQuantity] = useState(0);
   const dispatch = useDispatch();
   const [childrenQuantity, setChildrenQuantity] = useState(0);
-
+  const [feedbackText, setfeedbackText] = useState("");
+  const [isFeedback, setIsFeedback] = useState(false);
+  const [feedbackRating, setFeedbackRating] = useState();
+  const [feedbacks, setFeedbacks] = useState([]);
+  const user = useSelector((state) => state.auth.user);
   const restaurantId = useParams();
   console.log(restaurantId);
   const restaurants = useSelector((state) => state.restaurants);
+  const userEmail = useSelector((state) => state.auth.userEmail);
   useEffect(async () => {
-    const {
-      data: {
-        name,
-        description,
-        menu,
-        address,
-        noOfTables,
-        images,
-        schedule,
-        price,
-      },
-    } = await dispatch(getRestaurantById(restaurantId.id));
-    console.log(name, description, images[0].name);
-    setName(name);
-    setDescription(description);
-    setMenu(menu);
-    setAddressName(address.addressName);
-    setCountry(address.country);
-    setStreetAddress(address.streetAddress);
-    setNoOfTables(noOfTables);
-    setImages(images);
-    setSchedule(schedule);
-    setPrice(price);
-    if (images.length != 0) {
-      const link = await dispatch(
-        getImage(images[0]?.name, images[0]?.folderName)
-      );
-      console.log(link);
-      setUrl(link);
+    const { data } = await dispatch(getFeedbacks());
+    console.log(data, "I am Data of feedbacks in single restaurant");
+    setFeedbacks(data);
+  }, []);
+
+  useEffect(async () => {
+    const { data } = await dispatch(getRestaurantById(restaurantId.id));
+    console.log(data.name, data.description, data?.images[0]?.name);
+    setName(data?.name);
+    setDescription(data?.description);
+    setMenu(data?.menu);
+    setAddressName(data?.address?.addressName);
+    setCountry(data?.address?.country);
+    setStreetAddress(data?.address?.streetAddress);
+    setNoOfTables(data?.noOfTables);
+    setImages(data?.images);
+    setSchedule(data?.schedule);
+    setPrice(data?.price);
+    console.log("I am Images resturn ", data?.images);
+    try {
+      if (data?.images?.length != 0) {
+        const link = await dispatch(
+          getImage(data?.images[0]?.name, data?.images[0]?.folderName)
+        );
+        console.log("ImageLink", link);
+        setUrl(link);
+      }
+    } catch (error) {
+      console.log({ error }, "With Image");
     }
   }, []);
+
+  const handleSubmitFeedback = async (e) => {
+    const { data } = await dispatch(
+      createFeedback(
+        "rating",
+        feedbackRating,
+        feedbackText,
+        restaurantId.id,
+        user,
+        userEmail?.split("@")[0]
+      )
+    );
+    console.log(data);
+  };
 
   const handleBookClick = (e) => {
     e.preventDefault();
@@ -113,7 +137,11 @@ const Single_restuarant = ({ history }) => {
             <div class="row">
               <div class="col-md-8">
                 <h1>{name}</h1>
-                <span>{description?.split(".")[0] && description}</span>
+                <span>
+                  {description?.split(".")[0]
+                    ? description?.split(".")[0]
+                    : description}
+                </span>
               </div>
               <div class="col-md-4">
                 <div id="price_single_main">
@@ -130,19 +158,6 @@ const Single_restuarant = ({ history }) => {
       </section>
 
       <main>
-        <div id="position">
-          <div className="container">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-              </li>
-              <li>
-                <a href="#">Category</a>
-              </li>
-              <li>Page active</li>
-            </ul>
-          </div>
-        </div>
         {/* End Position */}
         <div className="collapse" id="collapseMap">
           <div id="map" className="map" />
@@ -195,7 +210,7 @@ const Single_restuarant = ({ history }) => {
                       <div
                         class="col-md-6 wow zoomIn"
                         data-wow-delay="0.3s"
-                        key={menuItem._id}
+                        key={menuItem?._id}
                       >
                         <div class="tour_container">
                           <div class="ribbon_3 popular">
@@ -226,7 +241,7 @@ const Single_restuarant = ({ history }) => {
                           </div>
                           <div class="tour_title">
                             <h3>
-                              <strong>{menuItem.name}</strong>
+                              <strong>{menuItem?.name}</strong>
                             </h3>
 
                             {/* end rating */}
@@ -268,153 +283,11 @@ const Single_restuarant = ({ history }) => {
                 </div>
               </div>
               <hr />
-              <div className="row">
-                <div className="col-lg-3">
-                  <h3>Reviews </h3>
-                  <a
-                    href="#"
-                    className="btn_1 add_bottom_30"
-                    data-toggle="modal"
-                    data-target="#myReview"
-                  >
-                    Leave a review
-                  </a>
-                </div>
-                <div className="col-lg-9">
-                  <div id="general_rating">
-                    11 Reviews
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End general_rating */}
-                  <div className="row" id="rating_summary">
-                    <div className="col-md-6">
-                      <ul>
-                        <li>
-                          Position
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </div>
-                        </li>
-                        <li>
-                          Service
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="col-md-6">
-                      <ul>
-                        <li>
-                          Price
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile" />
-                            <i className="icon-smile" />
-                          </div>
-                        </li>
-                        <li>
-                          Quality
-                          <div className="rating">
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                            <i className="icon-smile voted" />
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/* End row */}
-                  <hr />
-                  <div className="review_strip_single">
-                    <img
-                      src="img/avatar1.jpg"
-                      alt="Image"
-                      className="rounded-circle"
-                    />
-                    <small> - 10 March 2015 -</small>
-                    <h4>Jhon Doe</h4>
-                    <p>
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed a lorem quis neque interdum consequat ut sed sem. Duis
-                      quis tempor nunc. Interdum et malesuada fames ac ante
-                      ipsum primis in faucibus."
-                    </p>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End review strip */}
-                  <div className="review_strip_single">
-                    <img
-                      src="img/avatar3.jpg"
-                      alt="Image"
-                      className="rounded-circle"
-                    />
-                    <small> - 10 March 2015 -</small>
-                    <h4>Jhon Doe</h4>
-                    <p>
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed a lorem quis neque interdum consequat ut sed sem. Duis
-                      quis tempor nunc. Interdum et malesuada fames ac ante
-                      ipsum primis in faucibus."
-                    </p>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End review strip */}
-                  <div className="review_strip_single last">
-                    <img
-                      src="img/avatar2.jpg"
-                      alt="Image"
-                      className="rounded-circle"
-                    />
-                    <small> - 10 March 2015 -</small>
-                    <h4>Jhon Doe</h4>
-                    <p>
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Sed a lorem quis neque interdum consequat ut sed sem. Duis
-                      quis tempor nunc. Interdum et malesuada fames ac ante
-                      ipsum primis in faucibus."
-                    </p>
-                    <div className="rating">
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile voted" />
-                      <i className="icon-smile" />
-                      <i className="icon-smile" />
-                    </div>
-                  </div>
-                  {/* End review strip */}
-                </div>
-              </div>
+              <Feedback
+                serviceId={restaurantId.id}
+                user={user}
+                userName={userEmail?.split("@")[0]}
+              />
             </div>
             {/*End  single_tour_desc*/}
             <aside className="col-lg-4">
@@ -444,7 +317,6 @@ const Single_restuarant = ({ history }) => {
         <div id="overlay" />
         {/* Mask on input focus */}
       </main>
-      {/* End main */}
     </>
   );
 };

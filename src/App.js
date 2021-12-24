@@ -7,8 +7,9 @@ import {
   useHistory,
   HashRouter,
 } from "react-router-dom";
-
 import "react-toastify/dist/ReactToastify.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "tippy.js/dist/tippy.css";
 
 /* Home */
 import Footer from "./components/Home/footer";
@@ -25,33 +26,14 @@ import CreateTour from "./components/Admin/Tours/CreateTour";
 import UpdateTour from "./components/Admin/Tours/UpdateTour";
 import All_tours_grid from "./components/Tours/All Tours/all_tours_grid";
 import All_tours_list from "./components/Tours/All Tours/all_tours_list";
-import All_tours_map_listing from "./components/Tours/All Tours/all_tours_map_listing";
 import Single_tour from "./components/Tours/Single Tour/single_tour_page";
-import Single_tour_gallary from "./components/Tours/Single Tour/single_tour_gallary";
-import Single_tour_working_booking from "./components/Tours/Single Tour/single_tour_working_booking";
-import Single_tour_datepicker from "./components/Tours/Single Tour/single_tour_datepicker";
-import Single_tour_cart from "./components/Tours/Single Tour/single_tour_cart";
-import Single_tour_booking from "./components/Tours/Single Tour/single_tour_booking";
-import Single_tour_fixed_sidebar from "./components/Tours/Single Tour/sidebar/single_tour_fixed_sidebar";
-import Single_tour_fixed_sidebar_2 from "./components/Tours/Single Tour/sidebar/single_tour_fixed_sidebar_2";
-import Cart_fixed_sidebar from "./components/Tours/Single Tour/sidebar/cart_fixed_sidebar";
-import Payment_fixed_sidebar from "./components/Tours/Single Tour/sidebar/payment_fixed_sidebar";
-import Confirmation_fixed_sidebar from "./components/Tours/Single Tour/sidebar/confirmation_fixed_sidebar";
 
 /* Hotels */
 import CreateHotel from "./components/Hotel/Form/create_hotel";
 import UpdateHotel from "./components/Hotel/Form/update_hotel";
 import All_hotels_grid from "./components/Hotel/All_Hotels/all_hotels_grid";
 import All_hotels_list from "./components/Hotel/All_Hotels/all_hotels_list";
-import All_hotels_map_listing from "./components/Hotel/All_Hotels/all_hotels_map_listing";
-import Cart_hotel from "./components/Hotel/Hotel_Booking/cart_hotel";
-import Confirmation_hotel from "./components/Hotel/Hotel_Booking/confirmation_hotel";
-import Payment_hotel from "./components/Hotel/Hotel_Booking/payment_hotel";
 import Single_hotel from "./components/Hotel/Single_Hotel/single_hotel";
-import Single_hotel_contact from "./components/Hotel/Single_Hotel/single_hotel_contact";
-import Single_hotel_datepicker_adv from "./components/Hotel/Single_Hotel/single_hotel_datepicker_adv";
-import Single_hotel_datepicker_v2 from "./components/Hotel/Single_Hotel/single_hotel_datepicker_v2";
-import Single_hotel_working_booking from "./components/Hotel/Single_Hotel/single_hotel_working_booking";
 
 /* Transfer */
 import CreateTransport from "./components/Admin/Transport/Foam/create_transport";
@@ -59,21 +41,12 @@ import UpdateTransport from "./components/Admin/Transport/Foam/update_transport"
 import All_transfer_grid from "./components/Admin/Transport/All_Transfer/all_transfer_grid";
 import All_transfer_list from "./components/Admin/Transport/All_Transfer/all_transfer_list";
 import Single_transfer from "./components/Admin/Transport/Single_Transfer/single_transfer";
-import Single_transfer_datepicker_v2 from "./components/Admin/Transport/Single_Transfer/single_transfer_datepicker_v2";
-import Cart_transfer from "./components/Admin/Transport/Transfer_Booking/cart_transfer";
-import Confirmation_transfer from "./components/Admin/Transport/Transfer_Booking/confirmation_transfer";
-import Payment_transfer from "./components/Admin/Transport/Transfer_Booking/payment_transfer";
 
 /* Restaurants */
 import CreateRestaurant from "./components/Admin/Restaurant/CreateRestaurant";
 import UpdateRestaurant from "./components/Admin/Restaurant/UpdateRestaurant";
 import All_restaurants_grid from "./components/Restaurants/All Restaurants/all_restaurants_grid";
 import All_restaurants_list from "./components/Restaurants/All Restaurants/all_restaurants_list";
-import All_restaurants_map_listing from "./components/Restaurants/All Restaurants/all_restaurants_map_listing";
-import Single_restaurant from "./components/Restaurants/Single Restaurant/single_restuarant";
-import Single_restaurant_datepicker_v2 from "./components/Restaurants/Single Restaurant/single_restaurant_datepicker_v2";
-import Booking_restaurant from "./components/Restaurants/Booking/booking_restaurant";
-import Confirm_transfer from "./components/Restaurants/Booking/confirm_transfer";
 
 /* Plan */
 import CreatePlan from "./components/Plan/form/CreatePlan";
@@ -101,20 +74,21 @@ import UpdateRooms from "./components/Admin/Rooms/UpdateRooms";
 import CreateDishes from "./components/Admin/Dishes/CreateDishes";
 import UpdateDishes from "./components/Admin/Dishes/UpdateDishes";
 
-import Bookings from "./components/Admin/Bookings/bookings";
 /* 404 Page */
 import Page_404 from "./components/Others/404";
-import StripeContainer from "./components/Payment/StripeContainer";
 import CreateBooking from "./components/Admin/Bookings/CreateBooking";
 import Checkout from "./components/Payment/Checkout";
 import Single_restuarant from "./components/Restaurants/Single Restaurant/single_restuarant";
 import FinishBooking from "./components/Admin/Bookings/FinishBooking";
 import BookingForm from "./components/Restaurants/Booking/BookingForm";
 import UserDashboard from "./components/Admin/Dashboard/UserDashboard";
-import { useSelector } from "react-redux";
 import HotelManagerDashboard from "./components/Admin/Dashboard/HotelManagerDashboard";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
-
+import Posts from "./components/Post/posts";
+import Create_post from "./components/Post/create_post";
+import Timeline from "./components/Post/timeline";
+import Update_post from "./components/Post/update_post";
+import Postdetails from "./components/Post/postdetails";
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
@@ -172,58 +146,9 @@ function App() {
               />
             )}
           />
-          <Route
-            exact
-            path="/all_tours_map_listing"
-            component={All_tours_map_listing}
-          />
+
           <Route exact path="/single_tour/:id" component={Single_tour} />
-          <Route
-            exact
-            path="/single_tour_gallary"
-            component={Single_tour_gallary}
-          />
-          <Route
-            exact
-            path="/single_tour_working_booking"
-            component={Single_tour_working_booking}
-          />
-          <Route
-            exact
-            path="/single_tour_datepicker"
-            component={Single_tour_datepicker}
-          />
-          <Route exact path="/single_tour_cart" component={Single_tour_cart} />
-          <Route
-            exact
-            path="/single_tour_booking"
-            component={Single_tour_booking}
-          />
-          <Route
-            exact
-            path="/single_tour_fixed_sidebar"
-            component={Single_tour_fixed_sidebar}
-          />
-          <Route
-            exact
-            path="/single_tour_fixed_sidebar_2"
-            component={Single_tour_fixed_sidebar_2}
-          />
-          <Route
-            exact
-            path="/cart_fixed_sidebar"
-            component={Cart_fixed_sidebar}
-          />
-          <Route
-            exact
-            path="/payment_fixed_sidebar"
-            component={Payment_fixed_sidebar}
-          />
-          <Route
-            exact
-            path="/confirmation_fixed_sidebar"
-            component={Confirmation_fixed_sidebar}
-          />
+
           {/* Restaurants Routes */}
           <Route exact path="/create_restaurant" component={CreateRestaurant} />
           <Route
@@ -255,29 +180,16 @@ function App() {
               />
             )}
           />
-          <Route
-            exact
-            path="/all_restaurants_map_listing"
-            component={All_restaurants_map_listing}
-          />
+
           <Route
             exact
             path="/single_restaurant/:id"
             component={Single_restuarant}
           />
-          <Route
-            exact
-            path="/single_restaurant_datepicker_v2"
-            component={Single_restaurant_datepicker_v2}
-          />
+
           <Route exact path="/finishBooking" component={FinishBooking} />
           <Route exact path="/bookingForm" component={BookingForm} />
-          <Route
-            exact
-            path="/booking_restaurant"
-            component={Booking_restaurant}
-          />
-          <Route exact path="/confirm_transfer" component={Confirm_transfer} />
+
           {/* Hotel Routes */}
           <Route
             exact
@@ -303,39 +215,9 @@ function App() {
               />
             )}
           />
-          <Route
-            exact
-            path="/all_hotels_map_listing"
-            component={All_hotels_map_listing}
-          />
-          <Route exact path="/cart_hotel" component={Cart_hotel} />
-          <Route
-            exact
-            path="/confirmation_hotel"
-            component={Confirmation_hotel}
-          />
-          <Route exact path="/payment_hotel" component={Payment_hotel} />
+
           <Route exact path="/single_hotel/:id" component={Single_hotel} />
-          <Route
-            exact
-            path="/single_hotel_contact"
-            component={Single_hotel_contact}
-          />
-          <Route
-            exact
-            path="/single_hotel_datepicker_adv"
-            component={Single_hotel_datepicker_adv}
-          />
-          <Route
-            exact
-            path="/single_hotel_working_booking"
-            component={Single_hotel_working_booking}
-          />
-          <Route
-            exact
-            path="/single_hotel_datepicker_v2"
-            component={Single_hotel_datepicker_v2}
-          />
+
           {/* Transfer Routes */}
           <Route exact path="/create_transport" component={CreateTransport} />
           <Route
@@ -372,18 +254,7 @@ function App() {
             path="/single_transfer/:id"
             component={Single_transfer}
           />
-          <Route
-            exact
-            path="/single_transfer_datepicker"
-            component={Single_transfer_datepicker_v2}
-          />
-          <Route exact path="/cart_transfer" component={Cart_transfer} />
-          <Route
-            exact
-            path="/confirmation_transfer"
-            component={Confirmation_transfer}
-          />
-          <Route exact path="/payment_transfer" component={Payment_transfer} />
+
           {/* Plan Routes */}
           <Route exact path="/create_plan" component={CreatePlan} />
           <Route exact path="/get_all_plans" component={GetPlans} />
@@ -403,7 +274,6 @@ function App() {
 
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/create_profile" component={CreateProfile} />
-          <Route exact path="/bookings" component={Bookings} />
           <Route exact path="/create_bookings/:id" component={CreateBooking} />
           <Route exact path="/adminTours" component={Tours} />
           {/* Hotel Routes */}
@@ -417,8 +287,15 @@ function App() {
           <Route exact path="/update_room/:id" component={UpdateRooms} />
           {/* Dishes Routes */}
           <Route exact path="/create_dishes" component={CreateDishes} />
-          <Route exact path="/update_dishes" component={UpdateDishes} />
+          <Route exact path="/update_dishes/:id" component={UpdateDishes} />
           <Route exact path="/payment" component={Checkout} />
+
+          <Route exact path="/posts" component={Posts} />
+          <Route exact path="/create_post" component={Create_post} />
+          <Route exact path="/update_post/:id" component={Update_post} />
+          <Route exact path="/posts/:username" component={Timeline} />
+          <Route exact path="/post/:id" component={Postdetails} />
+
           {/* 404 Page */}
           <Route exact path="*" component={Page_404} />
         </Switch>

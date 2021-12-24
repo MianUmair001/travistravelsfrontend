@@ -7,12 +7,28 @@ import { MultiSelect } from "react-multi-select-component";
 import { uploadImage } from "../../../redux/actions/upload.action";
 import axios from "axios";
 import PlaceSuggestions from "../Place/PlaceSuggestions";
-import { Button, Grid, List } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { PlacesAutocomplete } from "./PlacesAutoComplete";
 import DatePicker from "react-date-picker";
 import { getPlacesData } from "../api";
 import ScrollView from "./ScrollView";
+import CountUp from "react-countup";
+import ListSubheader from "@mui/material/ListSubheader";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import HotelIcon from "@mui/icons-material/Hotel";
+import AttractionsIcon from "@mui/icons-material/Attractions";
+import PersonIcon from "@mui/icons-material/Person";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import RouteIcon from "@mui/icons-material/Route";
+import { ListItem } from "@mui/material";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+
 import directions from "google-maps-direction";
+import { padding } from "@mui/system";
 
 const CreateTour = () => {
   const dispatch = useDispatch();
@@ -53,13 +69,15 @@ const CreateTour = () => {
   const [gettingAttractions, setGettingAttractions] = useState(false);
   const [boundsArray, setBoundsArray] = useState([]);
   const [count, setCount] = useState(0);
-  const [noOfPeople, setNoOfPeople] = useState(0);
+  const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [DistanceKm, setDistanceKm] = useState(0);
   const [petrolPrice, setPetrolPrice] = useState(0);
   const [foodPrice, setFoodPrice] = useState(0);
   const [entertainmentPrice, setEntertainmentPrice] = useState(0);
   const [accommodationPrice, setAccommodationPrice] = useState(0);
   const [NoOfDays, setNoOfDays] = useState(0);
+  const [isPlaceSuggestion, setIsPlaceSuggestion] = useState(false);
+  const [countDownEnded, setcountDownEnded] = useState(false);
   // useEffect(() => {
   //   findlatlngLocations();
   // }, [startLocation, endLocation]);
@@ -281,7 +299,7 @@ const CreateTour = () => {
           "initialized",
           places,
           images,
-          noOfPeople,
+          numberOfPeople,
           auth
         )
       );
@@ -299,7 +317,7 @@ const CreateTour = () => {
           status,
           places,
           images,
-          noOfPeople,
+          numberOfPeople,
           auth
         )
       );
@@ -452,8 +470,8 @@ const CreateTour = () => {
                         name="people"
                         id="people"
                         type="text"
-                        value={noOfPeople}
-                        onChange={(e) => setNoOfPeople(e.target.value)}
+                        value={numberOfPeople}
+                        onChange={(e) => setNumberOfPeople(e.target.value)}
                       />
                     </div>
                   </div>
@@ -515,24 +533,101 @@ const CreateTour = () => {
                 {/* End row */}
 
                 <hr />
+                <div
+                  className="container"
+                  style={{ boxShadow: "5px 5px 5px 1px", padding: "20px" }}
+                >
+                  <div className="row">
+                    <div className="col-sm-6">
+                      <List
+                        sx={{
+                          width: "100%",
+                          maxWidth: 360,
+                          bgcolor: "background.paper",
+                        }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={
+                          <ListSubheader
+                            component="div"
+                            id="nested-list-subheader"
+                          >
+                            Price Calculation Phase
+                          </ListSubheader>
+                        }
+                      >
+                        <ListItem>
+                          <ListItemIcon>
+                            <RouteIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={`Total Distance In KM ${DistanceKm}`}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <LocalGasStationIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={`Average Petrol Price: 145 - Calculated Petrol Price ${petrolPrice}`}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <RestaurantIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={`Average Food Price: 2975 - Total Food Price ${foodPrice}`}
+                          />
+                        </ListItem>
+                      </List>
+                    </div>
+                    <div className="col-sm-6">
+                      <List
+                        sx={{
+                          width: "100%",
+                          maxWidth: 360,
+                          bgcolor: "background.paper",
+                        }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={
+                          <ListSubheader
+                            component="div"
+                            id="nested-list-subheader"
+                          >
+                            Price Calculation Phase
+                          </ListSubheader>
+                        }
+                      >
+                        <ListItem>
+                          <ListItemIcon>
+                            <HotelIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={`Average Accomodation Price:5309 - Total Food Price ${accommodationPrice}`}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <AttractionsIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={`Average Entertainment Price: 1242 - Total Entertainment Price ${entertainmentPrice}`}
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <PersonIcon />
+                          </ListItemIcon>
+                          <ListItemText primary={`Per Person Price ${price}`} />
+                        </ListItem>
+                      </List>
+                    </div>
+                  </div>
+                </div>
 
-                <ul className="list-inline">
-                  <li>Distance KiloMeters {DistanceKm}</li>
-                  <li>
-                    Petrol Price Average Petrol Price:145--- {petrolPrice}
-                  </li>
-                  <li>Food Price Average Food Price:2975---- {foodPrice}</li>
-                  <li>
-                    Accomodation Price Average Accomodation Price:5309----{" "}
-                    {accommodationPrice}
-                  </li>
-                  <li>
-                    Entertainment Price Average Entertainment Price:1242----{" "}
-                    {entertainmentPrice}
-                  </li>
-                  <li>Total Price Per Person {price}</li>
-                  <li>Total Price {price * noOfPeople}</li>
-                </ul>
+                <br />
 
                 <Button
                   className="btn_1 green"
@@ -549,20 +644,49 @@ const CreateTour = () => {
                 <hr />
                 {console.log(attractionsData)}
                 {gettingAttractions === true ? (
-                  <ScrollView
-                    handlePlaceCreateSubmit={handlePlaceCreateSubmit}
-                    attractionsData={attractionsData}
-                  />
+                  <>
+                    <CountUp
+                      start={0}
+                      end={10}
+                      duration={10}
+                      onEnd={() => {
+                        setcountDownEnded(true);
+                      }}
+                    >
+                      {({ countUpRef, start }) => (
+                        <div>
+                          <span ref={countUpRef} />
+                          <button onClick={start}>Start</button>
+                        </div>
+                      )}
+                    </CountUp>
+
+                    {setcountDownEnded && (
+                      <ScrollView
+                        handlePlaceCreateSubmit={handlePlaceCreateSubmit}
+                        attractionsData={attractionsData}
+                      />
+                    )}
+                  </>
                 ) : (
                   <h2> Attractions </h2>
                 )}
 
                 <hr />
-                <PlaceSuggestions
-                  lanLongStartlocation={lanLongStartlocation}
-                  lanLongEndlocation={lanLongEndlocation}
-                  handlePlaceCreateSubmit={handlePlaceCreateSubmit}
-                />
+
+                <Button
+                  className="btn_1 green"
+                  onClick={(e) => setIsPlaceSuggestion(!true)}
+                >
+                  Get Places Near You
+                </Button>
+                {isPlaceSuggestion && (
+                  <PlaceSuggestions
+                    lanLongStartlocation={lanLongStartlocation}
+                    lanLongEndlocation={lanLongEndlocation}
+                    handlePlaceCreateSubmit={handlePlaceCreateSubmit}
+                  />
+                )}
 
                 <br />
                 <br />

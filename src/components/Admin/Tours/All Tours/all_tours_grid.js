@@ -16,8 +16,8 @@ const All_tours_grid = () => {
           <div className="animated fadeInDown">
             <h1>Paris tours</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
@@ -25,8 +25,6 @@ const All_tours_grid = () => {
       {/* End section */}
 
       <main>
-       
-
         <div class="collapse" id="collapseMap">
           <div id="map" class="map"></div>
         </div>

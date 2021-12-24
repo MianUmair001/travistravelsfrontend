@@ -108,10 +108,7 @@ const All_tours_grid = ({
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
             <h1>Pakistan Tours</h1>
-            <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
-            </p>
+            <p>Get Pakistan's Best Tours to Fill your hunger of travel</p>
           </div>
         </div>
       </section>
@@ -152,7 +149,7 @@ const All_tours_grid = ({
                   <li>
                     <a href="#" id="active">
                       <i class="icon_set_1_icon-51"></i>All tours{" "}
-                      <span>({tours.length})</span>
+                      <span>({tours?.length})</span>
                     </a>
                   </li>
                 </ul>

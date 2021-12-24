@@ -26,7 +26,7 @@ const UpdateHotel = ({ history }) => {
     e.preventDefault();
 
     const response = await dispatch(
-      updateHotel(hotelID, hotelName_, description_, images_, auth, hotelPrice_)
+      updateHotel(hotelID, hotelName_, description_, images_, auth)
     );
     if (response === 200) {
       setShowSuccessMessage(true);
@@ -51,8 +51,8 @@ const UpdateHotel = ({ history }) => {
             <div className="animated fadeInDown">
               <h1 style={{ textTransform: "uppercase" }}>Hello Ibrar!</h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
               </p>
             </div>
           </div>
@@ -92,18 +92,6 @@ const UpdateHotel = ({ history }) => {
                           type="text"
                           value={hotelName_}
                           onChange={(e) => setHotelName_(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>Price</label>
-                        <input
-                          className="form-control"
-                          name="Price"
-                          type="text"
-                          value={hotelPrice_}
-                          onChange={(e) => setHotelPrice_(e.target.value)}
                         />
                       </div>
                     </div>

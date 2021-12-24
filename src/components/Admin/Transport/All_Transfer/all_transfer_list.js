@@ -62,6 +62,7 @@ const All_transfer_list = ({
     e.preventDefault();
 
     await dispatch(deleteTransportByID(props._id));
+    await dispatch(getALlTransport());
   };
 
   const handleDetailTransport = async (e, props) => {
@@ -109,11 +110,8 @@ const All_transfer_list = ({
         >
           <div className="parallax-content-1">
             <div className="animated fadeInDown">
-              <h1>Paris transfer</h1>
-              <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
-              </p>
+              <h1>Pakistan Transports</h1>
+              <p>Get the best Cars and Vehicle for your Tours</p>
             </div>
           </div>
         </section>
@@ -209,19 +207,17 @@ const All_transfer_list = ({
                         <div className="ribbon_3 popular">
                           <span>Popular</span>
                         </div>
-                        <div className="wishlist">
-                          <a className="tooltip_flip tooltip-effect-1">
-                            +
-                            <span className="tooltip-content-flip">
-                              <span className="tooltip-back">
-                                Add to wishlist
-                              </span>
-                            </span>
-                          </a>
-                        </div>
+
                         <div className="img_list">
                           <a href="single_transfer.html">
-                            <img src="img/transfer_2.jpg" alt="Image" />
+                            <img
+                              src={
+                                transportList?.images[0]?.name
+                                  ? `http://localhost:3000/api/upload/file/${transportList?.images[0]?.folderName}/fileName/${transportList?.images[0]?.name}`
+                                  : "img/tour_box_1.jpg"
+                              }
+                              alt="Image"
+                            />
                             <div className="short_info" />
                           </a>
                         </div>
@@ -237,63 +233,10 @@ const All_transfer_list = ({
                             <small>(75)</small>
                           </div>
                           <h3>
-                            <strong>{transportList.name}</strong> shared
+                            <strong>{transportList.name}</strong>
                           </h3>
-                          <p>{transportList.description}</p>
-                          <ul className="add_info">
-                            <li>
-                              <div className="tooltip_styled tooltip-effect-4">
-                                <span className="tooltip-item">
-                                  <i className="icon_set_1_icon-70" />
-                                </span>
-                                <div className="tooltip-content">
-                                  <h4>Passengers</h4> Up to 6 passengers.
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="tooltip_styled tooltip-effect-4">
-                                <span className="tooltip-item">
-                                  <i className="icon_set_1_icon-6" />
-                                </span>
-                                <div className="tooltip-content">
-                                  <h4>Pick up</h4> Hotel pick up or different
-                                  place with an extra cost.
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="tooltip_styled tooltip-effect-4">
-                                <span className="tooltip-item">
-                                  <i className="icon_set_1_icon-13" />
-                                </span>
-                                <div className="tooltip-content">
-                                  <h4>Accessibility</h4> On request
-                                  accessibility available.
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="tooltip_styled tooltip-effect-4">
-                                <span className="tooltip-item">
-                                  <i className="icon_set_1_icon-22" />
-                                </span>
-                                <div className="tooltip-content">
-                                  <h4>Pet allowed</h4> On request pet allowed.
-                                </div>
-                              </div>
-                            </li>
-                            <li>
-                              <div className="tooltip_styled tooltip-effect-4">
-                                <span className="tooltip-item">
-                                  <i className="icon_set_1_icon-33" />
-                                </span>
-                                <div className="tooltip-content">
-                                  <h4>Baggage</h4> Large baggage drop available.
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
+                          <p>{transportList.description.split(".")[0]}</p>
+
                           {role === "admin" && (
                             <div className="row">
                               <div class="col-sm-6">
@@ -335,7 +278,7 @@ const All_transfer_list = ({
                         <div className="price_list">
                           <div>
                             PKR {transportList.pricePerKillomter}
-                            <small>Price per killometer</small>
+                            <small>Price per Day</small>
                             <p>
                               <Button
                                 type="submit"

@@ -8,8 +8,8 @@ export const createPlan =
       const { data } = await axios.post(URL + endpoints.CREATE_PLAN, {
         name,
         description,
-        price,
-        rooms,
+        price: Number(price),
+        rooms: Number(rooms),
       });
       console.log(data);
       toast.success("Plan has been successfully created");

@@ -48,8 +48,8 @@ const GetPlans = ({ history }) => {
             <div className="animated fadeInDown">
               <h1>Paris Hotels</h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
               </p>
             </div>
           </div>

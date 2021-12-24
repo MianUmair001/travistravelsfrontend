@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../Styles/admin.css";
 import {
   createPlaces,
@@ -18,7 +18,7 @@ const UpdatePlace = () => {
   const [name, setName] = useState("Naran Kaghan");
   const [description, setDescription] = useState("A Beautiful Place to Visit");
   const [images, setImages] = useState();
-
+  const userEmail = useSelector((state) => state.auth.userEmail);
   useEffect(async () => {
     const { name, description, images } = await dispatch(
       getPlaceById("615327dabb131e276cdbb207")
@@ -48,17 +48,16 @@ const UpdatePlace = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello Clara!</h1>
+            <h1>Hello {userEmail?.split("@")[0]}!</h1>
             <p>
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+              Top Pakistan hotels,Tours,Restaurant,Transports with great offers
+              and cheap prices.
             </p>
           </div>
         </div>
       </section>
       {/* End section */}
       <main>
-       
         {/* End Position */}
         <div className="margin_60 container">
           <div>

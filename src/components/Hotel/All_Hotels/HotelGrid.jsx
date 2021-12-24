@@ -19,7 +19,7 @@ const HotelGrid = ({
               isHome ? "col-lg-4 col-md-6 wow zoomIn" : "col-md-6 wow zoomIn"
             }
             data-wow-delay="0.1s"
-            key={hotel._id}
+            key={hotel?._id}
           >
             <div className="hotel_container">
               <div className="ribbon_3 popular">
@@ -50,7 +50,7 @@ const HotelGrid = ({
               </div>
               <div className="hotel_title">
                 <h3>
-                  <strong>{hotel.name}</strong>
+                  <strong>{hotel?.name}</strong>
                 </h3>
                 <div className="rating">
                   <i className="icon-star voted" />
@@ -91,7 +91,7 @@ const HotelGrid = ({
                       style={{
                         color: "red",
                       }}
-                      onClick={(e) => handleDeleteHotel(e, hotel._id)}
+                      onClick={(e) => handleDeleteHotel(e, hotel?._id)}
                     >
                       Delete
                     </Button>
@@ -106,7 +106,7 @@ const HotelGrid = ({
                     color: "white",
                     margin: "0 10px 10px 0",
                   }}
-                  onClick={(e) => handleDetailHotel(e, hotel._id)}
+                  onClick={(e) => handleDetailHotel(e, hotel?._id)}
                 >
                   Details
                 </Button>

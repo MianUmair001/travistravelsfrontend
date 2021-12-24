@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import DatePicker from "react-date-picker";
 import { MultiSelect } from "react-multi-select-component";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDishes } from "../../../redux/actions/dishes.action";
@@ -33,7 +34,7 @@ const CreateRestaurant = () => {
   const [endTime, setEndTime] = useState("10:00 PM");
   const [completed, setCompleted] = useState(false);
   const [nameOfTheDay, setNameOfTheDay] = useState("Monday");
-  const [dateOfDay, setDateOfDay] = useState("7/10/2021");
+  const [dateOfDay, setDateOfDay] = useState();
   const [coordinates, setCoordinates] = useState("31.473186, 74.2650702");
   const [schedule, setSchedule] = useState([]);
   const [imagedata, setImagedata] = useState("");
@@ -46,23 +47,30 @@ const CreateRestaurant = () => {
 
   const setScheduleArray = (e) => {
     e.preventDefault();
+    console.log("I am Date of Day", dateOfDay);
+    const stringdateofday = dateOfDay.toString().split("00")[0];
+    console.log(stringdateofday, "I am string date");
+    const dayofdate = dateOfDay.toString().split(" ")[0];
+    console.log(dayofdate);
+    setNameOfTheDay(dayofdate);
     schedule.push({
       taskName,
+      completed: Boolean(completed),
       startTime,
       endTime,
-      completed,
       nameOfTheDay,
-      dateOfDay,
+      dateOfDay: stringdateofday,
     });
-    setTaskName("");
-    setStartTime("");
-    setEndTime("");
-    setCompleted(false);
-    setNameOfTheDay("");
+    setTaskName("Deal 01");
+    setStartTime("08:00 AM");
+    setEndTime("10:00 PM");
+    setCompleted(true);
+    setNameOfTheDay("Monday");
     setDateOfDay("");
     setCreateSchedule(false);
   };
   const dishesData = useSelector((state) => state.dishes);
+  console.log(dishesData, "I am Dishes data from state");
   useEffect(async () => {
     const imageData = await dispatch(getImage());
     setImagedata(imageData);
@@ -83,8 +91,9 @@ const CreateRestaurant = () => {
       });
       setOptions(optionsData);
     } else {
-      setDishes(dishesData.dishes);
-      dishesData.dishes?.map((dish) => {
+      setDishes(dishesData?.dishes);
+      console.log("I am Dieshes data else block", dishesData?.dishes);
+      dishesData?.dishes?.map((dish) => {
         optionsData.push({
           label: dish.name,
           value: dish.name,
@@ -95,6 +104,7 @@ const CreateRestaurant = () => {
           images: dish.images,
         });
       });
+      setOptions(optionsData);
     }
   }, [selectedOptions, dishesData.dishes]);
 
@@ -102,9 +112,12 @@ const CreateRestaurant = () => {
     e.preventDefault();
     console.log("I am Dishes Data", selectedOptions);
     setMenu(selectedOptions);
-    console.log(schedule);
+    console.log(schedule, "I am Schedule ");
     console.log(menu, "I am Menu");
     console.log("I am StreetAddress", streetAddress);
+    console.log(streetAddressCoords);
+    console.log(coordinates);
+
     await dispatch(
       createRestaurant(
         name,
@@ -113,7 +126,10 @@ const CreateRestaurant = () => {
           addressName,
           country,
           streetAddress,
-          coordinates,
+          coordinates: `
+           ${streetAddressCoords?.lat?.toString()},
+            ${streetAddressCoords?.lng?.toString()},
+          `,
         },
         noOfTables,
         selectedOptions,
@@ -137,7 +153,7 @@ const CreateRestaurant = () => {
       >
         <div className="parallax-content-1">
           <div className="animated fadeInDown">
-            <h1>Hello {userEmail.split("@")[0]}</h1>
+            <h1>Hello {userEmail?.split("@")[0]}</h1>
             <p>Here You can Create Your Restaurants</p>
           </div>
         </div>
@@ -185,7 +201,7 @@ const CreateRestaurant = () => {
 
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Address Name</label>
+                      <label>City Name</label>
                       <input
                         className="form-control"
                         name="noOfTables"
@@ -212,33 +228,24 @@ const CreateRestaurant = () => {
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Street Address</label>
-                      <input
+                      {/* <input
                         className="form-control"
                         name="noOfTables"
                         id="noOfTables"
                         type="text"
                         value={streetAddress}
                         onChange={(e) => setStreetAddress(e.target.value)}
+                      /> */}
+                      <PlacesAutocomplete
+                        placeholder={"Street Address?"}
+                        setLocation={setStreetAddress}
+                        LocationCoords={setStreetAddressCoords}
                       />
                       {/* <PlacesAutocomplete
                         startLocation={false}
                         setStreetAddress={setStreetAddress}
                         setStreetAddressCoords={setStreetAddressCoords}
                       /> */}
-                    </div>
-                  </div>
-
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>Coordinates</label>
-                      <input
-                        className="form-control"
-                        name="noOfTables"
-                        id="noOfTables"
-                        type="text"
-                        value={coordinates}
-                        onChange={(e) => setCoordinates(e.target.value)}
-                      />
                     </div>
                   </div>
 
@@ -281,17 +288,15 @@ const CreateRestaurant = () => {
                           formData.append("file", e.target.files[0]);
                           formData.append("isPlaceImage", true);
 
-                          const { data } = await dispatch(
-                            uploadImage(formData)
-                          );
-                          setImages(data);
+                          const data = await dispatch(uploadImage(formData));
+                          setImages(data?.data);
                         }}
                       />
                     </div>
                   </div>
 
                   <hr />
-                  <CreateDishes />
+                  <CreateDishes inRestaurant={true} />
                   <hr />
 
                   <div className="col-sm-6">
@@ -392,13 +397,19 @@ const CreateRestaurant = () => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Date of Day</label>
-                        <input
+                        {/* <input
                           className="form-control"
                           name="taskname"
                           id="taskname"
                           type="text"
                           value={dateOfDay}
                           onChange={(e) => setDateOfDay(e.target.value)}
+                        /> */}
+                        <DatePicker
+                          className="form-control"
+                          value={dateOfDay}
+                          onChange={setDateOfDay}
+                          minDate={new Date()}
                         />
                       </div>
                     </div>

@@ -7,11 +7,12 @@ export const endpoints = {
   /* AUTH */
   LOGIN: "/api/auth/login",
   SIGNUP: "/api/auth/signup/",
+  GET_ALL_USERS: "/api/auth/getAllUsers",
   VERIFY_EMAIL: "/api/auth/verifyEmail",
   FORGOT_PASS: "/api/auth/forgotPass",
   RESET_PASSWORD: "/api/auth/resetPass",
   RESEND_CODE: "/api/auth/resendCode",
-  CHANGE_PASS: "​/api/auth/changePass",
+  CHANGE_PASS: "/api/auth/changePass",
   DEACTIVATE: "/api/auth/deactivate",
   VALIDATE_CODE: "/api/auth/validateCode",
   /* UPLOAD */
@@ -27,7 +28,7 @@ export const endpoints = {
   GET_HOTEL_BY_ID: "/api/hotel/",
   UPDATE_HOTEL_BY_ID: "/api/hotel/",
   DELETE_HOTEL: "/api/hotel/",
-  GET_HOTEL_BY_NAME: "/api/hotel/name​/",
+  GET_HOTEL_BY_NAME: "/api/hotel/name/",
   GET_HOTEL_BY_USERID: "/api/hotel/hotels/hotel/",
   GET_HOTELS_WITH_USER_ID: "/api/hotels/hotels/user/",
 
@@ -57,12 +58,13 @@ export const endpoints = {
   UPDATE_TOUR_NO_OF_PEOPLE: "/api/tours/updateNoOfPeople/",
   GET_TOURS_WITH_USER_ID: "/api/tours/tours/user/",
   /* POST */
-  CREATE_POST: "/api​/posts",
+  /* POST */
+  CREATE_POST: "/api/posts",
   GET_ALL_POSTS: "/api/posts",
-  GET_POST_BY_ID: "​/api​/posts​/{id}",
-  UPDATE_POST_BY_ID: "​/api​/posts/{id}",
-  DELETE_POST: "/api/posts/{id}",
-  GET_POST_BY_USERNAME: "/api/posts/name/{name}",
+  GET_POST_BY_ID: "/api/posts/",
+  UPDATE_POST_BY_ID: "/api/posts/",
+  DELETE_POST: "/api/posts/",
+  GET_POST_BY_USERNAME: "/api/posts/name/",
   /* PLACES */
   CREATE_PLACES: "/api/places",
   GET_PLACES: "/api/places",
@@ -76,6 +78,7 @@ export const endpoints = {
   UPDATE_BOOKING_BY_ID: "/api/booking/{id}",
   DELETE_BOOKING_BY_ID: "/api/booking/{id}",
   GET_BOOKING_BY_NAME: "/api/booking/name/{name}",
+  GET_BOOKED_SERVICES_BY_AUTH: "/api/booking/booking/role/",
   /* FEEDBOOK */
   CREATE_FEEDBOOK: "/api/feedback",
   GET_FEEDBACK: "/api/feedback",
@@ -92,8 +95,8 @@ export const endpoints = {
   GET_ALL_COMMENTS_BY_PARENTCOMMENT_ID: "/api/comments/comments/{id}",
   /* LIKE DISLIKE */
   CREATE_LIKE_DISLIKE: "/api/likedislike",
-  UPDATE_LIKEDISLIKE_BY_ID: " /api/likedislike/{id}",
-  DELETE_LIKE_DISLIKE: "/api/likedislike/{id}",
+  UPDATE_LIKEDISLIKE_BY_ID: " /api/likedislike/",
+  DELETE_LIKE_DISLIKE: "/api/likedislike/",
   /* TRANSPORT */
   CREATE_TRANSPORT: "/api/transport/createTransport",
   UPDATE_TRANSPORT_BY_ID: "/api/transport/",
@@ -107,7 +110,7 @@ export const endpoints = {
   GET_ALL_DISHES: "/api/dishes",
   GET_DISHES_BY_NAME: "/api/dishes",
   UPDATE_DISHES: "/api/dishes",
-  GET_DISHES_BY_ID: "/api/dishes",
+  GET_DISHES_BY_ID: "/api/dishes/dish",
   DELETE_DISHES: "/api/dishes",
 
   /* RESTAURANT */

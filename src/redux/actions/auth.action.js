@@ -91,15 +91,7 @@ export const verifyEmail = (email, code) => async (dispatch) => {
       email,
       code: parseInt(code),
     });
-    const {
-      access_token,
-      user: { _id: user },
-    } = data;
-    dispatch({ type: LOGIN_REQUEST });
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: { accessToken: access_token, user },
-    });
+
     toast.success("Email Verified");
     return true;
   } catch (error) {
@@ -214,5 +206,15 @@ export const validateCode = (code, email) => async (dispatch) => {
     return response.data.statusCode;
   } catch (error) {
     toast.error(error.response.data.message);
+  }
+};
+
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    const response = await axios.get(URL + endpoints.GET_ALL_USERS);
+    // console.log('I m in get all users response', response)
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
   }
 };

@@ -12,11 +12,11 @@ const RestaurantGrid = ({
   return (
     <div>
       <div className="row">
-        {restaurants.map((restaurant) => (
+        {restaurants?.map((restaurant) => (
           <div
             className="col-md-6 wow zoomIn"
             data-wow-delay="0.1s"
-            key={restaurant._id}
+            key={restaurant?._id}
           >
             <div className="tour_container">
               <div className="ribbon_3 popular">
@@ -39,7 +39,7 @@ const RestaurantGrid = ({
               </div>
               <div className="tour_title">
                 <h3>
-                  <strong>{restaurant.name}</strong>
+                  <strong>{restaurant?.name}</strong>
                 </h3>
                 <div className="rating">
                   <i className="icon-smile voted" />
@@ -50,60 +50,59 @@ const RestaurantGrid = ({
                   <small>(75)</small>
                 </div>
                 {/* end rating */}
-                <div className="wishlist">
-                  <a className="tooltip_flip tooltip-effect-1" href="#">
-                    +
-                    <span className="tooltip-content-flip">
-                      <span className="tooltip-back">Add to wishlist</span>
-                    </span>
-                  </a>
-                </div>
+
                 {/* End wish list*/}
-                {role === "admin" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                    className="btn"
-                  >
-                    <Button
-                      variant="contained"
-                      size="small"
-                      startIcon={<Edit />}
-                      style={{
-                        backgroundColor: "green",
-                        color: "white",
-                      }}
-                      onClick={(e) => handleUpdateRestaurant(e, restaurant._id)}
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<Delete />}
-                      style={{
-                        color: "red",
-                      }}
-                      onClick={(e) => handleDeleteRestaurant(e, restaurant._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                )}
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<Info />}
+                <div
                   style={{
-                    backgroundColor: "green",
-                    color: "white",
+                    display: "flex",
+                    justifyContent: "space-between",
                   }}
-                  onClick={(e) => handleDetailRestaurant(e, restaurant._id)}
+                  className="btn"
                 >
-                  Details
-                </Button>
+                  {role === "admin" && (
+                    <>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        startIcon={<Edit />}
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                        }}
+                        onClick={(e) =>
+                          handleUpdateRestaurant(e, restaurant?._id)
+                        }
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Delete />}
+                        style={{
+                          color: "red",
+                        }}
+                        onClick={(e) =>
+                          handleDeleteRestaurant(e, restaurant?._id)
+                        }
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<Info />}
+                    style={{
+                      backgroundColor: "green",
+                      color: "white",
+                    }}
+                    onClick={(e) => handleDetailRestaurant(e, restaurant?._id)}
+                  >
+                    Details
+                  </Button>
+                </div>
               </div>
             </div>
             {/* End box tour */}

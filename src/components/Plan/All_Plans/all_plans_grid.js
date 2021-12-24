@@ -14,7 +14,7 @@ const All_plans_grid = ({ history }) => {
   const [allPlans, setAllPlans] = useState([]);
 
   useEffect(async () => {
-    const data  = await dispatch(getPlans());
+    const data = await dispatch(getPlans());
     console.log("grid ka response", data);
     setAllPlans(data);
     return data;
@@ -55,8 +55,8 @@ const All_plans_grid = ({ history }) => {
             <div className="animated fadeInDown">
               <h1>Paris Hotels</h1>
               <p>
-                Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-                vehicula.
+                Top Pakistan hotels,Tours,Restaurant,Transports with great
+                offers and cheap prices.
               </p>
             </div>
           </div>
